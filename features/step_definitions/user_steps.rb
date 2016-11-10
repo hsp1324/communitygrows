@@ -28,6 +28,19 @@ Given /^a logged in user$/ do
   click_button "Log in"
 end
 
+Given /^a logged in user "([^"]*)"$/ do |user_name|
+  @user = User.create!({
+             :email => user_name << "@dummy.com",
+             :password => "dummypass",
+             :password_confirmation => "dummypass",
+             :admin => false
+           })
+  visit "/users/sign_in"
+  fill_in "user_email", :with => user_name << "@dummy.com"
+  fill_in "password", :with => "dummypass"
+  click_button "Log in"
+end
+
 Given /^I am logged out$/ do
   visit "/users/sign_in"
   click_link("Sign out", match: :first)
@@ -35,4 +48,8 @@ end
 
 Given /^I edit password$/ do
   fail "Unimplemented"
+end
+
+Given /^PENDING/ do
+  pending
 end

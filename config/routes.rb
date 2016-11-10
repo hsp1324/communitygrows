@@ -41,8 +41,8 @@ Rails.application.routes.draw do
   delete 'dashboard_announcements/:announcement_id/comments/delete_comment/:comment_id' => 'comment#delete_comment', as: :delete_comment
 
   # Account Info
-  get 'account_details/:user_id/' => 'user#index', as: :user_credentials
-  put 'account_details/:user_id/' => 'user#update', as: :update_user_credentials
+  get 'account_details' => 'user#index', as: :user_credentials
+  put 'account_details' => 'user#update', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
   # Subcommittee
   get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index

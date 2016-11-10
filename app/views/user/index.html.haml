@@ -10,7 +10,7 @@
 </br>
 
 #form
-  = form_tag update_user_credentials_path(@user), :method => :put do
+  = form_tag update_user_credentials_path, :method => :put do
     = label :user, :email, "Email: "
     #field
     = text_field :user, 'email', :placeholder => @user.email, :size => "60x10"

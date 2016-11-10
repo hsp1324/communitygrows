@@ -19,7 +19,7 @@
   <li><%= link_to "Internal", subcommittee_index_path("internal"), { :class=>"navigation"}%></li>
   <li><%= link_to "External", subcommittee_index_path("external"), { :class=>"navigation"}%></li>
   <li><%= link_to "Executive", subcommittee_index_path("executive"), { :class=>"navigation"}%></li>
-  <li><%= link_to "Account Details", user_credentials_path(current_user.id), { :class=>"navigation"}%></li>
+  <li><%= link_to "Account Details", user_credentials_path, { :class=>"navigation"}%></li>
   <li><%= link_to "Category Management", category_index_path, {:class=>"navigation"} if current_user.admin%></li>
   <li><%= link_to "Admin Dashboard", admin_index_path, { :class=>"navigation"} if current_user.admin %></li>
   <li><%= link_to "Sign out", destroy_user_session_path, :method => 'delete', :class=>"navigation signout"%></li>

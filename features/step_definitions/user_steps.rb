@@ -49,7 +49,3 @@ end
 Given /^I edit password$/ do
   fail "Unimplemented"
 end
-
-Given /^PENDING/ do
-  pending
-end

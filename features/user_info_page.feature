@@ -12,7 +12,6 @@ Background:
     | jack@gmail.com     | true       | 2016-03-17 17:44:13  | 12341234     | 12341234                  |
     | tommy@gmail.com    | false      | 2016-03-14 15:32:00  | 43124312     | 43124312                  |
     | test@berkeley.edu  | false      | 2016-03-18 22:12:11  | 54175417     | 54175417                  | 
-    |
   Given a logged in user
   And I am on the CommunityGrows home page
   When I follow "User Profiles"

@@ -9,6 +9,10 @@ Given /(?:|I )create a document called "([^"]*)" with url "([^"]*)" in category 
 	Document.create!({name: name, url: url, category_id: Category.where(name: category).id})
 end
 
+Then(/^I should see the document "([^"]*)" in the category "([^"]*)"$/) do |document, category|
+  pending
+end
+
 Then /^(?:|I )should see "([^"]*)" in Read Status Table for user$/ do |status|
     expect(page.find("#1_read")).to have_content(status)
 end

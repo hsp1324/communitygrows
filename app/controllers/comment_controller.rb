@@ -1,6 +1,6 @@
 class CommentController < ApplicationController
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def comment_params
         params.require(:comment).permit(:content, :announcement_id)

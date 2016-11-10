@@ -8,15 +8,15 @@
 %h2 Announcements
 
 #document_content
-  %table
+  %table.table.table-bordered.table-striped
     %thead
       %tr
-        %td{:class => "admindashboard_row_announcement_title"} Title
-        %td{:class => "admindashboard_row_announcement_content"} Content
-        %td{:class => "admindashboard_row_announcement_createdat"} Created at
-        %td{:class => "admindashboard_row_announcement_updatedat"} Updated at
-        %td{:class => "admindashboard_row_announcement_edit"} Edit
-        %td{:class => "admindashboard_row_announcement_delete"} Delete
+        %th Title
+        %th Content
+        %th Created at
+        %th Updated at
+        %th Edit
+        %th Delete
     %tbody
       -@announcements.each do |announcement|
         %tr
@@ -24,29 +24,53 @@
           %td= announcement.content
           %td= announcement.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit Announcement", edit_committee_announcement_path(:announcement_id => announcement.id)
-          %td= link_to "Delete Announcement", delete_committee_announcement_path(:announcement_id => announcement.id), :method => :delete, data: { confirm: 'Are you sure?' }
+          %td
+            = link_to edit_committee_announcement_path(:announcement_id => announcement.id), :class => "btn btn-info btn-xs hidden-xs" do
+              %span.glyphicon.glyphicon-edit
+              Edit Announcement
+            = link_to edit_committee_announcement_path(:announcement_id => announcement.id), :class => "btn btn-info visible-xs" do
+              %span.glyphicon.glyphicon-edit
 
-= link_to 'Add new announcement', new_committee_announcement_path, :class => "button"
+          %td
+            = link_to delete_committee_announcement_path(:announcement_id => announcement.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do
+              %span.glyphicon.glyphicon-remove
+              Delete Announcement
+            = link_to delete_committee_announcement_path(:announcement_id => announcement.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
+              %span.glyphicon.glyphicon-remove
+
+= link_to new_committee_announcement_path, class: 'btn btn-success' do
+  Add new announcement
 
 %h2 Documents
 
 #document_content
-  %table
+  %table.table.table-bordered.table-striped
     %thead
       %tr
-        %td{:class => "admindashboard_row_announcement_title"} Title
-        %td{:class => "admindashboard_row_announcement_createdat"} Created at
-        %td{:class => "admindashboard_row_announcement_updatedat"} Updated at
-        %td{:class => "admindashboard_row_announcement_updatedat"} Edit
-        %td{:class => "admindashboard_row_announcement_delete"} Delete
+        %th Title
+        %th Created at
+        %th Updated at
+        %th Edit
+        %th Delete
     %tbody
       - @document_list.each do |document|
         %tr
           %td= link_to document.title, document.url, :target => "_blank"
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit Document", edit_committee_document_path(:id => document.id)
-          %td= link_to "Delete Document", delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }
+          %td
+            = link_to edit_committee_document_path(:id => document.id), class: 'btn btn-info btn-xs hidden-xs' do
+              %span.glyphicon.glyphicon-edit
+              Edit Document
+            = link_to edit_committee_document_path(:id => document.id), class: 'btn btn-info visible-xs' do
+              %span.glyphicon.glyphicon-edit
 
-= link_to 'Add new document',new_committee_document_path, :class => "button"
+          %td
+            = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+              %span.glyphicon.glyphicon-remove
+              Delete Document
+            = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+              %span.glyphicon.glyphicon-remove
+
+= link_to new_committee_document_path, class: 'btn btn-success' do
+  Add new document

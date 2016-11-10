@@ -1,9 +1,12 @@
 %h1 All Announcements
 
-= form_tag search_announcements_path :method => :post do
-  = label_tag :search, "Search"
-  = text_field_tag 'search'
-  = submit_tag 'Submit'
+= form_tag search_announcements_path, {method: :post, class: 'form-inline'} do
+  .form-group
+    = label_tag :search, "Search"
+    = text_field_tag 'search', nil, class: 'form-control'
+  .form-group
+    = submit_tag 'Submit', {class: 'btn btn-default'}
+%br
 = render :partial => 'announcement_table'
 
 <br/> <br/>

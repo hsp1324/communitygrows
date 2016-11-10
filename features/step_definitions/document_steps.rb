@@ -10,11 +10,15 @@ Given /(?:|I )create a document called "([^"]*)" with url "([^"]*)" in category 
 end
 
 Then /^(?:|I )should see "([^"]*)" in Read Status Table for user$/ do |status|
-    page.find("#mark_as_read_table").find('tr', text: "dummy@dummy.com").should have_content(status)
+    expect(page.find("#1_read")).to have_content(status)
 end
 
 Then /^(?:|I )should see "([^"]*)" in Read Status Table for admin$/ do |status|
-    page.find("#mark_as_read_table").find('tr', text: "admin@communitygrows.org").should have_content(status)
+    expect(page.find("#1_read")).to have_content(status)
+end
+
+Then /^(?:|I )should see the document "([^"]*)" in the category "([^"]*)"$/ do |document_name, category_name|
+	pending
 end
 
 # Then /"([^"]*)" should be checked$/ do |element|

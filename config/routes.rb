@@ -41,8 +41,8 @@ Rails.application.routes.draw do
   delete 'dashboard_announcements/:announcement_id/comments/delete_comment/:comment_id' => 'comment#delete_comment', as: :delete_comment
 
   # Account Info
-  get 'account_details/:user_id/' => 'user#index', as: :user_credentials
-  put 'account_details/:user_id/' => 'user#update', as: :update_user_credentials
+  get 'account_details' => 'user#index', as: :user_credentials
+  put 'account_details' => 'user#update', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
   # Subcommittee
   get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index
@@ -66,7 +66,7 @@ Rails.application.routes.draw do
   get 'documents/new_file' => 'documents#new_file', as: :new_file
   post 'documents/create' => 'documents#create_file', as: :create_file
   delete 'documents/delete_file' => 'documents#delete_file', as: :delete_file
-  get 'documents/edit_file' => 'documents#edit_file', as: :edit_file
+  # get 'documents/edit_file' => 'documents#edit_file', as: :edit_file
   put 'documents/edit_file' => 'documents#update_file', as: :update_file
   get 'documents/doc_info' => 'documents#info_file', as: :info_file
   post 'documents/mark_as_read' => 'documents#mark_as_read', as: :mark_as_read

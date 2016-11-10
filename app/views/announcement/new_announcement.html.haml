@@ -1,15 +1,21 @@
+%h1 New #{params[:committee_type]} announcement
+
 - if flash[:notice]
   #flashNotice
   = flash[:notice]
-</br>
 
-#content
+.container.well
+  = link_to subcommittee_index_path(params[:committee_type]), :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
   = form_tag create_committee_announcement_path :method => :put do
-    = label_tag :title, "Title: "
-    = text_area_tag 'title', nil, size: "60x5", placeholder: "Your title here"
-    <br/>
-    = label_tag :content, "Content: "
-    = text_area_tag 'content', nil, size: "60x10", placeholder: "Your content here"
-    <br/>
-    = submit_tag 'Submit', :class => "button"
-  = link_to 'Back', subcommittee_index_path(params[:committee_type]), :class => "button"
+    .form-group
+      = label_tag :title, "Title: "
+      = text_area_tag 'title', nil, size: "60x5", placeholder: "Your title here", class: 'form-control'
+    .form-group
+      = label_tag :content, "Content: "
+      = text_area_tag 'content', nil, size: "60x10", placeholder: "Your content here", class: 'form-control'
+    .form-group
+      = submit_tag 'Submit', :class => "btn btn-success"

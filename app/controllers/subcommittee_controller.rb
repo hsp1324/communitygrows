@@ -1,6 +1,6 @@
 class SubcommitteeController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def index
         @committee_type = params[:committee_type]

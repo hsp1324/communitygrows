@@ -19,10 +19,7 @@ require 'capybara/rspec' #by Tony
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'simplecov'
-SimpleCov.start 'rails'
-
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+SimpleCov.start
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -75,13 +72,15 @@ RSpec.configure do |config|
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
   # individual spec file.
+=end
   if config.files_to_run.one?
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
     config.default_formatter = 'doc'
+    config.raise_errors_for_deprecations!
   end
-
+=begin
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.

@@ -1,0 +1,182 @@
+Searching 3863 files for "account_details"
+
+/Users/jamesjiang/communitygrows/config/routes.rb:
+   42  
+   43    # Account Info
+   44:   get 'account_details/:user_id/' => 'user#index', as: :user_credentials
+   45:   put 'account_details/:user_id/' => 'user#update', as: :update_user_credentials
+   46:   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
+   47    # Subcommittee
+   48    get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index
+
+3 matches in 1 file
+
+
+Searching 3896 files for "user_credentials_path"
+
+/Users/jamesjiang/communitygrows/app/controllers/user_controller.rb:
+   20              bypass_sign_in(@user)
+   21              flash[:notice] = "#{@user.email}'s credentials were successfully updated."
+   22:             redirect_to user_credentials_path
+   23          else
+   24              flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
+   25:             redirect_to user_credentials_path    
+   26          end
+   27      end
+   ..
+   39              flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
+   40          end
+   41:         redirect_to user_credentials_path    
+   42       end
+   43  
+
+/Users/jamesjiang/communitygrows/app/views/layouts/base.html.erb:
+   20    <li><%= link_to "External", subcommittee_index_path("external"), { :class=>"navigation"}%></li>
+   21    <li><%= link_to "Executive", subcommittee_index_path("executive"), { :class=>"navigation"}%></li>
+   22:   <li><%= link_to "Account Details", user_credentials_path(current_user.id), { :class=>"navigation"}%></li>
+   23    <li><%= link_to "Category Management", category_index_path, {:class=>"navigation"} if current_user.admin%></li>
+   24    <li><%= link_to "Admin Dashboard", admin_index_path, { :class=>"navigation"} if current_user.admin %></li>
+
+/Users/jamesjiang/communitygrows/app/views/user/index.html.haml:
+   11  
+   12  #form
+   13:   = form_tag update_user_credentials_path(@user), :method => :put do
+   14      = label :user, :email, "Email: "
+   15      #field
+
+/Users/jamesjiang/communitygrows/coverage/index.html:
+ 4856            <span class="hits">1</span>
+ 4857            
+ 4858:           <code class="ruby">            redirect_to user_credentials_path</code>
+ 4859          </li>
+ 4860        
+ ....
+ 4874            <span class="hits">1</span>
+ 4875            
+ 4876:           <code class="ruby">            redirect_to user_credentials_path    </code>
+ 4877          </li>
+ 4878        
+ ....
+ 4970            <span class="hits">2</span>
+ 4971            
+ 4972:           <code class="ruby">        redirect_to user_credentials_path    </code>
+ 4973          </li>
+ 4974        
+
+/Users/jamesjiang/communitygrows/features/support/paths.rb:
+   36    
+   37      when /^the account details page for "([^"]+)"$/ then
+   38:       user_credentials_path(User.find_by_email($1).id)
+   39      
+   40      when /the new announcement page for "([^"]+)"$/ then
+
+/Users/jamesjiang/communitygrows/spec/controllers/user_controller_spec.rb:
+   17              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks"}
+   18              put :update, user_id: users(:tester).id, :user => user_params
+   19:             response.should redirect_to(update_user_credentials_path(users(:tester).id))
+   20          end
+   21          it 'should redirect to redirect to account info page on failure with failure message' do
+   22              user_params = {:email => "tester@rspec.com", :password => "", :password_confirmation => ""}
+   23              put :update, user_id: users(:tester).id, :user => user_params
+   24:             response.should redirect_to(update_user_credentials_path(users(:tester).id))
+   25          end
+   26      end
+   ..
+   29              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks",:internal=>"true"}
+   30              post :updateEmailPreferences, user_id: users(:tester).id, :user => user_params
+   31:             response.should redirect_to(update_user_credentials_path(users(:tester).id))   
+   32              expect(flash[:notice]).to match(/Your email preference settings have been updated./)      
+   33  
+   ..
+   36              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks",:internal=>"false",:external=>"false",:executive=>"false"}
+   37              post :updateEmailPreferences, user_id: users(:tester).id, :user => user_params
+   38:             response.should redirect_to(update_user_credentials_path(users(:tester).id))
+   39              expect(flash[:notice]).to match(/Please select at least your committee to receive emails from./)      
+   40          end
+
+13 matches across 6 files
+
+
+Searching 3896 files for "user_credentials_path"
+
+/Users/jamesjiang/communitygrows/app/controllers/user_controller.rb:
+   20              bypass_sign_in(@user)
+   21              flash[:notice] = "#{@user.email}'s credentials were successfully updated."
+   22:             redirect_to user_credentials_path
+   23          else
+   24              flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
+   25:             redirect_to user_credentials_path    
+   26          end
+   27      end
+   ..
+   39              flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
+   40          end
+   41:         redirect_to user_credentials_path    
+   42       end
+   43  
+
+/Users/jamesjiang/communitygrows/app/views/layouts/base.html.erb:
+   20    <li><%= link_to "External", subcommittee_index_path("external"), { :class=>"navigation"}%></li>
+   21    <li><%= link_to "Executive", subcommittee_index_path("executive"), { :class=>"navigation"}%></li>
+   22:   <li><%= link_to "Account Details", user_credentials_path, { :class=>"navigation"}%></li>
+   23    <li><%= link_to "Category Management", category_index_path, {:class=>"navigation"} if current_user.admin%></li>
+   24    <li><%= link_to "Admin Dashboard", admin_index_path, { :class=>"navigation"} if current_user.admin %></li>
+
+/Users/jamesjiang/communitygrows/app/views/user/index.html.haml:
+   11  
+   12  #form
+   13:   = form_tag update_user_credentials_path, :method => :put do
+   14      = label :user, :email, "Email: "
+   15      #field
+
+/Users/jamesjiang/communitygrows/coverage/index.html:
+ 4856            <span class="hits">1</span>
+ 4857            
+ 4858:           <code class="ruby">            redirect_to user_credentials_path</code>
+ 4859          </li>
+ 4860        
+ ....
+ 4874            <span class="hits">1</span>
+ 4875            
+ 4876:           <code class="ruby">            redirect_to user_credentials_path    </code>
+ 4877          </li>
+ 4878        
+ ....
+ 4970            <span class="hits">2</span>
+ 4971            
+ 4972:           <code class="ruby">        redirect_to user_credentials_path   </code>
+ 4973          </li>
+ 4974        
+
+/Users/jamesjiang/communitygrows/features/support/paths.rb:
+   36    
+   37      when /^the account details page for "([^"]+)"$/ then
+   38:       user_credentials_path
+   39      
+   40      when /the new announcement page for "([^"]+)"$/ then
+
+/Users/jamesjiang/communitygrows/spec/controllers/user_controller_spec.rb:
+   17              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks"}
+   18              put :update, user_id: users(:tester).id, :user => user_params
+   19:             response.should redirect_to(update_user_credentials_path)
+   20          end
+   21          it 'should redirect to redirect to account info page on failure with failure message' do
+   22              user_params = {:email => "tester@rspec.com", :password => "", :password_confirmation => ""}
+   23              put :update, user_id: users(:tester).id, :user => user_params
+   24:             response.should redirect_to(update_user_credentials_path)
+   25          end
+   26      end
+   ..
+   29              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks",:internal=>"true"}
+   30              post :updateEmailPreferences, user_id: users(:tester).id, :user => user_params
+   31:             response.should redirect_to(update_user_credentials_path)   
+   32              expect(flash[:notice]).to match(/Your email preference settings have been updated./)      
+   33  
+   ..
+   36              user_params = {:email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks",:internal=>"false",:external=>"false",:executive=>"false"}
+   37              post :updateEmailPreferences, user_id: users(:tester).id, :user => user_params
+   38:             response.should redirect_to(update_user_credentials_path)
+   39              expect(flash[:notice]).to match(/Please select at least your committee to receive emails from./)      
+   40          end
+
+13 matches across 6 files

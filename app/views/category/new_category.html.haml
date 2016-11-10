@@ -1,15 +1,17 @@
 %h1 Add New Category
 
-- if flash[:notice] == "Please fill in the category name field." or flash[:notice] == "The category name provided already exists. Please enter a different name." or flash[:notice]=="Please enter a valid URL."
-  #flashNotice
-    = flash[:notice]
+.container.well
+  = button_to category_index_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  - if flash[:notice] == 'Please fill in the category name field.' or flash[:notice] == 'The category name provided already exists. Please enter a different name.' or flash[:notice]=="Please enter a valid URL."
+    #flashNotice
+      = flash[:notice]
 
-</br>
+  = form_tag create_category_path do
+    .form-group
+      = label :category, :name, 'Category Name'
+      = text_field :category, 'name', class: 'form-control'
 
-= form_tag create_category_path do
-
-  = label :category, :name, 'Category Name'
-  = text_field :category, 'name'
-
-  = submit_tag 'Submit'
-=button_to 'back', category_index_path, :method => :get
+    = submit_tag 'Submit', class: 'btn btn-success'

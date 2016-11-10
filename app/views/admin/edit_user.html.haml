@@ -4,35 +4,25 @@
   - flash[:notice].each do |msg|
     #flashNotice
       = msg
-</br>
+.container.well
+  = link_to admin_index_path, :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  = form_tag update_user_path(@user), :method => :put do
+    .form-group
+      = label :user, :email, 'Email'
+      = text_field :user, 'email', :class => 'form-control'
+    .form-group
+      = label :user, :password, 'Password'
+      = password_field :user, 'password', :class => 'form-control'
+    .form-group
+      = label :user, :password_confirmation, 'Password Confirmation'
+      = password_field :user, 'password_confirmation', :class => 'form-control'
+    .form-group
+      = label :user, :admin, 'Admin'
+      = select :user, :admin, [['True', true], ['False', false]], {}, :class => 'form-control'
 
-= form_tag update_user_path(@user), :method => :put do
-
-  #leftUserText
-  = label :user, :email, 'Email'
-  #rightUserField
-  = text_field :user, 'email'
-  </br>
-  </br>
-  #leftUserText  
-  = label :user, :password, 'Password'
-  #rightUserField
-  = text_field :user, 'password'
-  </br>
-  </br>
-  #leftUserText
-  = label :user, :password_confirmation, 'Password Confirmation'
-  #rightUserField
-  = text_field :user, 'password_confirmation'
-  </br>
-  </br>
-  #leftUserText
-  = label :user, :admin, 'Admin'
-  #rightUserField
-  = select :user, :admin, [['True', true], ['False', false]]
-
-
-  </br>
-  </br>
-  = submit_tag 'Update user'
+    = submit_tag 'Update user', :class => 'btn btn-success'
     

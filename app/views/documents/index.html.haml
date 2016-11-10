@@ -1,28 +1,30 @@
-#docRepo
-  %h1 Document Repository
+%h1 Document Repository
   
-
-- if flash[:notice] and flash[:notice]!="Signed in successfully."
-  #flashNotice
+#flashNotice
+  - if flash[:notice] and flash[:notice]!="Signed in successfully."
     = flash[:notice]
 
+= link_to 'Add new file', new_file_path, :class => "btn btn-success btn-large"
 - @categories.each do |category|
 
   -if not category.hidden?
 
-    %h2#committeeTitle= "#{category.name}"
+    %h2= "#{category.name}"
 
     #document_content
-      %table
-        %thead
+      %table.table.table-striped.table-bordered
+        %thead.bg-info
           %tr
-            %td File name
-            %td Updated at
-            %td Read Status
+            %th File name
+            %th Updated at
+            %th Read Status
         %tbody
           - documents = category.documents
           - if documents.empty?
-            %td= "No files have been entered"
+            %tr
+              %td No files have been entered
+              %td -
+              %td -
           - documents.each do |file|
             %tr
               %td= link_to file.title, info_file_path(file.id)
@@ -31,5 +33,3 @@
                 %td= "Read"
               - else
                 %td= "Not Read"
-        
-= link_to 'Add new file', new_file_path, :class => "button"

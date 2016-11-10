@@ -1,16 +1,31 @@
-%h1 Title: "#{@announcement.title}"
-%h1 Content: "#{@announcement.content}"
+%h1 Announcement
 
-.outer
-  .container
-    %h3 Join the discussion!
-    #comments
-      -@emailhash.each do |comment, email|
-        .comment
-          %span <b>#{email} says: </b> #{comment.content} at #{comment.created_at.strftime("%m/%d/%Y %l:%M %p")}
-          .comment-delete
-            = link_to "Delete Comment", delete_comment_path(@announcement.id, comment.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: :buttonSmall
-    %p Click the button below to start a new thread:
-    %p= link_to 'Add new comment', new_comment_path, class: :button
+.container.well
+  %h3.center-text
+    %strong #{@announcement.title}
+  %h4.center-text #{@announcement.content}
+  %hr
+
+  
+  / %h4 Join the discussion!
+  -@emailhash.each do |comment, email|
+    .well.row
+      .col-md-3
+        #{comment.created_at.strftime("%m/%d/%Y %l:%M %p")}
+        %br
+        %b #{email}:
+      .col-md-7
+        #{comment.content}
+      .col-md-2
+        = link_to delete_comment_path(@announcement.id, comment.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs pull-right' do
+          %span.glyphicon.glyphicon-remove
+          Delete Comment
+  
+  %br
+  %br
+  .center-text
+    = link_to new_comment_path, class: 'btn btn-success' do
+      %span.glyphicon.glyphicon-plus
+      Add new comment
 
 

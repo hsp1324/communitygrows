@@ -9,5 +9,5 @@ When /(.*) should receive: (.*) email/ do |email, preference_list|
 end
 
 When /I should see correct flash message "([^"]*)"$/ do |message|
-	page.should have_css('flashNotice',text: message)
+	expect(page).to have_css('flashNotice',text: message)
 end

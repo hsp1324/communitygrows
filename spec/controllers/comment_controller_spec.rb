@@ -10,33 +10,33 @@ describe CommentController do
     end
     describe 'render index' do
         it 'renders index template' do
-            get :index , :announcement_id => @a.id
-            response.should render_template(:index)
+            get :index , params: {announcement_id: @a.id}
+            expect(response).to render_template(:index)
         end
     end
     describe 'new action' do
         it 'renders new comment template' do
-            get :new_comment, :announcement_id => @a.id
-            response.should render_template(:new_comment)
+            get :new_comment, params: {announcement_id: @a.id}
+            expect(response).to render_template(:new_comment)
         end
     end
     describe 'create comment' do
         it 'creates a valid comment' do
-            post :create_comment, :announcement_id => @a.id, :comment => {:content => 'hi', :user_id => users(:tester).id}
+            post :create_comment, params: {announcement_id: @a.id, comment: {content: 'hi', user_id: users(:tester).id}}
             p @a.comments
-            response.should redirect_to(comment_path(@a.id))
+            expect(response).to redirect_to(comment_path(@a.id))
         end
         it 'creates an invalid comment' do
-            post :create_comment, :announcement_id => @a.id, :comment => {:content => '', :user_id => users(:tester).id}
+            post :create_comment, params: {announcement_id: @a.id, comment: {content: '', user_id: users(:tester).id}}
             expect(flash[:notice]).to include("Comment cannot be blank.")
-            response.should redirect_to(new_comment_path(@a.id))
+            expect(response).to redirect_to(new_comment_path(@a.id))
         end
     end
     describe 'delete comment' do
         it 'deletes' do
-            post :create_comment, :announcement_id => @a.id, :comment => {:content => 'hi', :user_id => users(:tester).id}
-            delete :delete_comment, :comment_id => @a.comments.first.id, :announcement_id => @a.id
-            response.should redirect_to(comment_path(@a.id))
+            post :create_comment, params: {announcement_id: @a.id, comment: {content: 'hi', user_id: users(:tester).id}}
+            delete :delete_comment, params: {comment_id: @a.comments.first.id, announcement_id: @a.id}
+            expect(response).to redirect_to(comment_path(@a.id))
         end
     end
 end

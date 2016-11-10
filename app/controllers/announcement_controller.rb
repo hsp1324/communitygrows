@@ -1,6 +1,6 @@
 class AnnouncementController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
     def show_announcements
        @announcements = Announcement.where(committee_type: params[:categories])

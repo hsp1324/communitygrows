@@ -1,10 +1,11 @@
 rvm:
-    - 2.2.2
+    - 2.3.1
 
 cache: bundler
 
 before_script:
     - npm install -g phantomjs-prebuilt
+    - bundle exec rake db:migrate RAILS_ENV=test
 
 addons:
     firefox: "49.0"

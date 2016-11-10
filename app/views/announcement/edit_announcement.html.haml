@@ -3,15 +3,20 @@
   = flash[:notice]
 </br>
 
-#content
+.container.well
+  = link_to subcommittee_index_path(params[:committee_type]), :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
   = form_tag update_committee_announcement_path, :method => :put do
     = hidden_field :announcement, :id
-    = label_tag :title, "Title: "
-    = text_area_tag 'title', @announcement.title, size: "60x5" 
-    <br/>
-    = label_tag :content, "Content: "
-    = text_area_tag 'content', @announcement.content, size: "60x10"
-    <br/>
-    = submit_tag 'Submit', :class => "button"
-  = link_to 'Back', subcommittee_index_path(params[:committee_type]), :class => "button"
+    .form-group
+      = label_tag :title, "Title: "
+      = text_area_tag 'title', @announcement.title, size: "60x5", class: 'form-control'
+    .form-group
+      = label_tag :content, "Content: "
+      = text_area_tag 'content', @announcement.content, size: "60x10", class: 'form-control'
+    .form-group
+      = submit_tag 'Submit', :class => "btn btn-success center-block"
 

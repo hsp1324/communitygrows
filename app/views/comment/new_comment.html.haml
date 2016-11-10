@@ -1,15 +1,18 @@
 %h1 New comment
 
 - if flash[:notice]
-    #flashNotice
-    = flash[:notice]
-</br>
-
-#content
-    = form_tag create_comment_path do
-        // = label :comment, :content, 'Content'
-        = text_area :comment, 'content', cols: 40, rows: 10, :placeholder => "Your comment here"
-        <br>
-        = submit_tag 'Submit', :class => "button"
-    = link_to 'Back', comment_path(@announcement_id) , :class => "button"
-    
+  #flashNotice
+  = flash[:notice]
+%br
+.container.well
+  = link_to comment_path(@announcement_id) , :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  = form_tag create_comment_path do
+    .form-group
+      // = label :comment, :content, 'Content'
+      = text_area :comment, 'content', cols: 40, rows: 10, :placeholder => "Your comment here", :class => 'form-control'
+    = submit_tag 'Submit', :class => "btn btn-success"
+  

@@ -1,14 +1,21 @@
+%h1 New #{params[:committee_type]} document
+
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
 
-#content
+.container.well
+  = link_to subcommittee_index_path(params[:committee_type]), :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
   = form_tag create_committee_document_path :method => :put do
-    = label_tag :title, "Title: "
-    = text_area_tag 'title', nil, size: "60x1", placeholder: "Your title here"
-    <br/>
-    = label_tag :url, "URL: "
-    = text_area_tag 'url', nil, size: "60x1", placeholder: "Your URL here"
-    <br/>
-    = submit_tag 'Submit', :class => "button"
-  = link_to 'Back', subcommittee_index_path(params[:committee_type]), :class => "button"
+    .form-group
+      = label_tag :title, "Title: "
+      = text_area_tag 'title', nil, size: "60x1", placeholder: "Your title here", class: 'form-control'
+    .form-group
+      = label_tag :url, "URL: "
+      = text_area_tag 'url', nil, size: "60x1", placeholder: "Your URL here", class: 'form-control'
+    .form-group
+      = submit_tag 'Submit', :class => "btn btn-success"

@@ -24,6 +24,6 @@ end
 When /^(?:|I )confirm popup$/ do
 end
 
-When /^(?:|I )follow first "([^"]*)"$/ do |link|
-  click_link(link, match: :first)
+And /^(?:|I )take a screenshot called "([^\"]*)"$/ do |file_name|
+  page.save_screenshot file_name
 end

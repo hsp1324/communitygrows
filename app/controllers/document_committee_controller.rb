@@ -1,6 +1,6 @@
 class DocumentCommitteeController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def new_document
         

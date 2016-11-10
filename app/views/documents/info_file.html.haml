@@ -1,83 +1,63 @@
-:javascript
-  var showEdit = function(){
-    $("#edit_doc_form").show();
-    $("#edit_doc_button").hide();
-  };
-
-:javascript
-  var markAsRead = function(){
-    $.post(
-      '/documents/mark_as_read', {
-        id: document.getElementById("markasread").getAttribute('value'),
-      },
-      function(data, status){
-    });
-  };
-
-#docRepo
-  %h1 "#{@file.title}" Information
+%h1 "#{@file.title}" Information
   
-
-- if flash[:notice] and flash[:notice]!="Signed in successfully."
-  #flashNotice
+%p#flashNotice
+  - if flash[:notice] and flash[:notice]!="Signed in successfully."
     = flash[:notice]
     
+.container.well
+  = button_to documents_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
 
-%h2
-  File:
-  = link_to @file.title, @file.url, :target => "_blank"
+  %h2
+    = link_to @file.title, @file.url, :target => "_blank"
+    %span.pull-right
+      Updated At:
+      #{@file.updated_at.strftime("%m/%d/%Y %l:%M %p")}
+  %h3
+    %label Mark As Read
+    = check_box_tag 'markasread', "#{@file.id}", @who_has_read.include?(current_user)
 
-%h3
-  Updated At:
-  #{@file.updated_at.strftime("%m/%d/%Y %l:%M %p")}
-
-%h3
-  %label Mark As Read
-  %input{:name => "markasread", :type => "checkbox", :value => "#{@file.id}", :id => "markasread", :onclick => "markAsRead()", :checked => (@who_has_read.include?(current_user))}
-  
-  
-%h2
-  %table#mark_as_read_table
-    %thead
+  %table.table.table-striped.table-bordered
+    %thead.bg-info
       %tr
-        %td User name
-        %td Status
+        %th User name
+        %th Status
     %tbody
       - if @users.empty?
-        %td= "No users have been entered"
+        %tr
+          %td No users have been entered
+          %td -
       - @users.each do |user|
         %tr
           %td= user.email
           - if @who_has_read.include?(user)
-            %td= "Read"
+            %td{id: "#{user.id}_read"} Read
           - else
-            %td= "Not Read"
-  
-- if current_user.admin
-  %h2 Edit Document
-  =link_to 'Click to Edit Document', "#", :id => "edit_doc_button", :class => "buttonDoc", :onclick => "showEdit()"
-  = form_tag update_file_path(@id, @file), :style => "display: none", :method => :put, :id => "edit_doc_form" do
-  
-    %p
-      = label :file, :title, 'Title'
-      = text_field :file, 'title', :value => @file.title
+            %td{id: "#{user.id}_read"} Not Read
     
-    %p
-      = label :file, :url, 'URL'
-      = text_field :file, 'url', :value => @file.url
-    
-    %p
-      = label :file, :category_id, 'Category'
-    
-      - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
-      - shown_categories.delete("tmp")
-      = select :file, :category_id, shown_categories
-  
-    = submit_tag 'Submit'
+  - if current_user.admin
+    %h3 Edit Document
+    = button_tag 'Click to Edit Document', type: 'button', :id => "edit_doc_button", :class => "btn btn-info"
+    #edit_doc_form{:style => "display: none"}
+      = form_tag update_file_path(@id, @file), :method => :put do
+      
+        .form-group
+          = label :file, :title, 'Title'
+          = text_field :file, 'title', :value => @file.title, class: 'form-control'
+        
+        .form-group
+          = label :file, :url, 'URL'
+          = text_field :file, 'url', :value => @file.url, class: 'form-control'
+        
+        .form-group
+          = label :file, :category_id, 'Category'
+          - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
+          - shown_categories.delete "tmp"
+          = select :file, :category_id, shown_categories, {}, class: 'form-control'
+        
+        = submit_tag 'Save changes', class: 'btn btn-success'
 
-
-- if current_user.admin
-  %p= button_to "Delete document", delete_file_path(@file.id), :method => :delete, data: { confirm: 'Are you sure?' }
-
-=button_to 'back', documents_path, :method => :get
-
+      = button_to delete_file_path(@file.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-right' do
+        %span.glyphicon.glyphicon-remove
+        Delete document

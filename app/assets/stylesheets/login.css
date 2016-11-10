@@ -11,12 +11,14 @@ body {
     bottom: 0; 
     margin: auto; 
     background-size: 100% 100%;
-} 
+}
+
 h2 {
     color: black;
     text-align: center;
     font-size: 1.5em;
 }
+
 .console {
     position: relative;
     z-index: 1;
@@ -27,9 +29,11 @@ h2 {
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 input:required {
 	border: 1px solid red;
 }
+
 .input {
     outline: 0;
     background: #f2f2f2;
@@ -40,9 +44,11 @@ input:required {
     box-sizing: border-box;
     font-size: 1em;
 }
+
 .input_text {
     font-size: 1em;
 }
+
 .submit_button {
     text-transform: uppercase;
     outline: 0;
@@ -56,6 +62,7 @@ input:required {
     transition: all 0.3 ease;
     cursor: pointer;
 }
+
 .sign_in_flash_alert {
     font-size: 1.2em;
 }

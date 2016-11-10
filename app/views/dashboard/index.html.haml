@@ -1,43 +1,50 @@
 %h1 Board Member Dashboard
-#announcements
-  %h2{:class => "search_head" } Main Announcements
-  #announcement_content
-    %table
-      %thead
-        %tr
-          %td{:class => "dashboard_row_announcement_time"}= "Date"
-          %td{:class => "dashboard_row_announcement_content"}= "Title"
-      %tbody
-        - @announcement_list.each do |announcement|
-          %tr
-            %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-            %td= link_to "#{announcement.title}", comment_path(announcement.id)
-  %h2{:class => "search_head" } Subcommittee Announcements
-  #announcement_content
-    %table
-      %thead
-        %tr
-          %td{:class => "dashboard_row_announcement_time"}= "Date"
-          %td{:class => "dashboard_row_announcement_content"}= "Title"
-      %tbody
-        - @subcomittee_announcements_list.each do |announcement|
-          %tr
-            %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-            %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
-  = link_to "Search", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => :buttonSmall
-#accordion-scrollable
-  %h2{:class => "events_title" } Upcoming Events
-  .ui-accordion
-    - @events.each do |event|
-      %span
-        %h3{:class => "event_title"}= event.title
-        %h3{:class => "event_title_date"}= "#{event.date.strftime("%m")} / #{event.date.strftime("%d")}"
-      %div
-        %div
-          %h3{:class => "event_location"}= "Where? #{event.location}"
-          %h3{:class => "event_time"}= "Start: #{event.date.strftime("%m/%d/%Y %l:%M %p")}"
-          <br/>
-          %p{:class => "event_content"}= event.description
-          <br/>
-          - if event.url?
-            %p{:class => "event_link"}= link_to "More Information", event.url, :target => "_blank"
+.row
+  .col-md-6
+    #announcements
+      %h2 Main Announcements
+      #announcement_content
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th Date
+              %th Title
+          %tbody
+            - @announcement_list.each do |announcement|
+              %tr
+                %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                %td= link_to "#{announcement.title}", comment_path(announcement.id)
+      %h2 Subcommittee Announcements
+      #announcement_content
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th Date
+              %th Title
+          %tbody
+            - @subcomittee_announcements_list.each do |announcement|
+              %tr
+                %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
+      = link_to "Search", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
+
+  .col-md-6
+    #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+      %h2 Events
+      - @events.each do |event|
+        .panel.panel-default
+          .panel-heading{:id => "heading#{event.id}", :role => "tab"}
+            %h4.panel-title
+              %a{"aria-controls" => "collapse#{event.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{event.id}", :role => "button"}
+                = event.title
+              %span.pull-right
+                = event.date.strftime("%m") + "/" + event.date.strftime("%d")
+          .panel-collapse.collapse{:id => "collapse#{event.id}", "aria-labelledby" => "heading#{event.id}", :role => "tabpanel"}
+            .panel-body
+              .clearfix
+                %h4.pull-left= "Where: #{event.location}"
+                %h4.pull-right= "Start: #{event.date.strftime("%m/%d/%Y %l:%M %p")}"
+              %p.left-text= event.description
+              %br
+              - if event.url?
+                = link_to "More Information", event.url, :target => "_blank"

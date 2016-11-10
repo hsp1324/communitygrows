@@ -4,19 +4,23 @@
   #flashNotice
     = flash[:notice]
 
-= form_tag update_file_path(@id, @file), :method => :put do
+.container.well
+  = link_to documents_path do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  = form_tag update_file_path(@id, @file), :method => :put do
+    .form-group
+      = label :file, :title, 'Title'
+      = text_field :file, 'title', value: @file.title, class: 'form-control'
+    .form-group
+      = label :file, :url, 'URL'
+      = text_field :file, 'url', value: @file.url, class: 'form-control'
+    .form-group
+      = label :file, :category_id, 'Category'
+      - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
+      - shown_categories.delete("tmp")
+      = select :file, :category_id, shown_categories, {}, class: 'form-control'
 
-  = label :file, :title, 'Title'
-  = text_field :file, 'title', :value => @file.title
-  
-  = label :file, :url, 'URL'
-  = text_field :file, 'url', :value => @file.url
-
-
-  = label :file, :category_id, 'Category'
-  - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
-  - shown_categories.delete("tmp")
-  = select :file, :category_id, shown_categories
-
-  = submit_tag 'Submit'
-=button_to 'back', documents_path, :method => :get
+    = submit_tag 'Submit', class: 'btn btn-success'

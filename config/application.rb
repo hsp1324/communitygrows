@@ -29,8 +29,10 @@ module Communitygrows
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # config.active_record.raise_in_transactional_callbacks = true #Fixed in Rails 5
     config.time_zone = 'Pacific Time (US & Canada)'
     config.active_record.default_timezone = :local
   end

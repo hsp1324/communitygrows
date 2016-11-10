@@ -1,6 +1,6 @@
 class AdminController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :admin)

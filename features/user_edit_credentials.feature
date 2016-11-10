@@ -12,7 +12,7 @@ Background:
     | tonylee@gmail.com | false      | 2016-03-14 15:32:00  | 43124312     | 43124312                  |
     | jae@berkeley.edu  | false      | 2016-03-18 22:12:11  | 54175417     | 54175417                  |  
 
-  Given a logged in user
+  Given "zach@gmail.com" logs in with password "12341234"
   And I am on the CommunityGrows home page
   
   

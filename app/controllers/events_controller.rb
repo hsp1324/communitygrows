@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def event_params
         params.require(:event).permit(:title, :location, :description, :date, :url)

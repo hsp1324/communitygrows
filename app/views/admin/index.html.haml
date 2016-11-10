@@ -1,21 +1,20 @@
-#admin
-  %h1 Admin Dashboard
+%h1 Admin Dashboard
 
 - if flash[:notice]
   #flashNotice
     = flash[:notice]
 
-%h2 User Management
+.section
+  %h2 User Management
 
-#table_content
-  %table
+  %table.table.table-striped.table-bordered
     %thead
       %tr
-        %td User
-        %td Status
-        %td Created At
-        %td Last Sign In
-        %td Delete
+        %th User
+        %th Status
+        %th Created At
+        %th Last Sign In
+        %th Delete
     %tbody
       -@users.each do |user|
         %tr
@@ -23,25 +22,26 @@
           %td= user.admin ? "Admin" : "User"
           %td= user.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= user.last_sign_in_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= button_to "Delete User", delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }
+          %td
+            = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do
+              %span.glyphicon.glyphicon-remove
+              Delete User
+            = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
+              %span.glyphicon.glyphicon-remove
 
-= link_to 'Add new user', new_user_path, :class => "button"
+  = link_to 'Add new user', new_user_path, :class => "btn btn-success"
 
-<br/> <br/>
-
-
-%h2 Announcement Management
-
-#table_content
-  %table
+.section
+  %h2 Announcement Management
+  %table.table.table-striped.table-bordered
     %thead
       %tr
-        %td{:class => "admindashboard_row_announcement_title"} Title
-        %td{:class => "admindashboard_row_announcement_content"} Content
-        %td{:class => "admindashboard_row_announcement_createdat"} Created at
-        %td{:class => "admindashboard_row_announcement_updatedat"} Updated at
-        %td{:class => "admindashboard_row_announcement_edit"} Edit
-        %td{:class => "admindashboard_row_announcement_delete"} Delete
+        %th Title
+        %th Content
+        %th Created at
+        %th Updated at
+        %th Edit
+        %th Delete
     %tbody
       - @announcement_list.each do |announcement|
         %tr
@@ -49,34 +49,51 @@
           %td= announcement.content
           %td= announcement.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit Announcement", edit_announcement_path(announcement.id)
-          %td= link_to "Delete Announcement", delete_announcement_path(announcement.id), data: { confirm: 'Are you sure?' }
+          %td
+            = link_to edit_announcement_path(announcement.id), :class => "btn btn-info btn-xs hidden-xs" do 
+              %span.glyphicon.glyphicon-edit
+              Edit Announcement
+            = link_to edit_announcement_path(announcement.id), :class => "btn btn-info visible-xs" do 
+              %span.glyphicon.glyphicon-edit
+          %td
+            = link_to delete_announcement_path(announcement.id), data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do 
+              %span.glyphicon.glyphicon-remove
+              Delete Announcement
+            = link_to delete_announcement_path(announcement.id), data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do 
+              %span.glyphicon.glyphicon-remove
 
-= link_to 'New Announcement', new_announcement_path, :class => "button"
+  = link_to 'New Announcement', new_announcement_path, :class => "btn btn-success"
 
-<br/> <br/>
-
-%h2 Event Management
-
-#table_content
-  %table
+.section
+  %h2 Event Management
+  %table.table.table-striped.table-bordered
     %thead
       %tr
-        %td{:class => "admindashboard_row_event_title"} Title
-        %td{:class => "admindashboard_row_event_location"} Location
-        %td{:class => "admindashboard_row_event_date"} Date
-        %td{:class => "admindashboard_row_event_edit"} Edit
-        %td{:class => "admindashboard_row_event_delete"} Delete
+        %th Title
+        %th Location
+        %th Date
+        %th Edit
+        %th Delete
     %tbody
       - @events.each do |event|
         %tr
           %td{:id => "eventTitle"}= event.title
           %td= event.location
           %td= event.date.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit Event", edit_event_path(event.id)
-          %td= link_to "Delete Event", delete_event_path(event.id), data: { confirm: 'Are you sure?' }
+          %td
+            = link_to edit_event_path(event.id), :class => "btn btn-info btn-xs hidden-xs" do 
+              %span.glyphicon.glyphicon-edit
+              Edit Event
+            = link_to edit_event_path(event.id), :class => "btn btn-info visible-xs" do 
+              %span.glyphicon.glyphicon-edit
+          %td
+            = link_to delete_event_path(event.id), data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do 
+              %span.glyphicon.glyphicon-remove
+              Delete Event
+            = link_to delete_event_path(event.id), data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do 
+              %span.glyphicon.glyphicon-remove
 
-= link_to 'New Event', a_new_event_path, :class => "button"
+= link_to 'New Event', a_new_event_path, :class => "btn btn-success"
 
 %h2 Category Management
-= link_to 'Category Management Page', category_index_path, :class => "button"
+= link_to 'Category Management Page', category_index_path, :class => "btn btn-success"

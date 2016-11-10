@@ -35,6 +35,10 @@ When /^PENDING$/ do
   pending
 end
 
+Then /(?:|I )should see "([^"]*)" before "([^"]*)"$/ do |first, second|
+  pending
+end
+
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|
   with_scope(parent) { When step }

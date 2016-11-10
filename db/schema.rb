@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20161109013437) do
     t.string   "description"
     t.datetime "date"
     t.string   "url"
+    t.datetime "end"
   end
 
   create_table "read_sessions", force: :cascade do |t|

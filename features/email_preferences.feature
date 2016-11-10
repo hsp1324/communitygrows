@@ -22,55 +22,55 @@ Scenario: Happy Path
 
   Given I am on the account details page for "james@gmail.com"
 
-  When I check "real_time"
+  When I check "user_internal"
   And I press "Confirm"
-  Then I should see "Your email digest settings have been updated."
+  Then I should see "Your email preference settings have been updated."
   And I am on the account details page for "james@gmail.com"
-  Then the "Real Time:" checkbox should be checked
+  Then the "Internal:" checkbox should be checked
   
   Given I am on the account details page for "james@gmail.com"
-  When I check "real_time" 
-  And I check "daily"
+  When I check "user_internal" 
+  And I check "user_executive"
   And I press "Confirm"
-  Then I should see "Your email digset settings have been updated."
+  Then I should see "Your email preference settings have been updated."
   And I am on the account details page for "james@gmail.com"
-  Then the "Real Time" checkbox should be checked
-  And the "Daily:" checkbox should be checked
+  Then the "user_internal" checkbox should be checked
+  And the "Executive:" checkbox should be checked
 
   Given I am on the account details page for "james@gmail.com"
-  When I check "weekly"
+  When I check "user_external"
   And I press "Confirm"
-  Then I should see "Your email digset settings have been updated."
+  Then I should see "Your email preference settings have been updated."
   And I am on the account details page for "james@gmail.com"
   Then the "External:" checkbox should be checked
 
   Given I am on the account details page for "james@gmail.com"
-  When I check "real_time"
-  And I check "daily"
-  And I check "weekly"
+  When I check "user_internal"
+  And I check "user_external"
+  And I check "user_executive"
   And I press "Confirm"
   Then I should see "Your email preference settings have been updated."
   And I am on the account details page for "james@gmail.com"
-  Then the "Real Time:" checkbox should be checked
-  And the "Daily:" checkbox should be checked
-  And the "Weekly:" checkbox should be checked
+  Then the "Internal:" checkbox should be checked
+  And the "Executive:" checkbox should be checked
+  And the "External:" checkbox should be checked
 
 
   Given I am on the account details page for "james@gmail.com"
-  When I check "daily" 
-  And I check "weekly"
+  When I check "user_external" 
+  And I check "user_executive"
   And I press "Confirm"
   Then I should see "Your email preference settings have been updated."
-  And the "daily:" checkbox should be checked
-  And the "weekly:" checkbox should be checked
+  And the "Executive:" checkbox should be checked
+  And the "External:" checkbox should be checked
   
 Scenario: Sad Path
   Given I am on the account details page for "james@gmail.com"
-  When I uncheck "real_time"
-  And I uncheck "daily"
-  And I uncheck "weekly"
+  When I uncheck "user_external"
+  And I uncheck "user_internal"
+  And I uncheck "user_executive"
   And I press "Confirm"
-  Then I should see "Please select your email digest setting."
+  Then I should see "Please select at least your committee to receive emails from."
   And I am on the account details page for "james@gmail.com"
     
   

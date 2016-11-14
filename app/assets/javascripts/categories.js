@@ -21,6 +21,19 @@ $(document).ready( function(){
         //         url: '/categories/update_category_order'
         //     });
         // }
+        
+        start: function (event, ui) {
+            startElement = $(this);
+        },
+        beforeStop: function(event, ui) {
+            if (startElement.find('.docrow').length === 0) {
+                // console.log(startElement.find('.hidden'))
+                var row = startElement.find('.hidden')[0]
+                $(row).addClass('empty');
+                $(row).removeClass('hidden');
+            }
+        },
+        cancel: ".empty",
         connectWith: $("#categories #sortable2")
     }).disableSelection();
 });

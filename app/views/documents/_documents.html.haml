@@ -6,13 +6,13 @@
       %th Read Status
   %tbody#sortable2
     - documents = category.documents
-    - if documents.empty?
-      %tr
-        %td No files have been entered
-        %td -
-        %td -
+    // - if documents.empty?
+    %tr{ :class => documents.empty? ? 'empty' : 'hidden' }
+      %td No files have been entered
+      %td -
+      %td -
     - documents.each do |file|
-      %tr
+      %tr.docrow
         %td= link_to file.title, info_file_path(file.id)
         %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
         - if curr_user.has_read?(file)

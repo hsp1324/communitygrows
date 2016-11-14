@@ -67,7 +67,8 @@ group :test do
   gem 'simplecov', :require => false #by Tony. Gem for the test coverage
   gem 'codeclimate-test-reporter'
   gem 'capybara', '2.6.2' #by Tony
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '3.0.0'
+  gem 'firefox'
   gem 'headless'
 end
 

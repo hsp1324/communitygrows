@@ -1,7 +1,7 @@
 %div#categories
   %ul#sortable1
     - @categories.each do |category|
-      %table.table.table-striped.table-bordered{ :class => "category_#{category.id}" }
+      %table.table.table-striped.table-bordered{ :id => "category_#{category.id}" }
         %thead.bg-info
           %tr
             %th Category Name

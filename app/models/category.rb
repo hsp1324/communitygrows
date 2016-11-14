@@ -17,4 +17,10 @@ class Category < ActiveRecord::Base
 	def show
 		self.update_attributes!(:hidden => false)
 	end
+	
+	def self.update_category_order(order)
+		order.each_with_index do |id, i|
+            self.find(id).update_attributes(:custom_order => i)
+        end
+    end
 end

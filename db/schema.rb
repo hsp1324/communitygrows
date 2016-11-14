@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102231348) do
+ActiveRecord::Schema.define(version: 20161114043929) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20161102231348) do
   create_table "categories", force: :cascade do |t|
     t.string  "name"
     t.boolean "hidden"
+    t.integer "custom_order"
+    t.index ["custom_order"], name: "index_categories_on_custom_order"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -50,6 +52,8 @@ ActiveRecord::Schema.define(version: 20161102231348) do
     t.datetime "updated_at",     null: false
     t.string   "committee_type"
     t.integer  "category_id"
+    t.integer  "custom_order"
+    t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
   create_table "events", force: :cascade do |t|

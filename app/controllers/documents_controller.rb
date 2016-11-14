@@ -9,7 +9,7 @@ class DocumentsController < ActionController::Base
     def index
         # @documents = Document.all
         # @document_list = Document.order(updated_at: :DESC)
-        @categories = Category.all
+        @categories = Category.order("custom_order ASC").all
         @curr_user = current_user
     end
     

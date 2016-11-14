@@ -3,10 +3,13 @@ class CategoryController < ActionController::Base
     before_action :authenticate_user!
 
     def index
+        puts params.inspect
         if params[:sort_by] == 'name'
             Category.sort_by_name
+            redirect_to category_index_path
+        else
+            @categories = Category.order("custom_order ASC").all
         end
-        @categories = Category.order("custom_order ASC").all
     end
 
     def new_category

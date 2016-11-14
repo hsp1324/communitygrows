@@ -25,6 +25,9 @@ class Category < ActiveRecord::Base
     end
     
     def self.sort_by_name
-    	self.order('name ASC').all
+    	ordered_categories = self.order('name ASC').all
+    	ordered_categories.each_with_index do |category, i|
+    		category.update_attributes(:custom_order => i)
+    	end
     end
 end

@@ -11,6 +11,7 @@
  * file per style scope.
  *= require bootstrap
  *= require base
+ *= require jquery-ui
  *= require_self
  */
 

@@ -9,14 +9,6 @@ SimpleCov.start 'rails'
 require 'cucumber/rails'
 # require 'selenium/webdriver'
 
-<<<<<<< HEAD
-Before do
-  if Capybara.current_driver == :selenium
-    require 'headless'
-    headless = Headless.new
-    headless.start
-  end
-=======
 
 # Before do
 #   if Capybara.current_driver == :selenium
@@ -36,7 +28,6 @@ Capybara.register_driver :poltergeist do |app|
 		window_size: [1280, 1024]#,
 		#debug:       true
 	)
->>>>>>> 7fa42f44ceceef7c90f374b64547d6c7f41a4cdc
 end
 
 

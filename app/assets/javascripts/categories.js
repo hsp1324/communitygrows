@@ -28,9 +28,16 @@ $(document).ready( function(){
         beforeStop: function(event, ui) {
             if (startElement.find('.docrow').length === 0) {
                 // console.log(startElement.find('.hidden'))
-                var row = startElement.find('.hidden')[0]
+                var row = startElement.find('.hidden')[0];
                 $(row).addClass('empty');
                 $(row).removeClass('hidden');
+            }
+        },
+        update: function(event, ui) {
+             if ($(this).find('.docrow').length != 0) {
+                var row = $(this).find('.empty')[0];
+                $(row).addClass('hidden');
+                $(row).removeClass('empty');
             }
         },
         cancel: ".empty",

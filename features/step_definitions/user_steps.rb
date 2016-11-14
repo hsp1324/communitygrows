@@ -1,5 +1,4 @@
 # By Tony. Steps needed for user testing
-
 Given /the following users exist/ do |users_table|
     User.delete_all
     users_table.hashes.each do |user|
@@ -29,6 +28,19 @@ Given /^a logged in user$/ do
   click_button "Log in"
 end
 
+Given /^I am logged out$/ do
+  visit "/users/sign_in"
+  click_link("Sign out", match: :first)
+end
+
 Given /^I edit password$/ do
   fail "Unimplemented"
+end
+
+Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
+  visit "/users/sign_in"
+  visit "/users/sign_in"
+  fill_in "user_email", :with => user_email
+  fill_in "password", :with => user_password
+  click_button "Log in"
 end

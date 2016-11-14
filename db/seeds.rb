@@ -11,3 +11,11 @@ curr = User.create!(:email => "admin@communitygrows.org", :password => "communit
 :admin => true)
 curr1 = User.create!(:email => "user@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
 :admin => false)
+
+Document.delete_all
+Category.delete_all
+Category.create!(:name => "About Community Grows")
+Category.create!(:name => "Board Overview")
+Category.create!(:name => "Budgets and Finances")
+Category.create!(:name => "AB Meetings")
+Category.create!(:name => "Board Resources")

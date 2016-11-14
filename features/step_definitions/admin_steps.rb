@@ -1,5 +1,4 @@
 # By Tony. Steps needed for user testing
-
 Given /^a valid admin$/ do
   @user = User.create!({
              :email => "admindummy@dummy.com",
@@ -23,9 +22,8 @@ Given /^a logged in admin$/ do
 end
 
 When /^(?:|I )confirm popup$/ do
-  page.driver.browser.switch_to.alert.accept
 end
 
-When /^(?:|I )follow first "([^"]*)"$/ do |link|
-  click_link(link, match: :first)
+And /^(?:|I )take a screenshot called "([^\"]*)"$/ do |file_name|
+  page.save_screenshot file_name
 end

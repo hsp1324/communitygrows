@@ -1,0 +1,63 @@
+%h1 "#{@file.title}" Information
+  
+%p#flashNotice
+  - if flash[:notice] and flash[:notice]!="Signed in successfully."
+    = flash[:notice]
+    
+.container.well
+  = button_to documents_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+
+  %h2
+    = link_to @file.title, @file.url, :target => "_blank"
+    %span.pull-right
+      Updated At:
+      #{@file.updated_at.strftime("%m/%d/%Y %l:%M %p")}
+  %h3
+    %label Mark As Read
+    = check_box_tag 'markasread', "#{@file.id}", @who_has_read.include?(current_user)
+
+  %table.table.table-striped.table-bordered
+    %thead.bg-info
+      %tr
+        %th User name
+        %th Status
+    %tbody
+      - if @users.empty?
+        %tr
+          %td No users have been entered
+          %td -
+      - @users.each do |user|
+        %tr
+          %td= user.email
+          - if @who_has_read.include?(user)
+            %td{id: "#{user.id}_read"} Read
+          - else
+            %td{id: "#{user.id}_read"} Not Read
+    
+  - if current_user.admin
+    %h3 Edit Document
+    = button_tag 'Click to Edit Document', type: 'button', :id => "edit_doc_button", :class => "btn btn-info"
+    #edit_doc_form{:style => "display: none"}
+      = form_tag update_file_path(@id, @file), :method => :put do
+      
+        .form-group
+          = label :file, :title, 'Title'
+          = text_field :file, 'title', :value => @file.title, class: 'form-control'
+        
+        .form-group
+          = label :file, :url, 'URL'
+          = text_field :file, 'url', :value => @file.url, class: 'form-control'
+        
+        .form-group
+          = label :file, :category_id, 'Category'
+          - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
+          - shown_categories.delete "tmp"
+          = select :file, :category_id, shown_categories, {}, class: 'form-control'
+        
+        = submit_tag 'Save changes', class: 'btn btn-success'
+
+      = button_to delete_file_path(@file.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-right' do
+        %span.glyphicon.glyphicon-remove
+        Delete document

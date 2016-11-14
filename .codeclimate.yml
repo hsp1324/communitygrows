@@ -40,6 +40,7 @@ exclude_paths:
 - config/
 - db/
 - features/
+- public/assets/
 - script/
 - spec/
 - vendor/

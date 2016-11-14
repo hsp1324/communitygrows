@@ -8,8 +8,8 @@ RSpec.describe SubcommitteeController, type: :controller do
     end
     describe 'index' do
        it 'renders index page' do
-           get :index, :committee_type => "executive"
-           response.should render_template(:index)
+           get :index, params: {committee_type: "executive"}
+           expect(response).to render_template(:index)
        end
     end
 end

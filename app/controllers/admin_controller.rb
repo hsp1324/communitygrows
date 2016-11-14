@@ -1,6 +1,6 @@
 class AdminController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :admin)
@@ -76,7 +76,12 @@ class AdminController < ActionController::Base
         @content = announcement_params[:content]
         @type = "dashboard"
         Announcement.create!(:title => @title, :content => @content, :committee_type => @type)
-        flash[:notice] = 'Announcement creation successful.'
+        if Rails.env.production?
+            User.all.each do |user| 
+                NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
+            end
+        end
+        flash[:notice] = 'Announcement creation successful and email was sent successfully.'
         redirect_to('/admin')
     end
     
@@ -88,7 +93,12 @@ class AdminController < ActionController::Base
     def update_announcement
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
-        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully"
+        if Rails.env.production?
+            User.all.each do |user| 
+                NotificationMailer.announcement_update_email(user, @target_announcement).deliver
+            end
+        end
+        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
         redirect_to(admin_index_path)
     end
     

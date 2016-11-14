@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
     
     def event_params
         params.require(:event).permit(:title, :location, :description, :date, :url)
@@ -36,9 +36,17 @@ class EventsController < ApplicationController
             redirect_to a_new_event_path and return
         end
         
+        
+        
         @event = Event.create(event_params)
+
+        if Rails.env.production?
+            User.all.each do |user| 
+                NotificationMailer.new_event_email(user, @event).deliver
+            end
+        end
         @event.save!
-        flash[:notice] = "Event titled #{@title} created successfully."
+        flash[:notice] = "Event titled #{@title} created successfully and email was successfully sent."
         redirect_to admin_index_path
     end
     
@@ -70,7 +78,14 @@ class EventsController < ApplicationController
             flash[:notice] = "Date was inproperly formatted, please follow provided format."
             redirect_to edit_event_path(@event.id) and return
         end
+        
+        flash[:notice] = "Event was updated and email was successfully sent."
         @event.update_attributes!(event_params)
+        if Rails.env.production?
+            User.all.each do |user| 
+                NotificationMailer.event_update_email(user, @event).deliver
+            end
+        end
         redirect_to admin_index_path 
     end
     

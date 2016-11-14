@@ -5,27 +5,27 @@
     = flash[:notice]
 </br>
 
-#content
+.container.well
+  = link_to admin_index_path, :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
   = form_tag update_event_path(@event.id) do
-    .row
-      =label :event, :title, 'Title', :class => "formLabel"
-      =text_field :event, 'title', :value => @event.title, :class => "formTextBox"
-    <br/>
-    .row
-      =label :event, :location, 'Location', :class => "formLabel"
-      =text_field :event, 'location', :value => @event.location, :class => "formTextBox"
-    <br/>
-    .row
+    .form-group
+      =label :event, :title, 'Title'
+      =text_field :event, 'title', :value => @event.title, :class => "form-control"
+    .form-group
+      =label :event, :location, 'Location'
+      =text_field :event, 'location', :value => @event.location, :class => "form-control"
+    .form-group
       = label_tag :description, "Description: "
-      = text_area_tag 'description', @event.description, size: "60x10"
-    <br/>
-    .row
-      =label :event, :date, 'Date and Time', :class => "formLabel"
-      =datetime_field :event, 'date', :value => @event.date.strftime('%Y-%m-%d %l:%M%p'), placeholder: "YYYY-MM-DD  HH:mmAM", :class => "formTextBox"
-    <br/>
-    .row
+      = text_area_tag 'description', @event.description, :class => "form-control"
+    .form-group
+      =label :event, :date, 'Date and Time'
+      =datetime_field :event, 'date', :value => @event.date.strftime('%Y-%m-%dT%H:%M:00'), placeholder: "YYYY-MM-DD HH:mmAM", :class => "form-control"
+    .form-group
       = label :event, :url, 'URL'
-      = text_area :event, 'url', :value => @event.url, size: '60x1'
-    <br/>
-    = submit_tag 'Submit', :class => "button"
-  = link_to 'Back', admin_index_path, :class => "button"
+      = text_field :event, 'url', :value => @event.url, :class => "form-control"
+    .form-group
+      = submit_tag 'Submit', :class => "btn btn-success"

@@ -34,7 +34,7 @@ Scenario: User can see committee announcements
 Scenario: User clicks on announcement to view comments for given announcement
   When I follow "ddddddd [executive]"
   Then I should be on the comment page for "ddddddd"
-  And I should see "Join the discussion"
+  And I should see "Add new comment"
   Then I follow "Add new comment"
   And I fill in "comment_content" with "This is a test comment"
   And I press "Submit"
@@ -47,7 +47,7 @@ Scenario: User clicks on announcement to view comments for given announcement
 Scenario: User should not be able to create a comment with empty content
   When I follow "ddddddd [executive]"
   Then I should be on the comment page for "ddddddd"
-  And I should see "Join the discussion"
+  And I should see "Add new comment"
   Then I follow "Add new comment"
   And I press "Submit"
   Then I should be on the new comment page for "ddddddd"

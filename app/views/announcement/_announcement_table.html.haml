@@ -1,19 +1,14 @@
-#table_content
-  %table
-    %thead
+%table.table.table-bordered.table-striped
+  %thead.bg-info
+    %tr
+      %th Title
+      %th Content
+      %th Created at
+      %th Updated at
+  %tbody
+    -@announcements.each do |a|
       %tr
-        %td{:class => "admindashboard_row_announcement_title"} Title
-        %td{:class => "admindashboard_row_announcement_content"} Content
-        %td{:class => "admindashboard_row_announcement_createdat"} Created at
-        %td{:class => "admindashboard_row_announcement_updatedat"} Updated at
-        // %td{:class => "admindashboard_row_announcement_edit"} Edit
-        // %td{:class => "admindashboard_row_announcement_delete"} Delete
-    %tbody
-      -@announcements.each do |a|
-        %tr
-          %td= link_to "#{a.title} [#{a.committee_type}]", comment_path(a.id)
-          %td= a.content
-          %td= a.created_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= a.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          // %td= link_to "Edit Announcement", edit_committee_announcement_path(:announcement_id => a.id, :committee_type => a.committee_type)
-          // %td= button_to "Delete Announcement", delete_committee_announcement_path(:announcement_id => a.id, :committee_type => a.committee_type), :method => :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to "#{a.title} [#{a.committee_type}]", comment_path(a.id)
+        %td= a.content
+        %td= a.created_at.strftime("%m/%d/%Y %l:%M %p")
+        %td= a.updated_at.strftime("%m/%d/%Y %l:%M %p")

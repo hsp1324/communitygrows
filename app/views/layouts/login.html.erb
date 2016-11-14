@@ -5,9 +5,7 @@
   <!-- Fonts -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Forum" />
-  
-  <%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'login', media: 'all' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -16,4 +14,5 @@
 <%= yield %>
 
 </body>
+<%= javascript_include_tag 'application' %>
 </html>

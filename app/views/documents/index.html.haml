@@ -1,117 +1,35 @@
-#docRepo
-  %h1 Document Repository
+%h1 Document Repository
   
-
-- if flash[:notice] and flash[:notice]!="Signed in successfully."
-  #flashNotice
+#flashNotice
+  - if flash[:notice] and flash[:notice]!="Signed in successfully."
     = flash[:notice]
 
-%h2#committeeTitle About Community Grows
+= link_to 'Add new file', new_file_path, :class => "btn btn-success btn-large"
+- @categories.each do |category|
 
-#document_content
-  %table
-    %thead
-      %tr
-        %td File name
-        %td Updated at
-        %td Edit
-        %td Delete
-    %tbody
-      - documents = Document.where(:committee_type => 'CGadmin')
-      - if documents.empty?
-        %td= "No files have been entered"
-      - documents.each do |file|
-        %tr
-          %td= link_to file.title, file.url, :target => "_blank"
-          %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit document", edit_file_path(file.id)
-          %td= link_to "Delete document", delete_file_path(file.id), data: { confirm: 'Are you sure?' }
-        
-%h2#committeeTitle Board Overview
+  -if not category.hidden?
 
-#document_content
-  %table
-    %thead
-      %tr
-        %td File name
-        %td Updated at
-        %td Edit
-        %td Delete
-    %tbody
-      - documents = Document.where(:committee_type => 'boardoverview')
-      
-      - if documents.empty?
-        %td= "No files have been entered"
-      - documents.each do |file|
-        %tr
-          %td= link_to file.title, file.url, :target => "_blank"
-          %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit document", edit_file_path(file.id)
-          %td= link_to "Delete document", delete_file_path(file.id), data: { confirm: 'Are you sure?' }
-        
-%h2#committeeTitle Board Activities
+    %h2= "#{category.name}"
 
-#document_content
-  %table
-    %thead
-      %tr
-        %td File name
-        %td Updated at
-        %td Edit
-        %td Delete
-    %tbody
-      - documents = Document.where(:committee_type => 'boardactivities')
-      
-      - if documents.empty?
-        %td= "No files have been entered"
-      - documents.each do |file|
-        %tr
-          %td= link_to file.title, file.url, :target => "_blank"
-          %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit document", edit_file_path(file.id)
-          %td= link_to "Delete document", delete_file_path(file.id), data: { confirm: 'Are you sure?' }
-
-%h2#committeeTitle Budgets and Finances
-
-#document_content
-  %table
-    %thead
-      %tr
-        %td File name
-        %td Updated at
-        %td Edit
-        %td Delete
-    %tbody
-      - documents = Document.where(:committee_type => 'budgetfinance')
-      - if documents.empty?
-        %td= "No files have been entered"
-      - documents.each do |file|
-        %tr
-          %td= link_to file.title, file.url, :target => "_blank"
-          %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit document", edit_file_path(file.id)
-          %td= link_to "Delete document", delete_file_path(file.id), data: { confirm: 'Are you sure?' }
-
-%h2#committeeTitle AB Meetings
-
-#document_content
-  %table
-    %thead
-      %tr
-        %td File name
-        %td Updated at
-        %td Edit
-        %td Delete
-    %tbody
-      - documents = Document.where(:committee_type => 'abmeetings')
-      
-      - if documents.empty?
-        %td= "No files have been entered"
-      - documents.each do |file|
-        %tr
-          %td= link_to file.title, file.url, :target => "_blank"
-          %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          %td= link_to "Edit document", edit_file_path(file.id)
-          %td= link_to "Delete document", delete_file_path(file.id), data: { confirm: 'Are you sure?' }
-          
-= link_to 'Add new file', new_file_path, :class => "button"
+    #document_content
+      %table.table.table-striped.table-bordered
+        %thead.bg-info
+          %tr
+            %th File name
+            %th Updated at
+            %th Read Status
+        %tbody
+          - documents = category.documents
+          - if documents.empty?
+            %tr
+              %td No files have been entered
+              %td -
+              %td -
+          - documents.each do |file|
+            %tr
+              %td= link_to file.title, info_file_path(file.id)
+              %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
+              - if @curr_user.has_read?(file)
+                %td= "Read"
+              - else
+                %td= "Not Read"

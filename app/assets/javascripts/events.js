@@ -26,3 +26,8 @@ $(document).ready(function() {
     $('.ui-accordion').myAccordion({autoHeight: false, heightStyle: 'content'});
     $('.datepicker').datepicker();
 });
+
+$("#edit_doc_button").click(function(){
+    $("#edit_doc_form").show();
+    $("#edit_doc_button").hide();
+});

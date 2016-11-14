@@ -1,31 +1,28 @@
 %h1 Create New Event
 
-- if flash[:notice]
-  #flashNotice
-    = flash[:notice]
-</br>
-
-#content
+.container.well
+  - if flash[:notice]
+    %p#flashNotice
+      = flash[:notice]
+  = link_to admin_index_path, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
   = form_tag create_new_event_path do
-    .row
-      =label :event, :title, 'Title', :class => "formLabel"
-      =text_field :event, 'title'
-    <br/>
-    .row
-      =label :event, :location, 'Location', :class => "formLabel"
-      =text_field :event, 'location'
-    <br/>
-    .row
-      = label :event, :description, "Description: "
-      = text_area :event, 'description'
-    <br/>
-    .row
-      =label :event, :date, 'Date and Time', :class => "formLabel"
-      =datetime_field :event, 'date', :value => Time.zone.now.strftime('%Y-%m-%d %l:%M%p'), placeholder: "YYYY-MM-DD  HH:mmAM"
-    <br/>
-    .row
+    .form-group
+      =label :event, :title, 'Title'
+      =text_field :event, 'title', class: 'form-control'
+    .form-group
+      =label :event, :location, 'Location'
+      =text_field :event, 'location', class: 'form-control'
+    .form-group
+      = label :event, :description, 'Description: '
+      = text_area :event, 'description', class: 'form-control'
+    .form-group
+      =label :event, :date, 'Date and Time'
+      =datetime_field :event, 'date', value: Time.zone.now.strftime('%Y-%m-%d %l:%M%p'), placeholder: "YYYY-MM-DD  HH:mmAM", class: 'form-control'
+    .form-group
       = label :event, :url, 'URL'
-      = text_field :event, 'url', placeholder: "Place url for link to external source", size: '60x1'
-    <br/>
-    = submit_tag 'Submit', :class => "button"
-  = link_to 'Back', admin_index_path, :class => "button"
+      = text_field :event, 'url', placeholder: "Place url for link to external source", class: 'form-control'
+    = submit_tag 'Submit', class: 'btn btn-success'

@@ -1,37 +1,22 @@
 %h1 Create New User
 
-- if flash[:notice]
-  - flash[:notice].each do |msg|
-    #flashNotice
-      = msg
-</br>
+.container.well
+  - if flash[:notice].respond_to? :each
+    - flash[:notice].each do |msg|
+      %p#flashNotice
+        = msg
 
-
-= form_tag create_user_path do
-
-  #leftUserTextA
-  = label :user, :email, 'Email'
-  #rightUserFieldA
-  = text_field :user, 'email'
-  </br>  
-  </br>
-  #leftUserTextA
-  = label :user, :password, 'Password'
-  #rightUserFieldA
-  = text_field :user, 'password'
-  </br>
-  </br>
-  #leftUserTextA
-  = label :user, :password_confirmation, 'Password Confirmation'
-  #rightUserFieldA
-  = text_field :user, 'password_confirmation'
-  </br>
-  </br>
-  #leftUserTextA
-  = label :user, :admin, 'Admin'
-  #rightUserFieldA
-  = select :user, :admin, [['True', true], ['False', false]]
-  
-  </br>
-  </br>
-  = submit_tag 'Submit'
+  = form_tag create_user_path do
+    .form-group
+      = label :user, :email, 'Email'
+      = text_field :user, 'email', class: 'form-control'
+    .form-group
+      = label :user, :password, 'Password'
+      = password_field :user, 'password', class: 'form-control'
+    .form-group
+      = label :user, :password_confirmation, 'Password Confirmation'
+      = password_field :user, 'password_confirmation', class: 'form-control'
+    .form-group
+      = label :user, :admin, 'Admin'
+      = select :user, :admin, [['True', true], ['False', false]], {}, class: 'form-control'
+    = submit_tag 'Submit', class: 'btn btn-success'

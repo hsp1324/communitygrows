@@ -4,17 +4,26 @@
   #flashNotice
     = flash[:notice]
 
-</br>
+%br
+.container.well
 
-= form_tag create_file_path do
+  =link_to documents_path, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
 
-  = label :file, :title, 'Title'
-  = text_field :file, 'title'
-  
-  = label :file, :url, 'URL'
-  = text_field :file, 'url'
+  = form_tag create_file_path do
+    .form-group
+      = label :file, :title, 'Title'
+      = text_field :file, 'title', :class => 'form-control'
+    .form-group
+      = label :file, :url, 'URL'
+      = text_field :file, 'url', :class => 'form-control'
+    .form-group
+      = label :file, :category_id, 'Category'
+      - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
+      - shown_categories.delete("tmp")
+      = select :file, :category_id, shown_categories, {}, class: 'form-control'
 
-  = label :file, :committee_type, 'Category'
-  = select :file, :committee_type, {'About Community Grows' => 'CGadmin', 'Board Overview' => 'boardoverview', 'Board Activities' => 'boardactivities', 'Budgets and Finances' => 'budgetfinance', 'AB Meetings' => 'abmeetings'}
-
-  = submit_tag 'Submit'
+    = submit_tag 'Submit', :class => 'btn btn-success'

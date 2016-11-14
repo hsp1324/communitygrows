@@ -1,0 +1,21 @@
+%h1 Edit Document
+
+- if flash[:notice] and flash[:notice]!="Signed in successfully."
+  #flashNotice
+    = flash[:notice]
+
+.container.well
+  = link_to subcommittee_index_path, :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  = form_tag update_committee_document_path, :method => :put do
+    = hidden_field :document, :id
+    .form-group
+      = label_tag :title, "Title: "
+      = text_area_tag 'title', @document.title, class: 'form-control'
+    .form-group
+      = label :url, "URL: "
+      = text_area_tag 'url', @document.url, class: 'form-control'
+    = submit_tag 'Submit', :class => "btn btn-success"

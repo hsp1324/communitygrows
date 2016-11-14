@@ -5,19 +5,43 @@ SimpleCov.start 'rails'
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
 
 require 'cucumber/rails'
-require 'selenium/webdriver'
+# require 'selenium/webdriver'
 
+<<<<<<< HEAD
 Before do
   if Capybara.current_driver == :selenium
     require 'headless'
     headless = Headless.new
     headless.start
   end
+=======
+
+# Before do
+#   if Capybara.current_driver == :selenium
+#     require 'headless'
+
+#     headless = Headless.new
+#     headless.start
+#   end
+# end
+
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+	Capybara::Poltergeist::Driver.new(
+ 		app,
+		window_size: [1280, 1024]#,
+		#debug:       true
+	)
+>>>>>>> 7fa42f44ceceef7c90f374b64547d6c7f41a4cdc
 end
+
+
+puts Capybara.default_driver
+Capybara.ignore_hidden_elements = true
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any

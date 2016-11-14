@@ -1,6 +1,6 @@
 class AnnouncementController < ActionController::Base
     layout "base"
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
     def show_announcements
        @announcements = Announcement.where(committee_type: params[:categories])
@@ -18,7 +18,29 @@ class AnnouncementController < ActionController::Base
         end
         @content = params[:content]
         Announcement.create!(:title => @title, :content => @content, :committee_type => @committee_type)
-        flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful."
+        if Rails.env.production?
+            User.all.each do |user|
+                committe_user_internal = ""
+                committe_user_external = ""
+                committe_user_executive = ""
+                if user.internal == true
+                    committe_user_internal = "internal"
+                end
+                 if user.external == true
+                    committe_user_external = "external"
+                end
+                 if user.executive == true
+                    committe_user_executive = "executive"
+                end
+                    
+                if current_user.admin?
+                     NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver
+                elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
+                     NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver
+                end
+            end
+        end
+        flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful and email was successfully sent."
         redirect_to subcommittee_index_path(:committee_type => @committee_type)
     end
         
@@ -38,7 +60,29 @@ class AnnouncementController < ActionController::Base
             redirect_to edit_committee_announcement_path(@committee_type, @announcement_id) and return
         end
         @target_announcement.update_attributes!(:title => @title, :content => @content, :committee_type => @committee_type)
-        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully"
+        if Rails.env.production?
+            User.all.each do |user|
+                committe_user_internal = ""
+                committe_user_external = ""
+                committe_user_executive = ""
+                if user.internal == true
+                    committe_user_internal = "internal"
+                end
+                 if user.external == true
+                    committe_user_external = "external"
+                end
+                 if user.executive == true
+                    committe_user_executive = "executive"
+                end
+                    
+                if current_user.admin?
+                     NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver
+                elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
+                     NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver
+                end
+            end
+        end
+        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
         redirect_to subcommittee_index_path(@committee_type)
     end
     

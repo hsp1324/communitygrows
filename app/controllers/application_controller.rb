@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     '/dashboard#index'
   end  
-  
+
+
   # by Tony
   # redirecting a new session to a sign in
   # if logged in, redirect to the dash board

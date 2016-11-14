@@ -1,19 +1,26 @@
-%h1 Edit current file
+%h1 Edit current file 
 
 - if flash[:notice] == "Populate all fields before submission."
   #flashNotice
     = flash[:notice]
 
-= form_tag update_file_path(@id, @file), :method => :put do
+.container.well
+  = link_to documents_path do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  = form_tag update_file_path(@id, @file), :method => :put do
+    .form-group
+      = label :file, :title, 'Title'
+      = text_field :file, 'title', value: @file.title, class: 'form-control'
+    .form-group
+      = label :file, :url, 'URL'
+      = text_field :file, 'url', value: @file.url, class: 'form-control'
+    .form-group
+      = label :file, :category_id, 'Category'
+      - shown_categories = @categories.map { |category| (not category.hidden?) ? [category.name, category.id] : ["tmp", "tmp"] }.to_h
+      - shown_categories.delete("tmp")
+      = select :file, :category_id, shown_categories, {}, class: 'form-control'
 
-  = label :file, :title, 'Title'
-  = text_field :file, 'title', :value => @file.title
-  
-  = label :file, :url, 'URL'
-  = text_field :file, 'url', :value => @file.url
-
-  = label :file, :committee_type, 'Committee'
-  = select :file, :committee_type, {'About Community Grows' => 'CGadmin', 'Board Overview' => 'boardoverview', 'Board Activities' => 'boardactivities', 'Budgets and Finances' => 'budgetfinance', 'AB Meetings' => 'abmeetings'}
-
-  = submit_tag 'Submit'
-=link_to 'back', documents_path
+    = submit_tag 'Submit', class: 'btn btn-success'

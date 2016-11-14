@@ -106,4 +106,4 @@ Scenario: should be able to delete a created document
   Then I should see "Delete Document"
   When I follow first "Delete Document"
   And I confirm popup
-  Then I should not see "new url"
+  Then I should not see "newurl"

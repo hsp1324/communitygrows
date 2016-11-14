@@ -39,7 +39,7 @@ RSpec.configure do |config|
   
   config.include Capybara::DSL #by Tony
   config.include Capybara::RSpecMatchers #by Tony
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
 
   # RSpec Rails can automatically mix in different behaviours to your tests

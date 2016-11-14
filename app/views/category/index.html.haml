@@ -4,7 +4,9 @@
   #flashNotice
     = flash[:notice]
     
-= link_to "Sort Categories By Name", category_index_path(:sort_by => "name")
+%h4
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  = link_to "Sort Categories By Name", category_index_path(:sort_by => "name")
 
 = render :partial => "categories", :locals => { :curr_user => current_user }
         

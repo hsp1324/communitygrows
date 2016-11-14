@@ -39,5 +39,11 @@
               %span.glyphicon.glyphicon-remove
           %tr
             %td{colspan: 3}
-              = render :partial => "documents/documents", :locals => { :category => category, :curr_user => curr_user }
+              %table.table.table-striped.table-bordered
+                %thead.bg-info
+                  %tr
+                    %th= link_to "File name", category_index_path(:doc_order => {:category => category.id, :order => 'title'})
+                    %th= link_to "Updated at", category_index_path(:doc_order => {:category => category.id, :order => 'updated_at'})
+                    %th Read Status
+                = render :partial => "documents/documents", :locals => { :category => category, :curr_user => curr_user }
                 

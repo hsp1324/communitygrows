@@ -5,12 +5,12 @@ class Document < ActiveRecord::Base
 	
 	
     def self.update_document_order(category_id, document_ids)
-        # cat = Category.find(category_id)
         if document_ids
             document_ids.each_with_index do |id, i|
                 doc = self.find(id)
-                doc.update_attributes(:custom_order => i, :category_id => category_id)
+                doc.update_columns(:custom_order => i, :category_id => category_id)
             end
+            
         end
     end
 	

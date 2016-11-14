@@ -11,5 +11,11 @@
 
     %h2= "#{category.name}"
     #document_content
-      = render :partial => "documents", :locals => { :category => category, :curr_user => @curr_user }
+      %table.table.table-striped.table-bordered
+        %thead.bg-info
+          %tr
+            %th File name
+            %th Updated at
+            %th Read Status
+        = render :partial => "documents", :locals => { :category => category, :curr_user => @curr_user }
      

@@ -11,5 +11,5 @@
 
     %h2= "#{category.name}"
     #document_content
-      = render :partial => "documents"
+      = render :partial => "documents", :locals => { :category => category, :curr_user => @curr_user }
      

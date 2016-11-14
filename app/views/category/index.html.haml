@@ -4,6 +4,6 @@
   #flashNotice
     = flash[:notice]
 
-= render :partial => "categories"
+= render :partial => "categories", :locals => { :curr_user => current_user }
         
 = link_to 'New Category', new_category_path, class: "btn btn-success"

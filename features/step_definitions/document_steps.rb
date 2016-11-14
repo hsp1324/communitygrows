@@ -5,8 +5,8 @@ Given /the following documents exist/ do |documents_table|
     end
 end
 
-Given /a category called "([^"]*)"$/ do |category_name|
-	Category.create!({:name => category_name, :hidden => false})
+Given /(?:|I )create a document called "([^"]*)" with url "([^"]*)" in category "([^"]*)"$/ do |name, url, category|
+	Document.create!({name: name, url: url, category_id: Category.where(name: category).id})
 end
 
 Then /^(?:|I )should see "([^"]*)" in Read Status Table for user$/ do |status|

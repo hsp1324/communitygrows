@@ -99,5 +99,20 @@ class DocumentsController < ActionController::Base
         end
     end
     
+    def update_document_order
+        puts params.inspect
+        puts "OK"
+        puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        puts params[:category]
+        puts 'B'
+        puts params[:category].to_s
+        puts 'C'
+        puts params[:category].to_a
+        puts 'D'
+        # puts params[:category].to_s.split(" ")
+        if request.xhr?
+            Document.update_document_order(params[:category].to_a[0].split(" ")[0], params[:document])
+        end 
+    end
     
 end

@@ -13,13 +13,7 @@ $(document).ready( function(){
     
     $("#categories #sortable2").sortable({
         // update: function(event, ui) {
-        //     var data = $(this).sortable('serialize');
-    
-        //     $.ajax({
-        //         data: data,
-        //         type: 'POST',
-        //         url: '/categories/update_category_order'
-        //     });
+            
         // }
         
         start: function (event, ui) {
@@ -39,6 +33,27 @@ $(document).ready( function(){
                 $(row).addClass('hidden');
                 $(row).removeClass('empty');
             }
+        },
+        stop: function(event, ui) {
+            var data = $(this).sortable('serialize');
+            data += "&category[]=" + $(this).attr("class");
+        
+            $.ajax({
+                data: data,
+                type: 'POST',
+                url: '/documents/update_document_order'
+            });
+        },
+        receive: function(event, ui) {
+            var data = $(event.target).sortable('serialize');
+            console.log(data);
+            // console.log($(this).attr("class"));
+            data += "&category[]=" + $(this).attr("class");
+            $.ajax({
+                data: data,
+                type: 'POST',
+                url: '/documents/update_document_order'
+            });
         },
         cancel: ".empty",
         connectWith: $("#categories #sortable2")

@@ -4,7 +4,7 @@
       %th File name
       %th Updated at
       %th Read Status
-  %tbody#sortable2
+  %tbody#sortable2{ :class => "#{category.id}" }
     - documents = category.documents
     // - if documents.empty?
     %tr{ :class => documents.empty? ? 'empty' : 'hidden' }
@@ -12,7 +12,7 @@
       %td -
       %td -
     - documents.each do |file|
-      %tr.docrow
+      %tr.docrow{ :id => "document_#{file.id}" }
         %td= link_to file.title, info_file_path(file.id)
         %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
         - if curr_user.has_read?(file)

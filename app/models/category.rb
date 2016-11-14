@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-	has_many :documents
+	has_many :documents, -> { order 'custom_order asc' }
 
 	def initalize(attributes=nil)
 	    attr_with_defaults = {:hidden => false}.merge(attributes)
@@ -22,5 +22,9 @@ class Category < ActiveRecord::Base
 		order.each_with_index do |id, i|
             self.find(id).update_attributes(:custom_order => i)
         end
+    end
+    
+    def self.sort_by_name
+    	self.order('name ASC').all
     end
 end

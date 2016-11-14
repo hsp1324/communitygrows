@@ -3,6 +3,9 @@ class CategoryController < ActionController::Base
     before_action :authenticate_user!
 
     def index
+        if params[:sort_by] == 'name'
+            Category.sort_by_name
+        end
         @categories = Category.order("custom_order ASC").all
     end
 

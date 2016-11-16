@@ -31,7 +31,6 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 
-puts Capybara.default_driver
 Capybara.ignore_hidden_elements = true
 
 # Capybara defaults to CSS3 selectors rather than XPath.

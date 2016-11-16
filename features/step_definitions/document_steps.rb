@@ -5,15 +5,15 @@ Given /the following documents exist/ do |documents_table|
     end
 end
 
-Given /(?:|I )create a document called "([^"]*)" with url "([^"]*)" in category "([^"]*)"$/ do |name, url, category|
-	Document.create!({name: name, url: url, category_id: Category.where(name: category).id})
+Given /(?:|I )create a document called "([^\"]*)" with url "([^\"]*)" in category "([^\"]*)"$/ do |name, url, category|
+    Document.create!({title: name, url: url, category_id: Category.find_by(name: category).id})
 end
 
-Then /^(?:|I )should see "([^"]*)" in Read Status Table for user$/ do |status|
+Then /^(?:|I )should see "([^\"]*)" in Read Status Table for user$/ do |status|
     expect(page.find("#1_read")).to have_content(status)
 end
 
-Then /^(?:|I )should see "([^"]*)" in Read Status Table for admin$/ do |status|
+Then /^(?:|I )should see "([^\"]*)" in Read Status Table for admin$/ do |status|
     expect(page.find("#1_read")).to have_content(status)
 end
 

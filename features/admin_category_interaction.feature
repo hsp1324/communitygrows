@@ -5,33 +5,20 @@ Feature: Category Interaction
   So that I can intuitively manipulate the organization of the portal
   
 Background: admin is on the admin dashboard and a category has been created
-  Given PENDING
-  Given a logged in admin
+  Given the following categories exist:
+    | name                |
+    | Good Category       |
+    | Better Category     |
+    | Incredible Category |
+  And a logged in admin
   And I am on the category management page
-  Then I should see "New Category"
-  When I follow "New Category"
-  And I fill in "Category Name" with "Good Category"
-  And I press "Submit"
-  And I follow "New Category"
-  And I fill in "Category Name" with "Better Category"
-  And I press "Submit"
-  And I follow "New Category"
-  And I fill in "Category Name" with "Incredible Category"
-  And I press "Submit"
 
 # happy path
 Scenario: should be able to sort categories alphabetically
-  When I follow "Title"
+  When I follow "Sort Categories By Name"
   And I am on the document repository page
   Then I should see "Better Category" before "Good Category"
   And I should see "Good Category" before "Incredible Category"
-
-# happy path
-Scenario: should be able to sort categories by time of creation
-  When I follow "Upload Time"
-  And I am on the document repository page
-  Then I should see "Good Category" before "Better Category"
-  And I should see "Better Category" before "Incredible Category"
 
 # happy path
 @javascript
@@ -57,5 +44,6 @@ Scenario: should be able to drag documents between categories
   When I drag the document "document" into the category "Better Category"
   And I drag the document "doc2" into the category "Better Category"
   And I am on the document repository page
+  And I take a screenshot called "~/wtf.png"
   Then I should see the document "document" in the category "Better Category"
   And I should see the document "doc2" in the category "Better Category"

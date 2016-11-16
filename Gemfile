@@ -80,4 +80,3 @@ group :production do
   gem 'rails_12factor'
   gem 'rspec'
 end
-

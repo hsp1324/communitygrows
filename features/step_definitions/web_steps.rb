@@ -53,11 +53,11 @@ When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )press "([^"]*)"$/ do |button|
+When /^(?:|I )press "([^\"]*)"$/ do |button|
   click_button(button)
 end
 
-When /^(?:|I )follow "([^"]*)"$/ do |link|
+When /^(?:|I )follow "([^\"]*)"$/ do |link|
   if @javascript
     page.find(:link, link, visible: true).trigger :click
   else
@@ -73,16 +73,16 @@ When /^(?:|I )follow first "([^\"]*)"$/ do |link|
   end
 end
 
-When /^(?:|I )fill in hidden field "([^"]*)" with "([^"]*)"$/ do |field, value|
+When /^(?:|I )fill in hidden field "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   page.all(".form_tag[id='edit_doc_form']", :visible => true)
   fill_in(field, :with => value)
 end
 
-When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+When /^(?:|I )fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   fill_in(field, :with => value)
 end
 
-When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
+When /^(?:|I )fill in "([^\"]*)" for "([^\"]*)"$/ do |value, field|
   fill_in(field, :with => value)
 end
 
@@ -103,28 +103,34 @@ When /^(?:|I )fill in the following:$/ do |fields|
   end
 end
 
-When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
+When /^(?:|I )select "([^\"]*)" from "([^\"]*)"$/ do |value, field|
   select(value, :from => field)
 end
 
-When /^(?:|I )check "([^"]*)"$/ do |field|
+When /^(?:|I )check "([^\"]*)"$/ do |field|
   check(field)
 end
 
-When /^(?:|I )uncheck "([^"]*)"$/ do |field|
+When /^(?:|I )uncheck "([^\"]*)"$/ do |field|
   uncheck(field)
 end
 
-When /^(?:|I )choose "([^"]*)"$/ do |field|
+When /^(?:|I )choose "([^\"]*)"$/ do |field|
   choose(field)
 end
 
-When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
+When /^(?:|I )attach the file "([^\"]*)" to "([^\"]*)"$/ do |path, field|
   attach_file(field, File.expand_path(path))
 end
 
-Then /^(?:|I )should see "([^"]*)"$/ do |text|
+Then /^(?:|I )should see "([^\"]*)"$/ do |text|
   expect(page).to have_content(text)
+end
+
+Then /^(?:|I )should see "([^\"]*)" before "([^\"]*)"$/ do |thing1, thing2|
+  firstThing = page.body.index(thing1)
+  secondThing = page.body.index(thing2)
+  expect(firstThing).to be < secondThing
 end
 
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
@@ -133,7 +139,7 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   expect(page).to have_xpath('//*', :text => regexp)
 end
 
-Then /^(?:|I )should not see "([^"]*)"$/ do |text|
+Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
   expect(page).to have_no_content(text)
 end
 
@@ -143,7 +149,7 @@ Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   expect(page).to have_no_xpath('//*', :text => regexp)
 end
 
-Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
+Then /^the "([^\"]*)" field(?: within (.*))? should contain "([^\"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
     field_value = (field.tag_name == 'textarea') ? field.text : field.value
@@ -151,7 +157,7 @@ Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field
   end
 end
 
-Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |field, parent, value|
+Then /^the "([^\"]*)" field(?: within (.*))? should not contain "([^\"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
     field_value = (field.tag_name == 'textarea') ? field.text : field.value
@@ -159,38 +165,14 @@ Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |f
   end
 end
 
-Then /^the "([^"]*)" field should have the error "([^"]*)"$/ do |field, error_message|
-  element = find_field(field)
-  classes = element.find(:xpath, '..')[:class].split(' ')
-
-  form_for_input = element.find(:xpath, 'ancestor::form[1]')
-  using_formtastic = form_for_input[:class].include?('formtastic')
-  error_class = using_formtastic ? 'error' : 'field_with_errors'
-  expect(classes).to include(error_class)
-
-  if using_formtastic
-    error_paragraph = element.find(:xpath, '../*[@class="inline-errors"][1]')
-    expect(error_paragraph).to have_content(error_message)
-  else
-    expect(page).to have_content("#{field.titlecase} #{error_message}")
-  end
-end
-
-Then /^the "([^"]*)" field should have no error$/ do |field|
-  element = find_field(field)
-  classes = element.find(:xpath, '..')[:class].split(' ')
-  expect(classes).not_to include('field_with_errors')
-  expect(classes).not_to include('error')
-end
-
-Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
+Then /^the "([^\"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
   with_scope(parent) do
     field_checked = find_field(label)['checked']
     expect(field_checked).to be true
   end
 end
 
-Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
+Then /^the "([^\"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
   with_scope(parent) do
     field_checked = find_field(label)['checked']
     expect(field_checked).to be_false
@@ -213,4 +195,15 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+When /^(?:|I )confirm popup$/ do
+end
+
+And /^(?:|I )take a screenshot called "([^\"]*)"$/ do |file_name|
+  if @javascript
+    page.save_screenshot file_name
+  else
+    puts "Can't take a screenshot without @javascript defined"
+  end
 end

@@ -10,7 +10,7 @@
   -if not category.hidden?
 
     %h2= "#{category.name}"
-    #document_content
+    %div{id: "#category_#{category.id}"}
       %table.table.table-striped.table-bordered
         %thead.bg-info
           %tr

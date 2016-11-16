@@ -27,8 +27,6 @@
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
-    .form-group
-      = submit_tag 'Submit', :class => "btn btn-success"
 
     = label :user, :interests_skills, "Interests and Skills"
     = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4

@@ -35,21 +35,20 @@ class DocumentCommitteeController < ActionController::Base
             committe_user_internal = ""
             committe_user_external = ""
             committe_user_executive = ""
-            # if user.internal == true
-            #     committe_user_internal = "internal"
-            # end
-            # if user.external == true
-            #     committe_user_external = "external"
-            # end
-            # if user.executive == true
-            #     committe_user_executive = "executive"
-            # end
+            if user.internal == true
+                committe_user_internal = "internal"
+            end
+            if user.external == true
+                committe_user_external = "external"
+            end
+            if user.executive == true
+                committe_user_executive = "executive"
+            end
             
             if current_user.admin?
                 NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver
 
-            # elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
-            else
+            elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
                 if user.digest_pref == "daily"
                     NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: Time.now.tomorrow.noon())
                 elsif user.digest_pref == "weekly"
@@ -66,19 +65,18 @@ class DocumentCommitteeController < ActionController::Base
             committe_user_internal = ""
             committe_user_external = ""
             committe_user_executive = ""
-            # if user.internal == true
-            #     committe_user_internal = "internal"
-            # end
-            # if user.external == true
-            #     committe_user_external = "external"
-            # end
-            # if user.executive == true
-            #     committe_user_executive = "executive"
-            # end
+            if user.internal == true
+                committe_user_internal = "internal"
+            end
+            if user.external == true
+                committe_user_external = "external"
+            end
+            if user.executive == true
+                committe_user_executive = "executive"
+            end
             if current_user.admin?
                 NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver
-            # elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
-            else
+            elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 
                 if user.digest_pref == "daily"
                     NotificationMailer.new_document_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: Time.now.tomorrow.noon())
                 elsif user.digest_pref == "weekly"

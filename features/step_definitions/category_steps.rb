@@ -5,7 +5,7 @@ Given /^the following categories exist:$/ do |category_table|
     end
 end
 
-Given /^a category called "([^\"])"$/ do |category|
+Given /^a category called "([^\"]*)"$/ do |category|
     Category.create!(name: category)
 end
 

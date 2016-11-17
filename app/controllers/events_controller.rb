@@ -19,8 +19,6 @@ class EventsController < ApplicationController
             flash[:notice] = "Title field cannot be left blank."
             redirect_to a_new_event_path and return
         end
-        #Date.valid_date? *date_string.split('-').reverse.map(&:to_i)
-       # @dateArr = @date.split('-').reverse.map(&:to_i)
         
         if @date.empty?
             flash[:notice] = "Date field cannot be left blank."
@@ -35,9 +33,7 @@ class EventsController < ApplicationController
             flash[:notice] = "Date was not correctly formatted, please follow provided format."
             redirect_to a_new_event_path and return
         end
-        
-        
-        
+
         @event = Event.create(event_params)
 
         if Rails.env.production?
@@ -62,8 +58,6 @@ class EventsController < ApplicationController
             flash[:notice] = "Title field cannot be left blank."
             redirect_to edit_event_path(@event.id) and return
         end
-        #Date.valid_date? *date_string.split('-').reverse.map(&:to_i)
-       # @dateArr = @date.split('-').reverse.map(&:to_i)
         
         if @date.empty?
             flash[:notice] = "Date field cannot be left blank."

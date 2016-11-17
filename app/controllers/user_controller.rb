@@ -4,7 +4,7 @@ class UserController < ActionController::Base
     
     def user_params
         params.require(:user).permit(:email, :password, :password_confirmation, :name,
-        :about_me, :why_join, :interests_skills, :internal, :external, :executive)
+        :about_me, :why_join, :interests_skills, :internal, :external, :executive, :digest_pref)
     end
     
     def index

@@ -27,10 +27,12 @@
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
-    .form-group
-      = label :user, :interests_skills, "Interests and Skills"
-      = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4
+
+    = label :user, :interests_skills, "Interests and Skills"
+    = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4
     %h3 Email Preferences  
+    Select from what committees you want to receive emails from
+
     .form-group
       = label :user, :internal, "Internal:"
       = check_box :user, :internal
@@ -39,10 +41,19 @@
       = check_box :user, :external
     .form-group
       = label :user, :executive, "Executive:"
-      = check_box :user, :executive
+      = check_box :user, :executive    
     .form-group
       = submit_tag 'Update Information', :class => "btn btn-success"
-      
+ 
+  / Digest
+  Select how often you want to receive an email digest
+  = form_tag update_user_credentials_path(@user), method: :put do
+  
+    .form-group
+      = select :user, :digest_pref, [['Daily','daily'],['Weekly','weekly'],['Real Time','real_time']]
+      = submit_tag 'Update Digest', :class => 'btn btn-success'
+
+  /Password
   %h1 Edit Password
   = form_tag update_user_credentials_path(@user), method: :put do
     .form-group

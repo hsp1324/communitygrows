@@ -30,14 +30,7 @@ Given /^a valid user "([^"]*)"$/ do |user_name|
 end
 
 Given /^a logged in user$/ do
-  @user = User.create!({
-             :name => "Test Test",
-             :committee => "internal",
-             :email => "dummy@dummy.com",
-             :password => "dummypass",
-             :password_confirmation => "dummypass",
-             :admin => false
-           })
+  step "a valid user"
   visit "/users/sign_in"
   fill_in "user_email", :with => "dummy@dummy.com"
   fill_in "password", :with => "dummypass"
@@ -50,14 +43,10 @@ Given /^I am logged out$/ do
   click_link("Sign out", match: :first)
 end
 
-Given /^I edit password$/ do
-  fail "Unimplemented"
-end
-
 Given /^PENDING/ do
   pending
 end
-  
+
 Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
   visit "/users/sign_in"
   visit "/users/sign_in"

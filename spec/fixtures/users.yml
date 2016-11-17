@@ -5,7 +5,7 @@ tester:
     admin: true
     internal: true
     external: true
-    executive: true
+    executive: true in
 
 user:
     name: Rspec

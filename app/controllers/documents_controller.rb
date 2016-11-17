@@ -44,7 +44,7 @@ class DocumentsController < ActionController::Base
         end
     end
     
-    def send_email
+    def send_doccom_email
         User.all.each do |user|
             if user.digest_pref == "daily"
                 NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
@@ -77,14 +77,14 @@ class DocumentsController < ActionController::Base
             @target_file.update_attributes!(file_params)
             category.documents << @target_file
             if Rails.env.production?
-                send_email_update()
+                send_doccom_email_update()
             end
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."
             redirect_to(documents_path)
         end
     end
     
-    def send_email_update
+    def send_doccom_email_update
         User.all.each do |user|
             if user.digest_pref == "daily"
                 NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())

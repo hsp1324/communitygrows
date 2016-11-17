@@ -1,9 +1,16 @@
 class AdminController < ActionController::Base
     layout "base"
-    before_action :authenticate_user!
+    before_action :authenticate_user!, :authorize_user
+    
+    def authorize_user
+        if not User.find(current_user.id).admin
+            redirect_to "/dashboard"
+        end
+    end
     
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :admin)
+      params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee,
+        :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin)
     end
 
     def calendar_params
@@ -14,7 +21,6 @@ class AdminController < ActionController::Base
         params.require(:announcement).permit(:title, :content)
     end
     
-
     def index
         @users = User.all
         @announcement_list = Announcement.where(committee_type: "dashboard").order(created_at: :DESC)
@@ -77,8 +83,14 @@ class AdminController < ActionController::Base
         @type = "dashboard"
         Announcement.create!(:title => @title, :content => @content, :committee_type => @type)
         if Rails.env.production?
-            User.all.each do |user| 
-                NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
+            User.all.each do |user|
+                if user.digest_pref == "daily"
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: Time.now.tomorrow.noon())
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: Time.now.next_week.noon())
+                else
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
+                end
             end
         end
         flash[:notice] = 'Announcement creation successful and email was sent successfully.'
@@ -94,8 +106,14 @@ class AdminController < ActionController::Base
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
         if Rails.env.production?
-            User.all.each do |user| 
-                NotificationMailer.announcement_update_email(user, @target_announcement).deliver
+            User.all.each do |user|
+                if user.digest_pref == "daily"
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver!(wait_until: Time.now.tomorrow.noon())
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver!(wait_until: Time.now.next_week.noon())
+                else
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver
+                end
             end
         end
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"

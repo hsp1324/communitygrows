@@ -15,6 +15,7 @@ Scenario: see all the tabs
   And I should see "Executive"
   And I should see "External"
   And I should see "Internal"
+  And I should see "User Profiles"
 
 # happy path  
 Scenario: see all the panels
@@ -46,3 +47,7 @@ Scenario: subcomittee tab works successfully
 # sad path  
 Scenario: admin tab should not work successfully because you are not admin
   Then I should not see "Admin Dashboard"
+  
+Scenario: Anyone can access the user profile page
+  When I follow "User Profiles"
+  Then I should be on the User Profiles page

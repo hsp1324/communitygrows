@@ -39,6 +39,7 @@
             <li><%= link_to "Executive", subcommittee_index_path("executive") %></li>
           </ul>
         </li>
+        <li><%= link_to "User Profiles", user_profiles_page_path %></li>
         <li><%= link_to "Account Details", user_credentials_path %></li>
         <% if current_user.admin %>
           <li class="dropdown">

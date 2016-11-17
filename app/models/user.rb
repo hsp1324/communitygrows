@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  validates_presence_of :name
   
   has_many :read_sessions
   has_many :documents, through: :read_sessions
@@ -15,5 +16,5 @@ class User < ActiveRecord::Base
   def has_read?(doc)
     return (self.documents.include?(doc))
   end
-
+    
 end

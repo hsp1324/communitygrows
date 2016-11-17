@@ -24,6 +24,7 @@ gem 'jquery-ui-rails'
 
 gem 'whenever', :require => false
 gem 'rspec-activemodel-mocks'
+gem 'digestifier', '0.2.0'
 
 #Haml
 gem 'haml'

@@ -10,19 +10,71 @@
     Back
   %br
   %br
-  = form_tag update_user_path(@user), :method => :put do
-    .form-group
-      = label :user, :email, 'Email'
-      = text_field :user, 'email', :class => 'form-control'
-    .form-group
-      = label :user, :password, 'Password'
-      = password_field :user, 'password', :class => 'form-control'
-    .form-group
-      = label :user, :password_confirmation, 'Password Confirmation'
-      = password_field :user, 'password_confirmation', :class => 'form-control'
-    .form-group
-      = label :user, :admin, 'Admin'
-      = select :user, :admin, [['True', true], ['False', false]], {}, :class => 'form-control'
+  // = form_tag update_user_path(@user), :method => :put do
+  //   .form-group
+  //     = label :user, :email, 'Email'
+  //     = text_field :user, 'email', :class => 'form-control'
+  //   .form-group
+  //     = label :user, :password, 'Password'
+  //     = password_field :user, 'password', :class => 'form-control'
+  //   .form-group
+  //     = label :user, :password_confirmation, 'Password Confirmation'
+  //     = password_field :user, 'password_confirmation', :class => 'form-control'
 
-    = submit_tag 'Update user', :class => 'btn btn-success'
+
+  //   = submit_tag 'Update user', :class => 'btn btn-success'
+  
+  = form_tag update_user_path(@user), method: :put do
+    .form-group
+      = label :user, :name, "Name: "
+      = text_field :user, 'name', placeholder: @user.name, class: 'form-control'
+    .form-group
+      = label :user, :title, "Title: "
+      = text_field :user, 'title', placeholder: @user.title, class: 'form-control'
+    .form-group
+      = label :user, :committee, 'Committee: '
+      = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
+    .form-group
+      = label :user, :email, "Email: "
+      = email_field :user, 'email', placeholder: @user.email, class: 'form-control'
+    .form-group
+      = label :user, :about_me, "About Me: "
+      = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
+    .form-group
+      = label :user, :why_join, "Why I Joined Community Grows: "
+      = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
+    .form-group
+      = label :user, :interests_skills, "Interests and Skills"
+      = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4
+    %h3 Email Preferences  
+    .form-group
+      = label :user, :internals, "Internal:"
+      = check_box :user, :internal
+    .form-group
+      = label :user, :external, "External:"
+      = check_box :user, :external
+    .form-group
+      = label :user, :executive, "Executive:"
+      = check_box :user, :executive
+    - if current_user.id != @user.id
+      .form-group
+        = label :user, :admin, 'Admin'
+        = select :user, :admin, [['True', true], ['False', false]], {}, :class => 'form-control'
+    - else
+      .form-group
+        = label :user, :admin, 'Admin: '
+        = "Admin's can't edit their own admin status."
+    .form-group
+      = submit_tag 'Update User', :class => "btn btn-success"
+      
+  %h1 Edit Password
+  = form_tag update_user_path(@user), method: :put do
+    .form-group
+      = label :user, :password, "Password: "
+      = password_field :user, 'password', class: 'form-control'
+    .form-group
+      = label :user, :password_confirmation, "Password Confirmation: "
+      = password_field :user, 'password_confirmation', class: 'form-control'
+    .form-group
+      = submit_tag 'Update Password', :class => "btn btn-success"
     

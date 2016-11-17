@@ -5,6 +5,10 @@ Given /^the following categories exist:$/ do |category_table|
     end
 end
 
+Given /^a category called "([^\"])"$/ do |category|
+    Category.create!(category)
+end
+
 When /^I drag the category "([^\"]*)" to the top slot$/ do |category|
     top_slot = page.first('table')
     item_to_drag = page.first('th', text: category)

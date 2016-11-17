@@ -37,7 +37,7 @@ class DocumentsController < ActionController::Base
             category = Category.find(@file[:category_id])
             @file = category.documents.create!(file_params)
             if Rails.env.production?
-                send_email()
+                send_doccom_email()
             end
             flash[:notice] = "#{@file.title} was successfully created and email was succesfully sent."
             redirect_to documents_path 

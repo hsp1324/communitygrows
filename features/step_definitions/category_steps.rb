@@ -6,7 +6,7 @@ Given /^the following categories exist:$/ do |category_table|
 end
 
 Given /^a category called "([^\"])"$/ do |category|
-    Category.create!(category)
+    Category.create!(name: category)
 end
 
 When /^I drag the category "([^\"]*)" to the top slot$/ do |category|

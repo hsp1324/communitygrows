@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   put 'documents/edit_file' => 'documents#update_file', as: :update_file
   get 'documents/doc_info' => 'documents#info_file', as: :info_file
   post 'documents/mark_as_read' => 'documents#mark_as_read', as: :mark_as_read
+  post 'documents/update_document_order' => 'documents#update_document_order', as: :update_document_order
 
 
   # Category Management
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
   put 'categories/:id/edit_category' => 'category#update_category', as: :update_category
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
+  post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
   
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page

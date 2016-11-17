@@ -10,7 +10,7 @@ class DocumentsController < ActionController::Base
     def index
         # @documents = Document.all
         # @document_list = Document.order(updated_at: :DESC)
-        @categories = Category.all
+        @categories = Category.order("custom_order ASC").all
         @curr_user = current_user
     end
     
@@ -37,7 +37,7 @@ class DocumentsController < ActionController::Base
             category = Category.find(@file[:category_id])
             @file = category.documents.create!(file_params)
             if Rails.env.production?
-                send_email()
+                send_doccom_email()
             end
             flash[:notice] = "#{@file.title} was successfully created and email was succesfully sent."
             redirect_to documents_path 
@@ -119,5 +119,10 @@ class DocumentsController < ActionController::Base
         end
     end
     
+    def update_document_order
+        if request.xhr?
+            Document.update_document_order(params[:category].to_a[0].split(" ")[0], params[:document])
+        end 
+    end
     
 end

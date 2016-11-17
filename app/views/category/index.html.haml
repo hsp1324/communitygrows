@@ -3,61 +3,11 @@
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
+    
+%h4
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  = link_to "Sort Categories By Name", category_index_path(:sort_by => "name")
 
-- @categories.each do |category|
-  %table.table.table-striped.table-bordered
-    %thead.bg-info
-      %tr
-        %th Category Name
-        %th Hide/Show Category
-        %th Delete Category
-    %tbody
-      %td= link_to "#{category.name}", edit_category_path(category.id)
-      - if category.hidden?
-        %td
-          = button_to show_category_path(category.id), method: :get, class: 'btn btn-info btn-xs hidden-xs' do
-            %span.glyphicon.glyphicon-eye-open
-            Show #{category.name}
-          = button_to show_category_path(category.id), method: :get, class: 'btn btn-info visible-xs' do
-            %span.glyphicon.glyphicon-eye-open
-      - elsif category.documents.length != 0
-        %td
-          = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
-            %span.glyphicon.glyphicon-eye-close
-            Hide #{category.name}
-          = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning visible-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
-            %span.glyphicon.glyphicon-eye-close
-      -else 
-        %td
-          = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs' do
-            %span.glyphicon.glyphicon-eye-close
-            Hide #{category.name}
-          = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning visible-xs' do
-            %span.glyphicon.glyphicon-eye-close
-          - puts category.hidden?
-      %td
-        = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
-          %span.glyphicon.glyphicon-remove
-          Delete #{category.name}
-        = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
-          %span.glyphicon.glyphicon-remove
-      %tr
-        %td{colspan: 3}
-          %table.table.table-striped.table-bordered
-            %thead.bg-info
-              %tr
-                %th File name
-                %th Updated at
-            %tbody
-              - documents = category.documents
-              - if documents.empty?
-                %tr
-                  %td No files have been entered
-                  %td -
-              - documents.each do |file|
-                %tr
-                  %td= link_to file.title, info_file_path(file.id)
-                  %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
-        %hr
+= render :partial => "categories", :locals => { :curr_user => current_user }
         
 = link_to 'New Category', new_category_path, class: "btn btn-success"

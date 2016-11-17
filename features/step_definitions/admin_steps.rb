@@ -3,29 +3,16 @@ Given /^a valid admin$/ do
   @user = User.create!({
              :name => "Admin",
              :email => "admindummy@dummy.com",
-             :password => "dummypass",
-             :password_confirmation => "dummypass",
+             :password => "admindummypass",
+             :password_confirmation => "admindummypass",
              :admin => true
            })
 end
 
 Given /^a logged in admin$/ do
-  @user = User.create!({
-             :name => "Admin",
-             :email => "admin@communitygrows.org",
-             :password => "communitygrowsrocks",
-             :password_confirmation => "communitygrowsrocks",
-             :admin => true
-           })
+  step "a valid admin"
   visit "/users/sign_in"
-  fill_in "user_email", :with => "admin@communitygrows.org"
-  fill_in "password", :with => "communitygrowsrocks"
+  fill_in "user_email", :with => "admindummy@dummy.com"
+  fill_in "password", :with => "admindummypass"
   click_button "Log in"
-end
-
-When /^(?:|I )confirm popup$/ do
-end
-
-And /^(?:|I )take a screenshot called "([^\"]*)"$/ do |file_name|
-  page.save_screenshot file_name
 end

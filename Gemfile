@@ -20,7 +20,7 @@ gem 'coffee-rails', '>= 4.1.0'
 
 #allow for old style, non turbolinks jquery calls
 # gem 'jquery-turbolinks'
-# gem 'jquery-ui-rails'
+gem 'jquery-ui-rails'
 
 gem 'whenever', :require => false
 gem 'rspec-activemodel-mocks'
@@ -81,4 +81,3 @@ group :production do
   gem 'rails_12factor'
   gem 'rspec'
 end
-

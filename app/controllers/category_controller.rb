@@ -3,7 +3,17 @@ class CategoryController < ActionController::Base
     before_action :authenticate_user!
 
     def index
-        @categories = Category.all
+        if params[:doc_order]
+            category = Category.find(params[:doc_order][:category])
+            Category.sort_docs(category, params[:doc_order][:order])
+            redirect_to category_index_path
+        end
+        if params[:sort_by] == 'name'
+            Category.sort_by_name
+            redirect_to category_index_path
+        else
+            @categories = Category.order("custom_order ASC").all
+        end
     end
 
     def new_category
@@ -113,6 +123,12 @@ class CategoryController < ActionController::Base
         category.show
         flash[:notice] = "#{category.name} successfully shown."
         redirect_to category_index_path
+    end
+    
+    def update_category_order
+        if request.xhr?
+            Category.update_category_order(params[:category])
+        end
     end
 
 end

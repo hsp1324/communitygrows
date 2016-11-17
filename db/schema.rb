@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20161116011455) do
   create_table "categories", force: :cascade do |t|
     t.string  "name"
     t.boolean "hidden"
+    t.integer "custom_order"
+    t.index ["custom_order"], name: "index_categories_on_custom_order"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -73,6 +75,8 @@ ActiveRecord::Schema.define(version: 20161116011455) do
     t.datetime "updated_at",     null: false
     t.string   "committee_type"
     t.integer  "category_id"
+    t.integer  "custom_order"
+    t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
   create_table "events", force: :cascade do |t|
@@ -81,7 +85,6 @@ ActiveRecord::Schema.define(version: 20161116011455) do
     t.string   "description"
     t.datetime "date"
     t.string   "url"
-    t.datetime "end"
   end
 
   create_table "read_sessions", force: :cascade do |t|
@@ -90,29 +93,29 @@ ActiveRecord::Schema.define(version: 20161116011455) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                     default: "",                    null: false
-    t.string   "encrypted_password",                        default: "",                    null: false
+    t.string   "email",                  default: "",                    null: false
+    t.string   "encrypted_password",     default: "",                    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                             default: 0,                     null: false
+    t.integer  "sign_in_count",          default: 0,                     null: false
     t.datetime "current_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                                                null: false
-    t.datetime "updated_at",                                                                null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",                           default: '2016-11-02 16:12:50', null: false
+    t.datetime "last_sign_in_at",        default: '2016-11-08 14:56:18', null: false
     t.boolean  "internal"
     t.boolean  "external"
     t.boolean  "executive"
-    t.string   "digest_pref"
     t.string   "name"
     t.string   "title"
     t.string   "committee"
-    t.text     "about_me",               limit: 4294967295
-    t.text     "why_join",               limit: 4294967295
-    t.text     "interests_skills",       limit: 4294967295
+    t.text     "about_me"
+    t.text     "why_join"
+    t.text     "interests_skills"
+    t.string   "digest_pref"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

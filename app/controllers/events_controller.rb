@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-    protect_from_forgery
+    protect_from_forgery with: :exception
     layout "base"
     before_action :authenticate_user!
     

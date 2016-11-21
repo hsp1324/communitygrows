@@ -79,6 +79,10 @@ Scenario: hidden categories should not display their documents
   And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"
   And I create a document called "doc3" with url "doc.com/okdoc" in category "Good Category"
   When I press "Hide Good Category"
+  Then I should not see "doc2"
+  And I should not see "doc3"
+  And I should see "(3 documents hidden)"
+  
   
   
 

@@ -8,7 +8,7 @@ before_script:
     - bundle exec rake db:migrate RAILS_ENV=test
 
 after_script:
-  - codeclimate-test-reporter < lcov.info
+  - bundle exec codeclimate-test-reporter
 
 addons:
     firefox: "49.0"

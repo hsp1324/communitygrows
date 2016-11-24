@@ -10,13 +10,12 @@
   -if not category.hidden?
 
     %h2= "#{category.name}"
-
-    #document_content
+    %div{id: "#category_#{category.id}"}
       %table.table.table-striped.table-bordered
         %thead.bg-info
           %tr
             %th File name
             %th Updated at
             %th Read Status
-        %tbody
-          = render :partial => "documents_table", :locals => { :docs => category.documents, :curr_user => @curr_user }
+        = render :partial => "documents", :locals => { :category => category, :curr_user => @curr_user }
+     

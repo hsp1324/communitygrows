@@ -3,7 +3,11 @@
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
+    
+%h4
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  = link_to "Sort Categories By Name", category_index_path(:sort_by => "name")
 
-= render :partial => "category_table", :locals => { :categories => @categories, :curr_user => @curr_user }
+= render :partial => "categories", :locals => { :curr_user => current_user }
         
 = link_to 'New Category', new_category_path, class: "btn btn-success"

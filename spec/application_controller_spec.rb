@@ -32,7 +32,7 @@ RSpec.describe "User security", :type => :request do
       expect(response).to redirect_to('/users/sign_in')
     end
     it 'should redirect to the dashboard when user is signed in' do
-      curr = User.create!(:email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true)
+      curr = User.create!(:name => "Rspec", :email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true)
       visit "/users/sign_in"
       fill_in :user_email,    :with => curr.email
       fill_in :user_password, :with => curr.password

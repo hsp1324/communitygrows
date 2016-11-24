@@ -4,9 +4,9 @@ class AddInfoToUser < ActiveRecord::Migration
       t.string :name
       t.string :title
       t.string :committee
-      t.text :about_me, :limit => 4294967295
-      t.text :why_join, :limit => 4294967295
-      t.text :interests_skills, :limit => 4294967295
+      t.text :about_me 
+      t.text :why_join
+      t.text :interests_skills
 end
   end
 end

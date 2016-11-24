@@ -1,0 +1,20 @@
+%h1 User Profiles
+  
+#flashNotice
+  - if flash[:notice] and flash[:notice]!="Signed in successfully."
+    = flash[:notice]
+
+- @users.each do |user|
+  %h3= link_to user.name, user_profile_path(user.id)
+  %p 
+    Email: 
+    %b #{user.email}
+  %p 
+    Committee: 
+    %b #{user.committee}
+  %p 
+    Title: 
+    %b #{user.title}
+        
+    
+        

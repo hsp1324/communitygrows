@@ -8,7 +8,21 @@ end
 
 Given /^a valid user$/ do
   @user = User.create!({
+             :name => "Test Test",
+             :committee => "internal",
              :email => "dummy@dummy.com",
+             :password => "dummypass",
+             :password_confirmation => "dummypass",
+             :admin => false
+           })
+end
+
+Given /^a valid user "([^"]*)"$/ do |user_name|
+  @user = User.create!({
+             :name => user_name,
+             :about_me => "A college student",
+             :committee => "internal",
+             :email => user_name << "@dummy.com",
              :password => "dummypass",
              :password_confirmation => "dummypass",
              :admin => false
@@ -16,38 +30,26 @@ Given /^a valid user$/ do
 end
 
 Given /^a logged in user$/ do
-  @user = User.create!({
-             :email => "dummy@dummy.com",
-             :password => "dummypass",
-             :password_confirmation => "dummypass",
-             :admin => false
-           })
+  step "a valid user"
   visit "/users/sign_in"
   fill_in "user_email", :with => "dummy@dummy.com"
   fill_in "password", :with => "dummypass"
   click_button "Log in"
 end
 
-Given /^a logged in user "([^"]*)"$/ do |user_name|
-  @user = User.create!({
-             :email => user_name << "@dummy.com",
-             :password => "dummypass",
-             :password_confirmation => "dummypass",
-             :admin => false
-           })
-  visit "/users/sign_in"
-  fill_in "user_email", :with => user_name << "@dummy.com"
-  fill_in "password", :with => "dummypass"
-  click_button "Log in"
-end
 
 Given /^I am logged out$/ do
   visit "/users/sign_in"
   click_link("Sign out", match: :first)
 end
 
+<<<<<<< HEAD
 Given /^I edit password$/ do
   fail "Unimplemented"
+=======
+Given /^PENDING/ do
+  pending
+>>>>>>> 0bfb767ca4e77126f133b4aaf8a82a5cdff2ee49
 end
 
 Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
@@ -57,3 +59,4 @@ Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_passw
   fill_in "password", :with => user_password
   click_button "Log in"
 end
+

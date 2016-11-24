@@ -8,6 +8,15 @@
 
   = form_tag create_user_path do
     .form-group
+      = label :user, :name, "Name: "
+      = text_field :user, 'name', class: 'form-control'
+    .form-group
+      = label :user, :title, "Title: "
+      = text_field :user, 'title', class: 'form-control'
+    .form-group
+      = label :user, :committee, 'Committee: '
+      = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
+    .form-group
       = label :user, :email, 'Email'
       = text_field :user, 'email', class: 'form-control'
     .form-group

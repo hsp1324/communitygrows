@@ -27,6 +27,11 @@ module NavigationHelpers
       subcommittee_index_path("external")
     when /the (CommunityGrows )?category management page$/ then
       category_index_path
+    when /the (CommunityGrows )?User Profiles page$/ then
+      user_profiles_page_path
+    when /the (CommunityGrows )?user info page for "([^"]*)"$/ then
+      puts User.find_by_name($1).id
+      user_profile_path(User.find_by_name($1).id)
       
     when /the edit user page for "([^"]*)"$/ then
       edit_user_path(User.find_by_email($1).id)

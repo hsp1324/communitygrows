@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124002438) do
+ActiveRecord::Schema.define(version: 20161124005956) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -122,12 +122,15 @@ ActiveRecord::Schema.define(version: 20161124002438) do
     t.boolean  "external"
     t.boolean  "executive"
     t.string   "name"
-    t.string   "title"
+    t.string   "board_role"
     t.string   "committee"
     t.text     "about_me"
     t.text     "why_join"
-    t.text     "interests_skills"
     t.string   "digest_pref"
+    t.text     "ethnicity"
+    t.text     "gender"
+    t.text     "current_company"
+    t.text     "current_position"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

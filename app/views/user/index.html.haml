@@ -1,5 +1,5 @@
 .container.well
-  %h1 Edit Account Credentials
+  %h1 Edit Account Info
   - if flash[:notice]
     - if (flash[:notice].respond_to? :each)
       - flash[:notice].each do |msg|
@@ -14,23 +14,25 @@
   %br
   %br
 
-  = form_tag update_user_credentials_path(@user), method: :put do
+  = form_tag update_user_credentials_path, method: :put do
+    .form-group
+      = label :user, :name, "Name: "
+      = text_field :user, 'name', placeholder: @user.name, class: 'form-control'
     .form-group
       = label :user, :email, "Email: "
       = email_field :user, 'email', placeholder: @user.email, class: 'form-control'
     .form-group
-      = label :user, :password, "Password: "
-      = password_field :user, 'password', class: 'form-control'
+      = label :user, :about_me, "About Me: "
+      = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
     .form-group
-      = label :user, :password_confirmation, "Password Confirmation: "
-      = password_field :user, 'password_confirmation', class: 'form-control'
-    .form-group
-      = submit_tag 'Submit', :class => "btn btn-success"
+      = label :user, :why_join, "Why I Joined Community Grows: "
+      = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
 
-  %h1 Email Preferences
+    = label :user, :interests_skills, "Interests and Skills"
+    = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4
+    %h3 Email Preferences  
+    Select from what committees you want to receive emails from
 
-
-  = form_tag update_user_email_preference_path(@user), method: :post do |f|
     .form-group
       = label :user, :internal, "Internal:"
       = check_box :user, :internal
@@ -39,5 +41,44 @@
       = check_box :user, :external
     .form-group
       = label :user, :executive, "Executive:"
-      = check_box :user, :executive
-    = submit_tag 'Confirm', :class => 'btn btn-success'
+      = check_box :user, :executive    
+    .form-group
+      = submit_tag 'Update Information', :class => "btn btn-success"
+ 
+  / Digest
+  Select how often you want to receive an email digest
+  = form_tag update_user_credentials_path(@user), method: :put do
+  
+    .form-group
+      = select :user, :digest_pref, [['Daily','daily'],['Weekly','weekly'],['Real Time','real_time']]
+      = submit_tag 'Update Digest', :class => 'btn btn-success'
+
+  /Password
+  %h1 Edit Password
+  = form_tag update_user_credentials_path(@user), method: :put do
+    .form-group
+      = label :user, :password, "Password: "
+      = password_field :user, 'password', class: 'form-control'
+    .form-group
+      = label :user, :password_confirmation, "Password Confirmation: "
+      = password_field :user, 'password_confirmation', class: 'form-control'
+    .form-group
+      = submit_tag 'Update Password', :class => "btn btn-success"
+      
+  
+
+  
+  
+  
+  // %h1 Email Preferences
+  // = form_tag update_user_email_preference_path(@user), method: :post do |f|
+  //   .form-group
+  //     = label :user, :internal, "Internal:"
+  //     = check_box :user, :internal
+  //   .form-group
+  //     = label :user, :external, "External:"
+  //     = check_box :user, :external
+  //   .form-group
+  //     = label :user, :executive, "Executive:"
+  //     = check_box :user, :executive
+  //   = submit_tag 'Confirm', :class => 'btn btn-success'

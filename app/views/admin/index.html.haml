@@ -18,16 +18,17 @@
     %tbody
       -@users.each do |user|
         %tr
-          %td= link_to "#{user.email}", edit_user_path(user.id)
+          %td= link_to "#{user.name}", edit_user_path(user.id)
           %td= user.admin ? "Admin" : "User"
           %td= user.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= user.last_sign_in_at.strftime("%m/%d/%Y %l:%M %p")
-          %td
-            = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do
-              %span.glyphicon.glyphicon-remove
-              Delete User
-            = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
-              %span.glyphicon.glyphicon-remove
+          - if current_user.id != user.id
+            %td
+              = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-xs hidden-xs" do
+                %span.glyphicon.glyphicon-remove
+                Delete User
+              = button_to delete_user_path(user.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
+                %span.glyphicon.glyphicon-remove
 
   = link_to 'Add new user', new_user_path, :class => "btn btn-success"
 

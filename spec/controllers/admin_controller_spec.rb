@@ -14,7 +14,7 @@ describe AdminController do
         end
         it 'redirects to index page on success' do
             sign_in users(:tester)
-            user_params = {:email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
+            user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
             post :create_user, params: {user: user_params}
             expect(response).to redirect_to(:admin_index)
         end
@@ -32,7 +32,7 @@ describe AdminController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             get :index
-            expect(response).to redirect_to('/users/sign_in')
+            expect(response).to redirect_to('/dashboard')
             sign_out users(:user)
         end
         it 'allows admin users' do
@@ -55,7 +55,7 @@ describe AdminController do
         end
         it 'redirects to index page on success' do
             sign_in users(:tester)
-            user_params = {email: "admin@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", admin: true}
+            user_params = {name: "rspec", email: "admin@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", admin: true}
             put :update_user, params: {id: users(:tester).id, user: user_params}
             expect(response).to redirect_to(:admin_index)
         end

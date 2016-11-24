@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+    protect_from_forgery with: :exception
     layout "base"
     before_action :authenticate_user!
     
@@ -19,8 +20,6 @@ class EventsController < ApplicationController
             flash[:notice] = "Title field cannot be left blank."
             redirect_to a_new_event_path and return
         end
-        #Date.valid_date? *date_string.split('-').reverse.map(&:to_i)
-       # @dateArr = @date.split('-').reverse.map(&:to_i)
         
         if @date.empty?
             flash[:notice] = "Date field cannot be left blank."
@@ -35,14 +34,18 @@ class EventsController < ApplicationController
             flash[:notice] = "Date was not correctly formatted, please follow provided format."
             redirect_to a_new_event_path and return
         end
-        
-        
-        
+
         @event = Event.create(event_params)
 
         if Rails.env.production?
-            User.all.each do |user| 
-                NotificationMailer.new_event_email(user, @event).deliver
+            User.all.each do |user|
+                if user.digest_pref == "daily"
+                    NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.tomorrow.noon())
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.next_week.noon())
+                else
+                    NotificationMailer.new_event_email(user, @event).deliver
+                end
             end
         end
         @event.save!
@@ -62,8 +65,6 @@ class EventsController < ApplicationController
             flash[:notice] = "Title field cannot be left blank."
             redirect_to edit_event_path(@event.id) and return
         end
-        #Date.valid_date? *date_string.split('-').reverse.map(&:to_i)
-       # @dateArr = @date.split('-').reverse.map(&:to_i)
         
         if @date.empty?
             flash[:notice] = "Date field cannot be left blank."
@@ -83,7 +84,13 @@ class EventsController < ApplicationController
         @event.update_attributes!(event_params)
         if Rails.env.production?
             User.all.each do |user| 
-                NotificationMailer.event_update_email(user, @event).deliver
+                if user.digest_pref == "daily"
+                    NotificationMailer.event_update_email(user, @event).deliver!(wait_until: Time.now.tomorrow.noon())
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.event_update_email(user, @event).deliver!(wait_until: Time.now.next_week.noon())
+                else
+                    NotificationMailer.event_update_email(user, @event).deliver
+                end
             end
         end
         redirect_to admin_index_path 

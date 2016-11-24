@@ -3,7 +3,8 @@ class UserController < ActionController::Base
     before_action :authenticate_user!
     
     def user_params
-        params.require(:user).permit(:email, :password, :password_confirmation, :internal, :external, :executive)
+        params.require(:user).permit(:email, :password, :password_confirmation, :name,
+        :about_me, :why_join, :interests_skills, :internal, :external, :executive, :digest_pref)
     end
     
     def index
@@ -13,29 +14,32 @@ class UserController < ActionController::Base
         end
     end
     
-    def update
+    def update_user_credentials
         @user = current_user
         if @user.update_attributes(user_params)
             bypass_sign_in(@user)
-            flash[:notice] = "#{@user.email}'s credentials were successfully updated."
-            redirect_to user_credentials_path
-        else
-            flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
-            redirect_to user_credentials_path    
-        end
-    end
-
-    def updateEmailPreferences
-        @user = current_user
-        if @user.update_attributes(user_params)
+            flash[:notice] = []
             if (@user.internal != true) && (@user.external != true) && (@user.executive != true)
-                flash[:notice] = "Please select at least your committee to receive emails from."
-            else
-                flash[:notice] = "Your email preference settings have been updated."
+                flash[:notice] = ["Please select at least your committee to receive emails from."]
             end
+            flash[:notice] << "#{@user.name}'s info was successfully updated." 
         else
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
         end
-        redirect_to user_credentials_path    
-     end
+        redirect_to user_credentials_path
+    end
+    
+    # def updateEmailPreferences
+    #     @user = current_user
+    #     if @user.update_attributes(user_params)
+    #         if (@user.internal != true) && (@user.external != true) && (@user.executive != true)
+    #             flash[:notice] = "Please select at least your committee to receive emails from."
+    #         else
+    #             flash[:notice] = "Your email preference settings have been updated."
+    #         end
+    #     else
+    #         flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
+    #     end
+    #     redirect_to user_credentials_path    
+    #  end
 end

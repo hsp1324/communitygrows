@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  
-  
-  devise_for :users
+
+  devise_for :users, path_names: {
+    sign_up: ''
+  }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -42,7 +44,7 @@ Rails.application.routes.draw do
 
   # Account Info
   get 'account_details' => 'user#index', as: :user_credentials
-  put 'account_details' => 'user#update', as: :update_user_credentials
+  put 'account_details' => 'user#update_user_credentials', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
   # Subcommittee
   get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index
@@ -70,6 +72,7 @@ Rails.application.routes.draw do
   put 'documents/edit_file' => 'documents#update_file', as: :update_file
   get 'documents/doc_info' => 'documents#info_file', as: :info_file
   post 'documents/mark_as_read' => 'documents#mark_as_read', as: :mark_as_read
+  post 'documents/update_document_order' => 'documents#update_document_order', as: :update_document_order
 
 
   # Category Management
@@ -81,6 +84,12 @@ Rails.application.routes.draw do
   put 'categories/:id/edit_category' => 'category#update_category', as: :update_category
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
+  post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
+  
+  # User Profiles
+  get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page
+  get 'user_profiles/:id' => 'user_profiles#user_profile', as: :user_profile
+  
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

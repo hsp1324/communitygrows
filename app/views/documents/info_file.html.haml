@@ -30,7 +30,7 @@
           %td -
       - @users.each do |user|
         %tr
-          %td= user.email
+          %td= user.name
           - if @who_has_read.include?(user)
             %td{id: "#{user.id}_read"} Read
           - else

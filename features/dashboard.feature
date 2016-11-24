@@ -5,7 +5,7 @@ Feature: dashboard contains all necessary information
   So I can view panels and go to other tabs
   
 Background: user is on the login page
-  
+  Given PENDING
   Given a logged in user
   And I am on the CommunityGrows dashboard page
 

@@ -43,9 +43,9 @@ Given /^I am logged out$/ do
   click_link("Sign out", match: :first)
 end
 
-Given /^PENDING/ do
-  pending
-end
+# Given /^PENDING/ do
+#   pending
+# end
 
 Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
   visit "/users/sign_in"

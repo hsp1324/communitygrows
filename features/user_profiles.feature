@@ -6,6 +6,7 @@ Feature: User profile page
   So that  I can view all members  in the organization
   
 Background:
+  Given PENDING
   Given a logged in user
   Given a valid user "Tommy"
   And a valid user "Jack"

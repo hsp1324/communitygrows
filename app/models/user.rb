@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   validates_presence_of :name
   
+  has_many :user_skills
+  has_many :expertises, through: :user_skills
+  
   has_many :read_sessions
   has_many :documents, through: :read_sessions
   

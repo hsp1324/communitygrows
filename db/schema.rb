@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116011455) do
+ActiveRecord::Schema.define(version: 20161124002438) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -87,9 +87,21 @@ ActiveRecord::Schema.define(version: 20161116011455) do
     t.string   "url"
   end
 
+  create_table "expertises", force: :cascade do |t|
+    t.boolean "constituency"
+    t.string  "name"
+  end
+
   create_table "read_sessions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "document_id"
+  end
+
+  create_table "user_skills", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "expertise_id"
+    t.index ["expertise_id"], name: "index_user_skills_on_expertise_id"
+    t.index ["user_id"], name: "index_user_skills_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -105,7 +117,7 @@ ActiveRecord::Schema.define(version: 20161116011455) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2016-11-08 14:56:18', null: false
+    t.datetime "last_sign_in_at",        default: '2016-11-24 00:30:16', null: false
     t.boolean  "internal"
     t.boolean  "external"
     t.boolean  "executive"

@@ -47,3 +47,42 @@ Scenario: should be able to drag documents between categories
   # And I take a screenshot called "~/wtf.png"
   # Then I should see the document "document" in the category "Better Category"
   # And I should see the document "doc2" in the category "Better Category"
+
+@javascript
+Scenario: should be able to select and drag multiple documents at a time
+  Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
+  And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"
+  And I create a document called "doc3" with url "doc.com/okdoc" in category "Good Category"
+  And I check the document "doc3"
+  And I check the document "doc2"
+  When I drag the document "doc2" into the category "Better Category"
+  And I am on the document repository page
+  Then I should see the document "document" in the category "Good Category"
+  And I should see the document "doc2" in the category "Better Category"
+  And I should see the document "doc3" in the category "Better Category"
+  
+@javascript
+Scenario: should be able to select and drag all documents in a category by pressing select all
+  Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
+  And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"
+  And I create a document called "doc3" with url "doc.com/okdoc" in category "Good Category"
+  And I check the check all box for category "Good Category"
+  When I drag the document "doc2" into the category "Better Category"
+  And I am on the document repository page
+  Then I should see the document "document" in the category "Better Category"
+  And I should see the document "doc2" in the category "Better Category"
+  And I should see the document "doc3" in the category "Better Category"
+  
+@javascript
+Scenario: hidden categories should not display their documents
+  Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
+  And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"
+  And I create a document called "doc3" with url "doc.com/okdoc" in category "Good Category"
+  When I press "Hide Good Category"
+  Then I should not see "doc2"
+  And I should not see "doc3"
+  And I should see "(3 documents hidden)"
+  
+  
+  
+

@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   put 'categories/:id/edit_category' => 'category#update_category', as: :update_category
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
+  post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

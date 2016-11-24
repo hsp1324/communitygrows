@@ -10,6 +10,19 @@ class Category < ActiveRecord::Base
 		return self.where(name: "#{name}").length != 0
 	end
 
+	def self.order_by_name
+		categories = self.order("name ASC").all
+		categories.each_with_index do |category, i|
+			category.update_attributes!(:custom_order => i)
+		end
+	end
+
+	def self.update_category_order(id_order)
+		id_order.each_with_index do |id, i|
+			self.find(id).update_attributes(:custom_order => i)
+		end
+	end
+
 	def hide
 		self.update_attributes!(:hidden => true)
 	end

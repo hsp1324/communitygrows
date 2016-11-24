@@ -12,7 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require bootstrap.min
+//= require categories
 
 $('#edit_doc_button').click(function() {
     $("#edit_doc_form").show();
@@ -38,3 +40,5 @@ $('#markasread').click(function() {
         }
     });
 });
+
+

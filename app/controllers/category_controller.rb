@@ -3,7 +3,11 @@ class CategoryController < ActionController::Base
     before_action :authenticate_user!
 
     def index
-        @categories = Category.all
+        if params[:sort_by] == "name"
+            Category.order_by_name
+        end
+        @categories = Category.order("custom_order ASC")
+        @curr_user = current_user
     end
 
     def new_category
@@ -80,6 +84,12 @@ class CategoryController < ActionController::Base
             end
         end
             
+    end
+
+    def update_category_order
+        if request.xhr?
+            Category.update_category_order(params[:table])
+        end
     end
 
     def delete_category

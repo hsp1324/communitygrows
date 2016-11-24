@@ -28,12 +28,24 @@
       <ul class="nav navbar-nav">
         <li><%= link_to "Dashboard", dashboard_index_path %></li>
         <li><%= link_to "Documents", documents_path %></li>
-        <li><%= link_to "Internal", subcommittee_index_path("internal") %></li>
-        <li><%= link_to "External", subcommittee_index_path("external") %></li>
-        <li><%= link_to "Executive", subcommittee_index_path("executive") %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comittees<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Internal", subcommittee_index_path("internal") %></a></li>
+            <li><%= link_to "External", subcommittee_index_path("external") %></li>
+            <li><%= link_to "Executive", subcommittee_index_path("executive") %></li>
+          </ul>
+        </li>
         <li><%= link_to "Account Details", user_credentials_path %></li>
-        <li><%= link_to "Category Management", category_index_path if current_user.admin%></li>
-        <li><%= link_to "Admin Dashboard", admin_index_path if current_user.admin %></li>
+          <% if current_user.admin %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Category Management", category_index_path if current_user.admin%></li>
+                <li><%= link_to "Admin Dashboard", admin_index_path if current_user.admin %></li>
+              </ul>
+            </li>
+          <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li role="separator" class="divider"></li>

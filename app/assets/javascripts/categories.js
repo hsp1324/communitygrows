@@ -58,4 +58,9 @@ $(document).ready( function(){
         cancel: ".empty",
         connectWith: $("#categories #sortable2")
     }).disableSelection();
+
+    $("#check_all").change(function(e) {
+        $(this).closest('tbody').find('td input:checkbox').prop('checked', this.checked);
+    });
 });
+

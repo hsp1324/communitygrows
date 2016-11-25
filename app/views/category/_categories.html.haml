@@ -39,8 +39,9 @@
               %table.table.table-striped.table-bordered
                 %thead.bg-info
                   %tr
+                    %th= check_box_tag 'check_all_docs', "#{category.id}", false, :id => "check_all"
                     %th= link_to "File name", category_index_path(:doc_order => {:category => category.id, :order => 'title'})
                     %th= link_to "Updated at", category_index_path(:doc_order => {:category => category.id, :order => 'updated_at'})
                     %th Read Status
-                = render :partial => "documents/documents", :locals => { :category => category, :curr_user => curr_user }
+                = render :partial => "documents/documents", :locals => { :category => category, :curr_user => curr_user, :page => "categories" }
                 

@@ -9,8 +9,8 @@
     %td -
   - documents.each do |file|
     %tr.docrow{ :id => "document_#{file.id}" }
-      = if page == "categories"
-        %td= check_box_tag "check_doc"
+      - if page == "categories"
+        %td= check_box_tag "check_doc", nil, false, :id => "check_row"
       %td= link_to file.title, info_file_path(file.id)
       %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
       - if curr_user.has_read?(file)

@@ -12,16 +12,13 @@ $(document).ready( function(){
     }).disableSelection();
     
     $("#categories #sortable2").sortable({
-        // update: function(event, ui) {
-            
-        // }
-        
         start: function (event, ui) {
             startElement = $(this);
+            var elements = ui.item.siblings('.checked.hidden').not('.ui-sortable-placeholder');
+            ui.item.data('multidrag', elements);
         },
         beforeStop: function(event, ui) {
             if (startElement.find('.docrow').length === 0) {
-                // console.log(startElement.find('.hidden'))
                 var row = startElement.find('.hidden')[0];
                 $(row).addClass('empty');
                 $(row).removeClass('hidden');
@@ -35,6 +32,9 @@ $(document).ready( function(){
             }
         },
         stop: function(event, ui) {
+            ui.item.siblings('.checked').removeClass('hidden');
+            // ui.item.removeClass('checked');
+            // $('.selected').removeClass('selected');
             var data = $(this).sortable('serialize');
             data += "&category[]=" + $(this).attr("class");
         
@@ -45,9 +45,9 @@ $(document).ready( function(){
             });
         },
         receive: function(event, ui) {
+            var elements = ui.item.data('multidrag');
+            ui.item.before(elements);//.remove();
             var data = $(event.target).sortable('serialize');
-            console.log(data);
-            // console.log($(this).attr("class"));
             data += "&category[]=" + $(this).attr("class");
             $.ajax({
                 data: data,
@@ -55,12 +55,42 @@ $(document).ready( function(){
                 url: '/documents/update_document_order'
             });
         },
+        helper: function(event, item) {
+            if (!item.hasClass('checked')) {
+                // var elements = item.clone();
+                // item.data('multidrag', elements);
+                // console.log('A');  
+                item.find('input:checkbox').prop('checked', true);
+                item.addClass('checked');
+            }
+            // else {
+                var elements = $('.checked').not('.ui-sortable-placeholder').clone();//item.parent().children('.checked').clone();
+                // item.data('multidrag', elements).siblings('.checked').remove();
+            item.siblings('.checked').addClass('hidden');
+                console.log('B');
+            // }
+            var helper = $('<tr/>');
+            return helper.append(elements);
+        },
+        delay: 150,
+        revert: 0,
         cancel: ".empty",
         connectWith: $("#categories #sortable2")
     }).disableSelection();
 
-    $("#check_all").change(function(e) {
-        $(this).closest('tbody').find('td input:checkbox').prop('checked', this.checked);
+    $("tr #check_all").change(function() {
+        $(this).closest('tbody').find('tr input:checkbox').prop('checked', this.checked);
+        $(this).closest('tbody').find('#sortable2 tr:not(.hidden)').toggleClass('checked', this.checked);
     });
+
+    // $("tr td input#check_row").hover(function() {
+    //     console.log("?");
+    //     // console.log($(this).attr('id'));
+    // });
+
+    $("tr #check_row").change(function(){
+        $(this).closest('tr').toggleClass('checked');
+    });
+
 });
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112214808) do
+ActiveRecord::Schema.define(version: 20161116011455) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -105,16 +105,16 @@ ActiveRecord::Schema.define(version: 20161112214808) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2016-11-08 14:56:18', null: false
+    t.datetime "last_sign_in_at",        default: '2016-11-25 12:21:09', null: false
     t.boolean  "internal"
     t.boolean  "external"
     t.boolean  "executive"
     t.string   "name"
     t.string   "title"
     t.string   "committee"
-    t.text     "about_me",               limit: 4294967295
-    t.text     "why_join",               limit: 4294967295
-    t.text     "interests_skills",       limit: 4294967295
+    t.text     "about_me"
+    t.text     "why_join"
+    t.text     "interests_skills"
     t.string   "digest_pref"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

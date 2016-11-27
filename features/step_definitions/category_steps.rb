@@ -26,7 +26,4 @@ Then /^I should see the document "([^\"]*)" in the category "([^\"]*)"$/ do |doc
     expect(cat).to have_content(document)
 end
 
-When /you show me category "([^\"]*)"$/ do |category|
-    puts Category.find_by(name: category).id
-end
 

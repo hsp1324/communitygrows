@@ -87,7 +87,7 @@ class AnnouncementController < ActionController::Base
         end
         @target_announcement.update_attributes!(:title => @title, :content => @content, :committee_type => @committee_type)
         if Rails.env.production?
-            send_annoucement_update_email(@committee_type,@title)
+            send_announcement_update_email(@committee_type,@title)
         end
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
         redirect_to subcommittee_index_path(@committee_type)

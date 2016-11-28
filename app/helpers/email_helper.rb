@@ -60,7 +60,7 @@ module EmailHelper
     def send_announcement_email(committee, title)
 		User.all.each do |user|
 			if current_user.admin?
-    			NotificationMailer.document_update_email(user, Announcement.find_by_title(title)).deliver
+    			NotificationMailer.announcement_email(user, Announcement.find_by_title(title)).deliver
     		elsif (committee == user.internal?) or (committee == user.external?) or (committee == user.executive?)
                 if user.digest_pref == "daily"
                     NotificationMailer.announcement_email(user, Announcement.find_by_title(title)).deliver_later!(wait_until: Time.now.tomorrow.noon())

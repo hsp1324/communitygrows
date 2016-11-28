@@ -46,20 +46,20 @@ class DocumentsController < ActionController::Base
         end
     end
     
-    def send_doccom_email
-        User.all.each do |user|
-            # NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver
-            NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: 5.minutes.from_now)
+    # def send_doccom_email
+    #     User.all.each do |user|
+    #         # NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver
+    #         NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: 5.minutes.from_now)
 
-            if user.digest_pref == "daily"
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
-            elsif user.digest_pref == "weekly"
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
-            else
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver
-            end
-        end
-    end
+    #         if user.digest_pref == "daily"
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
+    #         elsif user.digest_pref == "weekly"
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
+    #         else
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver
+    #         end
+    #     end
+    # end
     # def edit_file
     #    @id = params[:format] 
     #    @file = Document.find @id

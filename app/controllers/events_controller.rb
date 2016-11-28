@@ -39,7 +39,7 @@ class EventsController < ApplicationController
         @event = Event.create(event_params)
 
         if Rails.env.production?
-            NotificationMailer.new_event_email(User.find_by_email("james.jiang@berkeley.edu"), @event).deliver
+            NotificationMailer.new_event_email(User.find_by_email("james.jiang@berkeley.edu"), @event).deliver_later!(wait_until: 5.minutes.from_now)
 
             User.all.each do |user|
                 if user.digest_pref == "daily"

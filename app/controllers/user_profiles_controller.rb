@@ -7,6 +7,8 @@ class UserProfilesController < ApplicationController
     
     def user_profile
         @user = User.find(params[:id])
+        @areasOfExpertise = @user.expertises.where(:constituency => false)
+        @constituencies = @user.expertises.where(:constituency => true)
     end
     
 end

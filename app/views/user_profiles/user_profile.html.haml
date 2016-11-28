@@ -6,10 +6,27 @@
     
     %h2 About Me:
     %p #{@user.about_me}
+    
+    %h2 Gender:
+    %p #{@user.gender}
+    
+    %h2 Ethnicity:
+    %p #{@user.ethnicity}
 
     %h2 Why I Joined Community Grows:)
     %p #{@user.why_join}
-
-    %h2 Interests and Skills:
-    %p #{@user.interests_skills}
-
+    
+    %h2 Job Information
+    %p Current Company: #{@user.current_company}
+    %p Current Position: #{@user.current_position}
+    
+    %h2 Areas of Expertise:
+    %ul
+    - @areasOfExpertise.each do |expertise|
+        %li #{expertise.name}
+    
+    %h2 Constituency:
+    %ul
+    - @constituencies.each do |constituency|
+        %li #{constituency.name}
+    

@@ -46,6 +46,8 @@ class DocumentCommitteeController < ActionController::Base
             end
             
             if current_user.admin?
+                NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: 5.minutes.from_now)
+
                 NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver
 
             elsif @committee_type == committe_user_internal or @committee_type == committe_user_external or @committee_type == committe_user_executive 

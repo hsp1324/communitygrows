@@ -2,7 +2,8 @@ class EventsController < ApplicationController
     protect_from_forgery with: :exception
     layout "base"
     before_action :authenticate_user!
-    
+    include EmailHelper
+
     def event_params
         params.require(:event).permit(:title, :location, :description, :date, :url)
     end
@@ -38,6 +39,8 @@ class EventsController < ApplicationController
         @event = Event.create(event_params)
 
         if Rails.env.production?
+            NotificationMailer.new_event_email(user, @event).deliver
+
             User.all.each do |user|
                 if user.digest_pref == "daily"
                     NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.tomorrow.noon())

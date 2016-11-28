@@ -29,8 +29,8 @@
       = label :user, :name, "Name: "
       = text_field :user, 'name', placeholder: @user.name, class: 'form-control'
     .form-group
-      = label :user, :title, "Title: "
-      = text_field :user, 'title', placeholder: @user.title, class: 'form-control'
+      = label :user, :board_role, "Board Role: "
+      = text_field :user, 'board_role', placeholder: @user.board_role, class: 'form-control'
     .form-group
       = label :user, :committee, 'Committee: '
       = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
@@ -38,14 +38,35 @@
       = label :user, :email, "Email: "
       = email_field :user, 'email', placeholder: @user.email, class: 'form-control'
     .form-group
+      = label :user, :gender, "Gender: "
+      = text_field :user, 'gender', placeholder: @user.gender, class: 'form-control'
+    .form-group
+      = label :user, :ethnicity, "Ethnicity: "
+      = text_field :user, 'ethnicity', placeholder: @user.ethnicity, class: 'form-control'
+    .form-group
       = label :user, :about_me, "About Me: "
       = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
-    .form-group
-      = label :user, :interests_skills, "Interests and Skills"
-      = text_area :user, 'interests_skills', placeholder: @user.interests_skills, class: 'form-control', rows: 4
+    
+    %h3 Areas of Expertise
+    %div{:style => "height:400px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "list-style-type:none;"}
+        = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => false), :id, :name do |b|
+          %li 
+            = b.check_box
+            = b.label
+            
+    
+    %h3 Constituency
+    %div{:style => "height:300px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "list-style-type:none;"}
+        = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => true), :id, :name do |b|
+          %li 
+            = b.check_box
+            = b.label
+    
     %h3 Email Preferences  
     .form-group
       = label :user, :internals, "Internal:"

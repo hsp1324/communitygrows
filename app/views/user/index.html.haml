@@ -44,7 +44,7 @@
             
     
     %h3 Constituency
-    %div{:style => "height:300px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+    %div{:style => "height:300px;width:400px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
       %ul{:style => "list-style-type:none;"}
         = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => true), :id, :name do |b|
           %li 

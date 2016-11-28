@@ -15,11 +15,6 @@ class UserController < ActionController::Base
     end
     
     def update_user_credentials
-        # puts "USER PARAAAMMMMEMETERS"
-        # user_params.each do |key, value|
-        #     puts key
-        #     puts value
-        # end
         @user = current_user
         if @user.update_attributes(user_params)
             bypass_sign_in(@user)

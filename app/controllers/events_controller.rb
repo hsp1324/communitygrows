@@ -45,7 +45,7 @@ class EventsController < ApplicationController
                 if user.digest_pref == "daily"
                     NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.tomorrow.noon())
                 elsif user.digest_pref == "weekly"
-                    NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.next_week.noon())
+                    # NotificationMailer.new_event_email(user, @event).deliver!(wait_until: Time.now.next_week.noon())
                 else
                     NotificationMailer.new_event_email(user, @event).deliver
                 end

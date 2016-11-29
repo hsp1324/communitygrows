@@ -44,6 +44,10 @@ table {
   border-collapse: initial;
 }
 
+table#invisible {
+  width: 100%;
+}
+
 table th {
   text-align: center;
 }

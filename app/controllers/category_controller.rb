@@ -92,6 +92,12 @@ class CategoryController < ActionController::Base
             
     end
 
+    def update_category_order
+        if request.xhr?
+            Category.update_category_order(params[:table])
+        end
+    end
+
     def delete_category
         if !current_user.admin
             flash[:message] = "Only admins can create categories."

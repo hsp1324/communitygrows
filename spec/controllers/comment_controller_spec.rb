@@ -23,7 +23,6 @@ describe CommentController do
     describe 'create comment' do
         it 'creates a valid comment' do
             post :create_comment, params: {announcement_id: @a.id, comment: {content: 'hi', user_id: users(:tester).id}}
-            p @a.comments
             expect(response).to redirect_to(comment_path(@a.id))
         end
         it 'creates an invalid comment' do

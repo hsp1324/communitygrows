@@ -108,9 +108,9 @@ class AdminController < ActionController::Base
         if Rails.env.production?
             User.all.each do |user|
                 if user.digest_pref == "daily"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver!(wait_until: Time.now.tomorrow.noon())
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: Time.now.tomorrow.noon())
                 elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver!(wait_until: Time.now.next_week.noon())
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: Time.now.next_week.noon())
                 else
                     NotificationMailer.announcement_update_email(user, @target_announcement).deliver
                 end

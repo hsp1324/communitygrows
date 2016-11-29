@@ -66,6 +66,7 @@ describe DocumentsController do
         
         it 'production env sends email' do
             allow(Rails.env).to receive(:production?).and_return true
+            allow(NotificationMailer).to receive_message_chain(:document_update_email, :deliver).and_return(true)
             put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd.com', committee_type: 'boardoverview', category_id: 1}}
         end
     end

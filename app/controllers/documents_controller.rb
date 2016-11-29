@@ -2,7 +2,9 @@ class DocumentsController < ActionController::Base
     protect_from_forgery with: :exception
     layout "base"
     before_action :authenticate_user!
-    
+    include EmailHelper
+
+
     def file_params
       params.require(:file).permit(:title, :url, :committee_type, :category_id)
     end
@@ -37,24 +39,27 @@ class DocumentsController < ActionController::Base
             category = Category.find(@file[:category_id])
             @file = category.documents.create!(file_params)
             if Rails.env.production?
-                send_doccom_email()
+                send_doc_email(@file)
             end
             flash[:notice] = "#{@file.title} was successfully created and email was succesfully sent."
             redirect_to documents_path 
         end
     end
     
-    def send_doccom_email
-        User.all.each do |user|
-            if user.digest_pref == "daily"
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
-            elsif user.digest_pref == "weekly"
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
-            else
-                NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver
-            end
-        end
-    end
+    # def send_doccom_email
+    #     User.all.each do |user|
+    #         # NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver
+    #         NotificationMailer.document_update_email(user, Document.find_by_title(@title)).deliver_later!(wait_until: 5.minutes.from_now)
+
+    #         if user.digest_pref == "daily"
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
+    #         elsif user.digest_pref == "weekly"
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
+    #         else
+    #             NotificationMailer.new_document_email(user, Document.find_by_title(@file[:title])).deliver
+    #         end
+    #     end
+    # end
     # def edit_file
     #    @id = params[:format] 
     #    @file = Document.find @id
@@ -77,24 +82,24 @@ class DocumentsController < ActionController::Base
             @target_file.update_attributes!(file_params)
             category.documents << @target_file
             if Rails.env.production?
-                send_doccom_email_update()
+                send_doc_email_update(@file)
             end
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."
             redirect_to(documents_path)
         end
     end
     
-    def send_doccom_email_update
-        User.all.each do |user|
-            if user.digest_pref == "daily"
-                NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
-            elsif user.digest_pref == "weekly"
-                NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
-            else
-                NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver
-            end
-        end
-    end 
+    # def send_doccom_email_update
+    #     User.all.each do |user|
+    #         if user.digest_pref == "daily"
+    #             NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.tomorrow.noon())
+    #         elsif user.digest_pref == "weekly"
+    #             NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver_later!(wait_until: Time.now.next_week.noon())
+    #         else
+    #             NotificationMailer.document_update_email(user, Document.find_by_title(@file[:title])).deliver
+    #         end
+    #     end
+    # end 
     
     def delete_file
         @file_to_delete = Document.find params[:format]

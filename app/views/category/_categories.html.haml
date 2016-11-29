@@ -26,7 +26,6 @@
                   Hide #{category.name}
                 = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning visible-xs' do
                   %span.glyphicon.glyphicon-eye-close
-                - puts category.hidden?
             %th
               = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-remove

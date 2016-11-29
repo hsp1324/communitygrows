@@ -18,9 +18,9 @@ Then /^(?:|I )should see "([^\"]*)" in Read Status Table for admin$/ do |status|
     expect(page.find("#1_read")).to have_content(status)
 end
 
-Then /^(?:|I )should see the document "([^"]*)" in the category "([^"]*)"$/ do |document_name, category_name|
-	pending
-end
+# Then /^(?:|I )should see the document "([^"]*)" in the category "([^"]*)"$/ do |document_name, category_name|
+# 	pending
+# end
 
 # Then /"([^"]*)" should be checked$/ do |element|
 #     page.find("#markasread").checked?.should be_true

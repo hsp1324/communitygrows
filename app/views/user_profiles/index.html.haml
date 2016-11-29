@@ -4,17 +4,59 @@
   - if flash[:notice] and flash[:notice]!="Signed in successfully."
     = flash[:notice]
 
-- @users.each do |user|
-  %h3= link_to user.name, user_profile_path(user.id)
-  %p 
-    Email: 
-    %b #{user.email}
-  %p 
-    Committee: 
-    %b #{user.committee}
-  %p 
-    Board Role: 
-    %b #{user.board_role}
+.container
+  %table.table.table-bordered.table-striped
+    %tbody
+      - @users.each_slice(2) do |users|
+        %tr
+          %td
+            %h3= link_to users[0].name, user_profile_path(users[0].id)
+            %p 
+              Email: 
+              %b #{users[0].email}
+            %p 
+              Committee: 
+              %b #{users[0].committee}
+            %p 
+              Board Role: 
+              %b #{users[0].board_role}
+          %td
+            - if not users[1].nil?
+              %h3= link_to users[1].name, user_profile_path(users[1].id)
+              %p 
+                Email: 
+                %b #{users[1].email}
+              %p 
+                Committee: 
+                %b #{users[1].committee}
+              %p 
+                Board Role: 
+                %b #{users[1].board_role}
         
     
         
+    
+    
+          
+  // - @users.each_slice(2) do |user|
+  //   %h3= link_to user[0].name, user_profile_path(user[0].id)
+  //   %p 
+  //     Email: 
+  //     %b #{user[0].email}
+  //   %p 
+  //     Committee: 
+  //     %b #{user[0].committee}
+  //   %p 
+  //     Board Role: 
+  //     %b #{user[0].board_role}
+  //   %h3= link_to user[1].name, user_profile_path(user[1].id)
+  //   %p 
+  //     Email: 
+  //     %b #{user[1].email}
+  //   %p 
+  //     Committee: 
+  //     %b #{user[1].committee}
+  //   %p 
+  //     Board Role: 
+  //     %b #{user[1].board_role}
+      

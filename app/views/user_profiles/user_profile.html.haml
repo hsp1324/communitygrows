@@ -1,31 +1,38 @@
-%h1 #{@user.name}
+.container.text-center
+    %h1 #{@user.name}
+    %p 
+        Email: 
+        %b #{@user.email}
+    %p 
+        Committee: 
+        %b #{@user.committee}
+    %p 
+        Board Role: 
+        %b #{@user.board_role}
+  
 .container.well
-    %h2 Email: #{@user.email}
-    %h2 Committee: #{@user.committee}
-    %h2 Board Role: #{@user.board_role}
+    %h2 Personal Information
+    %h4 Gender
+    %p #{@user.gender}
+    %h4 Ethnicity
+    %p #{@user.ethnicity}
     
-    %h2 About Me:
+    %h4 About Me
     %p #{@user.about_me}
     
-    %h2 Gender:
-    %p #{@user.gender}
-    
-    %h2 Ethnicity:
-    %p #{@user.ethnicity}
-
-    %h2 Why I Joined Community Grows:)
-    %p #{@user.why_join}
-    
-    %h2 Job Information
+    %h4 Job Information
     %p Current Company: #{@user.current_company}
     %p Current Position: #{@user.current_position}
     
-    %h2 Areas of Expertise:
+    %h4 Why I Joined Community Grows
+    %p #{@user.why_join}
+    
+    %h4 Areas of Expertise
     %ul
     - @areasOfExpertise.each do |expertise|
         %li #{expertise.name}
     
-    %h2 Constituency:
+    %h4 Constituency
     %ul
     - @constituencies.each do |constituency|
         %li #{constituency.name}

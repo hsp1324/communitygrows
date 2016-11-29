@@ -3,7 +3,7 @@ class UserController < ActionController::Base
     before_action :authenticate_user!
     
     def user_params
-        params.require(:user).permit(:email, :password, :password_confirmation, :name,
+        params.require(:user).permit(:email, :password, :password_confirmation, :name,:board_role,
         :about_me, :why_join, :internal, :external, :executive, :digest_pref, :ethnicity, :gender, expertise_ids:[])
     end
     

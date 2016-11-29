@@ -11,8 +11,8 @@
       = label :user, :name, "Name: "
       = text_field :user, 'name', class: 'form-control'
     .form-group
-      = label :user, :title, "Title: "
-      = text_field :user, 'title', class: 'form-control'
+      = label :user, :board_role, "Board Role: "
+      = text_field :user, 'board_role', class: 'form-control'
     .form-group
       = label :user, :committee, 'Committee: '
       = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'

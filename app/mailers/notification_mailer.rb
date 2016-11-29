@@ -15,24 +15,24 @@ class NotificationMailer < ApplicationMailer
   def new_document_email(user,document)
   	@user = user
   	@document = document
-    mail(to: @user.email, subject: 'New Document Created')
+    mail(to: @user.email, subject: 'A new CG document has been added: ' + @document.title)
   end
 
   def document_update_email(user,document)
   	@user = user
   	@document = document
-    mail(to: @user.email, subject: 'Document Edited')
+    mail(to: @user.email, subject: 'A CG document has been edited: ' + @document.title)
   end
   
   def new_event_email(user, event)
   	@user = user
   	@event = event
-    mail(to: @user.email, subject: 'New Event Created')
+    mail(to: @user.email, subject: 'A new CG event has been created')
   end
   
   def event_update_email(user, event)
   	@user = user
   	@event = event
-    mail(to: @user.email, subject: 'Event Edited')
+    mail(to: @user.email, subject: 'A CG event has been updated')
   end
 end

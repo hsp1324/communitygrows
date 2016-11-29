@@ -30,7 +30,7 @@ module NavigationHelpers
     when /the (CommunityGrows )?User Profiles page$/ then
       user_profiles_page_path
     when /the (CommunityGrows )?user info page for "([^"]*)"$/ then
-      puts User.find_by_name($1).id
+      # puts User.find_by_name($1).id
       user_profile_path(User.find_by_name($1).id)
       
     when /the edit user page for "([^"]*)"$/ then

@@ -43,8 +43,8 @@ Given /^I am logged out$/ do
   click_link("Sign out", match: :first)
 end
 
-Given /^PENDING/ do
-  pending
+Given /^I edit password$/ do
+  fail "Unimplemented"
 end
 
 Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
@@ -54,3 +54,4 @@ Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_passw
   fill_in "password", :with => user_password
   click_button "Log in"
 end
+

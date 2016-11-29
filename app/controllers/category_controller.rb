@@ -1,4 +1,5 @@
 class CategoryController < ActionController::Base
+    protect_from_forgery#, :with => :exception
     layout "base"
     before_action :authenticate_user!
 
@@ -90,6 +91,12 @@ class CategoryController < ActionController::Base
             end
         end
             
+    end
+
+    def update_category_order
+        if request.xhr?
+            Category.update_category_order(params[:table])
+        end
     end
 
     def delete_category

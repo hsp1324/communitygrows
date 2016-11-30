@@ -57,3 +57,4 @@ Expertise.create!(:name => "Academia", :constituency => true)
 Expertise.create!(:name => "NonProfit", :constituency => true)
 Expertise.create!(:name => "Other", :constituency => true)
 
+

@@ -3,7 +3,7 @@ module EmailHelper
         User.all.each do |user|
             if current_user.admin?
                 NotificationMailer.document_update_email(user, Document.find_by_title(title)).deliver
-            elsif (committee == user.internal?) or (committee == user.external?) or (committee == user.executive?)
+            elsif (committee == "internal" and user.internal?) or (committee == "external" and user.external?) or (committee == "executive" and user.executive?)
                 if user.digest_pref == "daily"
                     NotificationMailer.new_document_email(user, Document.find_by_title(title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
@@ -19,7 +19,7 @@ module EmailHelper
         User.all.each do |user|
             if current_user.admin?
                 NotificationMailer.document_update_email(user, Document.find_by_title(title)).deliver
-            elsif (committee == user.internal?) or (committee == user.external?) or (committee == user.executive?)
+            elsif (committee == "internal" and user.internal?) or (committee == "external" and user.external?) or (committee == "executive" and user.executive?)
                 if user.digest_pref == "daily"
                     NotificationMailer.document_update_email(user, Document.find_by_title(title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
@@ -60,7 +60,7 @@ module EmailHelper
         User.all.each do |user|
             if current_user.admin?
                 NotificationMailer.announcement_email(user, Announcement.find_by_title(title)).deliver
-            elsif (committee == user.internal?) or (committee == user.external?) or (committee == user.executive?)
+            elsif (committee == "internal" and user.internal?) or (committee == "external" and user.external?) or (committee == "executive" and user.executive?)
                 if user.digest_pref == "daily"
                     NotificationMailer.announcement_email(user, Announcement.find_by_title(title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
@@ -76,7 +76,7 @@ module EmailHelper
         User.all.each do |user|
             if current_user.admin?
                 NotificationMailer.announcement_update_email(user, Announcement.find_by_title(title)).deliver
-            elsif (committee == user.internal?) or (committee == user.external?) or (committee == user.executive?)
+            elsif (committee == "internal" and user.internal?) or (committee == "external" and user.external?) or (committee == "executive" and user.executive?)
                 if user.digest_pref == "daily"
                     NotificationMailer.announcement_update_email(user, Announcement.find_by_title(title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"

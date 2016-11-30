@@ -147,7 +147,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'contains content' do
-      expect(mail.body.encoded).to include("document")
+      expect(mail.body.encoded).to include("A change has been made to Cool.")
     end
   end
 

@@ -4,15 +4,22 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <p> Hi Board Members, </p>
+    <p> Dear Board Members, </p>
     <p>
       A new event has been created. <br>
-      Event Title:
       <%= "#{@event.title}" %>  <br>
-      Event Location:
+      Location:
       <%= "#{@event.location}" %>  <br>
-      Event Date:
+      Date:
       <%= "#{@event.date}" %>  <br>
+      Log-in to the <%= link_to "Board Portal", "community-grows.herokuapp.com" %> for more information and for sample social media posts. 
+      <br>
+      Please share with your friends and networks and help us get the word out.
+      <br>
+      <br>
+      Thanks for all that you do,
+      <br>
+      Kelly and the CG Team
     </p>
   </body>
 </html>

@@ -85,9 +85,9 @@ class AdminController < ActionController::Base
         if Rails.env.production?
             User.all.each do |user|
                 if user.digest_pref == "daily"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: Time.now.tomorrow.noon())
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: Time.now.next_week.noon())
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
                 else
                     NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
                 end
@@ -108,9 +108,9 @@ class AdminController < ActionController::Base
         if Rails.env.production?
             User.all.each do |user|
                 if user.digest_pref == "daily"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: Time.now.tomorrow.noon())
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: Time.now.next_week.noon())
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
                 else
                     NotificationMailer.announcement_update_email(user, @target_announcement).deliver
                 end

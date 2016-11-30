@@ -111,7 +111,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:mail) { NotificationMailer.new_document_email(user,document)}
 
     it 'renders the subject' do
-      expect(mail.subject).to eql('A new CG document has been added: ' + title)
+      expect(mail.subject).to eql('A new CG document has been added: Cool')
     end
 
     it 'renders the receiver email' do
@@ -135,7 +135,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:mail) { NotificationMailer.document_update_email(user,document)}
 
     it 'renders the subject' do
-      expect(mail.subject).to eql('A CG document has been edited: ' + title)
+      expect(mail.subject).to eql('A CG document has been edited: Cool')
     end
 
     it 'renders the receiver email' do
@@ -147,7 +147,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'contains content' do
-      expect(mail.body.encoded).to include("Cool")
+      expect(mail.body.encoded).to include("document")
     end
   end
 

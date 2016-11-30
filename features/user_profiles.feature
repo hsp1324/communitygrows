@@ -6,7 +6,6 @@ Feature: User profile page
   So that  I can view all members  in the organization
   
 Background:
-  Given PENDING
   Given a logged in user
   Given a valid user "Tommy"
   And a valid user "Jack"
@@ -43,7 +42,7 @@ Scenario: User should see their constituencies
 
 Scenario: User should see race and ethnicity
   Then I follow "Jack"
-  And I should see "Race/Ethnicity" 
+  And I should see "Ethnicity" 
   
 Scenario: User should be able to see their job info
   Given I follow "Jack"

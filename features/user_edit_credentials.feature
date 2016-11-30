@@ -6,7 +6,6 @@ Feature: successfully edit email or password as a logged in user
   So that I can choose a password without the admin knowing
   
 Background:
-  Given PENDING
   Given the following users exist:
     | name   | email             | admin      | created_at           | password     | password_confirmation     |
     | Zach   | zach@gmail.com    | true       | 2016-03-17 17:44:13  | 12341234     | 12341234                  |

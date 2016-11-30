@@ -105,7 +105,7 @@ RSpec.describe NotificationMailer, type: :mailer do
 
   describe 'create document' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
-    let(:document) { mock_model Document, document: 'Important Read', title: 'Cool' content: 'www.communitygrows.com/document/example.pdf' }
+    let(:document) { mock_model Document, document: 'Important Read', title: 'Cool', content: 'www.communitygrows.com/document/example.pdf' }
 
     let(:mail) { NotificationMailer.new_document_email(user,document)}
 
@@ -129,7 +129,7 @@ RSpec.describe NotificationMailer, type: :mailer do
 
   describe 'update document' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
-    let(:document) { mock_model Document, document: 'Important Read', content: 'www.communitygrows.com/document/example.pdf' }
+    let(:document) { mock_model Document, document: 'Important Read', title: 'Cool', content: 'www.communitygrows.com/document/example.pdf' }
 
     let(:mail) { NotificationMailer.document_update_email(user,document)}
 

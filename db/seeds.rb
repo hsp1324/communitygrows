@@ -21,7 +21,7 @@
 # Category.create!(:name => "Board Resources")
 
 # Expertises
-Expertises.delete_all
+Expertise.delete_all
 Expertise.create!(:name => "Accounting", :constituency => false)
 Expertise.create!(:name => "Advertising", :constituency => false)
 Expertise.create!(:name => "Admin/Management", :constituency => false)

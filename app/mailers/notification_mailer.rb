@@ -3,13 +3,21 @@ class NotificationMailer < ApplicationMailer
   def announcement_email(user,announcement)
   	@user = user
   	@announcement = announcement
-    mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
+  	if @announcement.title.nil?
+  	   mail(to: @user.email, subject: 'A New announcment from CG')
+  	else
+  	   mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
+  	end
   end
 
   def announcement_update_email(user, announcement)
   	@user = user
   	@announcement = announcement
-    mail(to: @user.email, subject: 'A CG announcement has been updated: ' + @announcement.title)
+  	if @announcement.title.nil?
+  	   mail(to: @user.email, subject: 'A CG announcement has been updated')
+  	else
+  	  mail(to: @user.email, subject: 'A CG announcement has been updated: ' + @announcement.title)
+  	end
   end
 
   def new_document_email(user,document)

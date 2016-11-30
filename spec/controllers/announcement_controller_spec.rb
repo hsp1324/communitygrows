@@ -40,18 +40,17 @@ describe AnnouncementController do
             # end
             it 'internal' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
+                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
                 post :create_announcement, params: {committee_type: :internal, title: "a"}
             end
             it 'external' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
-
+                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
                 post :create_announcement, params: {committee_type: :external, title: "a"}
             end
             it 'executive' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
+                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
                 post :create_announcement, params: {committee_type: :executive, title: "a"}
             end
         end
@@ -84,18 +83,18 @@ describe AnnouncementController do
             end
             it 'internal' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
+                allow(NotificationMailer).to receive_message_chain(:announcement_update_email, :deliver).and_return(true)
                 put :update_announcement, params: {title: "a", content: @a.content, announcement_id: @a.id, committee_type: @a.committee_type, announcement: { id: @a.id }}
             end
             it 'external' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
+                allow(NotificationMailer).to receive_message_chain(:announcement_update_email, :deliver).and_return(true)
                 @a.committee_type = :external
                 put :update_announcement, params: {title: "a", content: @a.content, announcement_id: @a.id, committee_type: @a.committee_type, announcement: { id: @a.id }}
             end
             it 'executive' do
                 expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:new_document_email, :deliver).and_return(true)
+                allow(NotificationMailer).to receive_message_chain(:announcement_update_email, :deliver).and_return(true)
                 @a.committee_type = :executive
                 put :update_announcement, params: {title: "a", content: @a.content, announcement_id: @a.id, committee_type: @a.committee_type, announcement: { id: @a.id }}
             end

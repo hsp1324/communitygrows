@@ -1,0 +1,19 @@
+/ %ul#sortable
+- if docs.empty?
+  %tr#empty
+    %td No files have been entered
+    %td -
+    %td -
+- else
+  %tr#empty.hidden
+    %td No files have been entered
+    %td -
+    %td -
+- docs.each do |file|
+  %tr#docrow
+    %td= link_to file.title, info_file_path(file.id)
+    %td= file.updated_at.strftime("%m/%d/%Y %l:%M %p")
+    - if @curr_user.has_read?(file)
+      %td= "Read"
+    - else
+      %td= "Not Read"

@@ -6,19 +6,19 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# User.delete_all
-# curr = User.create!(:name => "Admin John", :email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
-# :admin => true)
-# curr1 = User.create!(:name => "Admin Jane", :email => "user@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
-# :admin => false)
+User.delete_all
+curr = User.create!(:name => "Admin John", :email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true)
+curr1 = User.create!(:name => "Admin Jane", :email => "user@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => false)
 
-# Document.delete_all
-# Category.delete_all
-# Category.create!(:name => "About Community Grows")
-# Category.create!(:name => "Board Overview")
-# Category.create!(:name => "Budgets and Finances")
-# Category.create!(:name => "AB Meetings")
-# Category.create!(:name => "Board Resources")
+Document.delete_all
+Category.delete_all
+Category.create!(:name => "About Community Grows")
+Category.create!(:name => "Board Overview")
+Category.create!(:name => "Budgets and Finances")
+Category.create!(:name => "AB Meetings")
+Category.create!(:name => "Board Resources")
 
 # Expertises
 Expertise.delete_all

@@ -36,6 +36,7 @@ ratings:
   - "**.php"
   - "**.py"
 exclude_paths:
+- app/assets/stylesheets/bootstrap.css
 - coverage/
 - config/
 - db/

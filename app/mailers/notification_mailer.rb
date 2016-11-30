@@ -3,17 +3,24 @@ class NotificationMailer < ApplicationMailer
   def announcement_email(user,announcement)
   	@user = user
   	@announcement = announcement
-  	if @announcement.title.nil?
+  	if hasNoTitle(@announcement)
   	   mail(to: @user.email, subject: 'A New announcment from CG')
   	else
   	   mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
   	end
   end
-
+  
+  def hasNoTitle(announcement)
+      if announcement.title.nil?
+        return true
+      end
+    return false
+  end
+  
   def announcement_update_email(user, announcement)
   	@user = user
   	@announcement = announcement
-  	if @announcement.title.nil?
+  	if hasNoTitle(@announcement)
   	   mail(to: @user.email, subject: 'A CG announcement has been updated')
   	else
   	  mail(to: @user.email, subject: 'A CG announcement has been updated: ' + @announcement.title)

@@ -9,8 +9,8 @@ class AdminController < ActionController::Base
     end
     
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee, :board_role,
-        :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin, expertise_ids:[])
+      params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee, :board_role, :current_company,
+        :current_position, :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin, expertise_ids:[])
     end
 
     def calendar_params

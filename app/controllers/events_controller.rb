@@ -85,9 +85,9 @@ class EventsController < ApplicationController
         if Rails.env.production?
             User.all.each do |user| 
                 if user.digest_pref == "daily"
-                    NotificationMailer.event_update_email(user, @event).deliver!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
+                    NotificationMailer.event_update_email(user, @event).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
                 elsif user.digest_pref == "weekly"
-                    NotificationMailer.event_update_email(user, @event).deliver!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
+                    NotificationMailer.event_update_email(user, @event).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
                 else
                     NotificationMailer.event_update_email(user, @event).deliver
                 end

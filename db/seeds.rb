@@ -21,6 +21,7 @@ Category.create!(:name => "AB Meetings")
 Category.create!(:name => "Board Resources")
 
 # Expertises
+Expertise.delete_all
 Expertise.create!(:name => "Accounting", :constituency => false)
 Expertise.create!(:name => "Advertising", :constituency => false)
 Expertise.create!(:name => "Admin/Management", :constituency => false)
@@ -55,3 +56,5 @@ Expertise.create!(:name => "Community Member", :constituency => true)
 Expertise.create!(:name => "Academia", :constituency => true)
 Expertise.create!(:name => "NonProfit", :constituency => true)
 Expertise.create!(:name => "Other", :constituency => true)
+
+

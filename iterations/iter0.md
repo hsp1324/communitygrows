@@ -1,6 +1,8 @@
 Entry Video:
 https://youtu.be/amkGuZ1I71s
 
+CommunityGrows Meeting:
+https://youtu.be/q7Ej16Ne60g
 
 Screencasts:
 Noah Lopez:

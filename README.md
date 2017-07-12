@@ -15,6 +15,6 @@ https://www.pivotaltracker.com/n/projects/1882805
 https://community-grows.herokuapp.com/
 
 ###CodeClimate and Travis-CI
-[![Code Climate](https://codeclimate.com/github/CommunityGrows/communitygrows/badges/gpa.svg)](https://codeclimate.com/github/CommunityGrows/communitygrows)
+[![Code Climate](https://codeclimate.com/github/CommunityGrows/communitygrows/badges/gpa.svg)](https://codeclimate.com/github/hsp1324/communitygrows)
 [![Build Status](https://travis-ci.org/CommunityGrows/communitygrows.svg?branch=master)](https://travis-ci.org/CommunityGrows/communitygrows)
-[![Test Coverage](https://codeclimate.com/github/CommunityGrows/communitygrows/badges/coverage.svg)](https://codeclimate.com/github/CommunityGrows/communitygrows/coverage)
+[![Test Coverage](https://codeclimate.com/github/CommunityGrows/communitygrows/badges/coverage.svg)](https://codeclimate.com/github/hsp1324/communitygrows)

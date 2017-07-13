@@ -13,4 +13,4 @@ after_script:
 addons:
     firefox: "49.0"
     code_climate:
-        repo_token: 5b48a2bbbf03e9c87588768a9041958f465d83df080d1ad88384e363b5497b1b
+        repo_token: f50babd465bb9c116e6bbda18a37eb257d2d1db2baa40b3e9096cd5c2b798fa7

@@ -28,14 +28,15 @@
       = label :user, :ethnicity, "Ethnicity: "
       = text_field :user, 'ethnicity', placeholder: @user.ethnicity, class: 'form-control'
     .form-group
+      = label :user, :about_me, "About Me: "
+      = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
+    %h3 Job Information
+    .form-group
       = label :user, :ethnicity, "Current Company: "
       = text_field :user, 'current_company', placeholder: @user.current_company, class: 'form-control'
     .form-group
       = label :user, :ethnicity, "Current Position: "
       = text_field :user, 'current_position', placeholder: @user.current_position, class: 'form-control'
-    .form-group
-      = label :user, :about_me, "About Me: "
-      = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4

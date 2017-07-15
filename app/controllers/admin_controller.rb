@@ -1,6 +1,6 @@
 class AdminController < ActionController::Base
     layout "base"
-    before_action :authenticate_user!, :authorize_user
+
     
     def authorize_user
         if not User.find(current_user.id).admin
@@ -32,10 +32,12 @@ class AdminController < ActionController::Base
     end
     
     def edit_user
+        before_action :authenticate_user!, :authorize_user
         @user = User.find params[:id]
     end
     
     def update_user
+        before_action :authenticate_user!, :authorize_user
         @user = User.find params[:id]
         begin
             @user.update_attributes!(user_params)
@@ -51,6 +53,7 @@ class AdminController < ActionController::Base
     end
     
     def create_user
+        before_action :authenticate_user!, :authorize_user
         #try and catch
         begin
             @user = User.create(user_params)
@@ -65,10 +68,12 @@ class AdminController < ActionController::Base
     end
     
     def new_user
+        before_action :authenticate_user!, :authorize_user
         #default: render 'new' template
     end
     
     def delete_user
+        before_action :authenticate_user!, :authorize_user
         @user = User.find params[:id]
         @user.destroy
         redirect_to admin_index_path
@@ -98,11 +103,13 @@ class AdminController < ActionController::Base
     end
     
     def edit_announcement
+        before_action :authenticate_user!, :authorize_user
         @id = params[:id]
         @target_announcement = Announcement.find @id
     end
     
     def update_announcement
+        before_action :authenticate_user!, :authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
         if Rails.env.production?
@@ -121,6 +128,7 @@ class AdminController < ActionController::Base
     end
     
     def delete_announcement
+        before_action :authenticate_user!, :authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.destroy!
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
@@ -128,6 +136,7 @@ class AdminController < ActionController::Base
     end
     
     def update_calendar
+        before_action :authenticate_user!, :authorize_user
         Calendar.destroy_all
         @new_calendar = Calendar.create!(calendar_params)
         flash[:notice] = 'New Calendar Creation successful'

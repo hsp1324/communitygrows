@@ -26,6 +26,7 @@
               %tr
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                 %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
+      = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
       = link_to "Search", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
 
   .col-md-6

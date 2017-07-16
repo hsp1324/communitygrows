@@ -14,6 +14,62 @@ class UserController < ActionController::Base
         end
     end
     
+    def new_announcement
+    end
+    
+    def create_announcement
+        @title = announcement_params[:title]
+        @content = announcement_params[:content]
+        @type = "dashboard"
+        Announcement.create!(:title => @title, :content => @content, :committee_type => @type)
+        if Rails.env.production?
+            User.all.each do |user|
+                if user.digest_pref == "daily"
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
+                else
+                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
+                end
+            end
+        end
+        flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        redirect_to('/admin')
+    end
+    
+    def edit_announcement
+        @id = params[:id]
+        @target_announcement = Announcement.find @id
+    end
+    
+    def update_announcement
+        @target_announcement = Announcement.find params[:id]
+        @target_announcement.update_attributes!(announcement_params)
+        if Rails.env.production?
+            User.all.each do |user|
+                if user.digest_pref == "daily"
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
+                elsif user.digest_pref == "weekly"
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
+                else
+                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver
+                end
+            end
+        end
+        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
+        redirect_to(admin_index_path)
+    end
+    
+    def delete_announcement
+        @target_announcement = Announcement.find params[:id]
+        @target_announcement.destroy!
+        flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
+        redirect_to(admin_index_path)
+    end
+    
+    
+    
+    
     def update_user_credentials
         @user = current_user
         if @user.update_attributes(user_params)

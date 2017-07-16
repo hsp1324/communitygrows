@@ -15,3 +15,5 @@ Given /the following announcements exist/ do |announcement_table|
         Announcement.create!(announcement)
     end
 end
+
+

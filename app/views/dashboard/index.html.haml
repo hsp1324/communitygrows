@@ -49,3 +49,4 @@
               %br
               - if event.url?
                 = link_to "More Information", event.url, :target => "_blank"
+      %iframe#cal{:scrolling => "yes", :name => "cal2", :src => "http://www.communitygrows.org/events/", :height => "100%", :width => "100%"}

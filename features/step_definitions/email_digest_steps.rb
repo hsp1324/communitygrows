@@ -11,3 +11,21 @@ end
 When /I should see correct flash message "([^"]*)"$/ do |message|
 	expect(page).to have_css('flashNotice',text: message)
 end
+
+#New tests for iter 2-1
+
+Then /I should receive an email/ do 
+	pending
+end
+
+Then /I should see title "([^"]*)"$/ do |title|
+	pending
+end
+
+Then /I should see content "([^"]*)"$/ do |content|
+	pending
+end
+
+Then /the database should( not)? have email with title "([^"]*)" and content "([^"]*)"$/ do |title, content|
+	pending 
+end

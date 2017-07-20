@@ -1,3 +1,4 @@
+#CS169: Nathan's group
 Feature: Users are able to decide their email preferences
 
     As a user
@@ -37,6 +38,7 @@ Scenario: Happy Path
   And I press "Update Digest"
   Then I should see "info was successfully updated"
   And I am on the account details page for "james@gmail.com"
+
 
 
   

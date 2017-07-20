@@ -9,6 +9,8 @@ gem 'devise'
 gem 'acts_as_tree'
 
 gem 'rake'
+
+gem 'figaro'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 5.0'
 # Use Uglifier as compressor for JavaScript assets

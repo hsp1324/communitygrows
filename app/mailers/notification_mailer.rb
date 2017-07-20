@@ -1,5 +1,5 @@
 class NotificationMailer < ApplicationMailer
-  default from: "communitygrows2@gmail.com"
+  default from: "mail.community.grows@gmail.com"
   def announcement_email(user,announcement)
   	@user = user
   	@announcement = announcement

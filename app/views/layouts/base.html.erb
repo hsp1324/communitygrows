@@ -36,9 +36,9 @@
             </span>
           </a>
           <ul class="dropdown-menu">
-            <li><%= link_to "Internal", subcommittee_index_path("internal") %></li>
-            <li><%= link_to "External", subcommittee_index_path("external") %></li>
-            <li><%= link_to "Executive", subcommittee_index_path("executive") %></li>
+            <% Commitee.all.each do |comm| %>
+              <li><%= link_to comm.name, subcommittee_index_path(comm.name) %></li>
+            <% end %>
           </ul>
         </li>
         <li><%= link_to "User Profiles", user_profiles_page_path %></li>

@@ -1,17 +1,17 @@
 %h1 Add New Committee
 
 .container.well
-  = button_to category_index_path, :method => :get, class: 'btn btn-info' do
+  = button_to committee_index_path, :method => :get, class: 'btn btn-info' do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br
-  - if flash[:notice] == 'Please fill in the category name field.' or flash[:notice] == 'The category name provided already exists. Please enter a different name.' or flash[:notice]=="Please enter a valid URL."
+  - if flash[:notice] == 'Please fill in the committee name field.' or flash[:notice] == 'The committee name provided already exists. Please enter a different name.' or flash[:notice]=="Please enter a valid URL."
     #flashNotice
       = flash[:notice]
 
-  = form_tag create_category_path do
+  = form_tag create_committee_path do
     .form-group
-      = label :category, :name, 'Committee Name'
-      = text_field :category, 'name', class: 'form-control'
+      = label :committee, :name, 'Committee Name'
+      = text_field :committee, 'name', class: 'form-control'
 
     = submit_tag 'Submit', class: 'btn btn-success'

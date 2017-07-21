@@ -3,5 +3,8 @@ class CommitteeController < ApplicationController
     
     def index
     end
+
+    def new_committee
+    end
     
 end

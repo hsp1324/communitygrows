@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :dashboard, :only => [:index]
   resources :admin, :only => [:index]
   resources :documents, :only => [:index]
-  resources :committee, :only => [:index]
+  #resources :committee, :only => [:index]
   resources :events, :only => [:index]
 
   get 'admin/:id/edit_user' => 'admin#edit_user', as: :edit_user
@@ -85,6 +85,18 @@ Rails.application.routes.draw do
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
   post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
+
+  # Committee Management
+  get 'committee' => 'committee#index', as: :committee_index
+  # get 'committee/index' => 'committee#index', as: :committee_index
+  get 'committee/new_committee' => 'committee#new_committee', as: :new_committee
+  post 'committee/create' => 'committee#create_committee', as: :create_committee
+  delete 'committee/:id/delete_committee' => 'committee#delete_committee', as: :delete_committee
+  get 'committee/:id/edit_committee' => 'committee#edit_committee', as: :edit_committee
+  put 'committee/:id/edit_committee' => 'committee#update_committee', as: :update_committee
+  get 'committee/:id/hide_committee' => 'committee#hide_committee', as: :hide_committee
+  get 'committee/:id/show_committee' => 'committee#show_committee', as: :show_committee
+  post 'committee/update_committee_order' => 'committee#update_committee_order', as: :update_committee_order
 
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page

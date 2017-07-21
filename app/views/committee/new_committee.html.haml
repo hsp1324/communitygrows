@@ -1,4 +1,4 @@
-%h1 Add New Category
+%h1 Add New Committee
 
 .container.well
   = button_to category_index_path, :method => :get, class: 'btn btn-info' do
@@ -11,7 +11,7 @@
 
   = form_tag create_category_path do
     .form-group
-      = label :category, :name, 'Category Name'
+      = label :category, :name, 'Committee Name'
       = text_field :category, 'name', class: 'form-control'
 
     = submit_tag 'Submit', class: 'btn btn-success'

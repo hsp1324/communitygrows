@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130015803) do
+ActiveRecord::Schema.define(version: 20170721185202) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(version: 20161130015803) do
     t.integer  "announcement_id"
     t.index ["announcement_id"], name: "index_comments_on_announcement_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "commitees", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "digestifier_receipts", force: :cascade do |t|

@@ -28,10 +28,10 @@ Scenario: Visiting committee management page
     And I should see "hoopla"
     And I should see "crystal gems"
     And I should see "backstreet boys"
-    And I should see "Delete crystal gems"
-    And I should see "Hide Hoopla"
-    And I should see "Deactivate backstreet boys"
     And I should see "New Committee"
+    And I should see "Activate hoopla"
+    And I should see "Delete crystal gems"
+    And I should see "Hide backstreet boys"
     
 
 Scenario: Create new committee
@@ -43,15 +43,15 @@ Scenario: Create new committee
     And I should see "Good Committee"
     And I should see "Delete Good Committee"
     And I should see "Hide Good Committee"
-    And I should see "Deactivate Good Committee"
+    And I should see "Inactivate Good Committee"
     
     Given I am on the CommunityGrows admin_dashboard page
-    Then I should see "Good Committee" in "Committees" tab
-    Then I should see "Add new document"
+    Then I should see "Good Committee"
     
 
 Scenario: Edit committee    
     When I follow first "hoopla"
+    And I should see "Edit"
     And I fill in "Committee Name" with "Great hoopla"
     And I press "Submit"
     Then I am on the committee management page
@@ -68,43 +68,53 @@ Scenario: Edit committee
     
     
 Scenario: Delete committee  
+    Given I am on the CommunityGrows admin_dashboard page
+    Then I should see "hoopla"
     Given I am on the committee management page
+    And I should see "Delete hoopla"
     When I press "Delete hoopla"
     And I confirm popup
     Then I should see "Committee with name hoopla deleted successfully."
     Given I am on the CommunityGrows admin_dashboard page
-    Then I should not see "hoopla" in "Committees" tab
+    Then I should not see "hoopla"
     
 
 Scenario: Hide and Show committee  
     Given I am on the committee management page
+    And I should see "Hide hoopla"
     When I press "Hide hoopla"
-    And I am on the committee management page
+    # And I am on the committee management page
     Then I should see "hoopla successfully hidden."
     And I should see "hoopla"
     And I should see "Delete hoopla"
     And I should see "Show hoopla"
-    And I should see "Deactivate hoopla"
-    And I should not see "hoopla" in "Committees" tab
+    And I should see "Activate hoopla"
+    Given I am on the CommunityGrows admin_dashboard page
+    And I should not see "hoopla"
     
+    Given I am on the committee management page
+    And I should see "Show hoopla"
     When I press "Show hoopla"
-    And I am on the committee management page
-    Then I should see "hoopla successfully hidden."
+    # And I am on the committee management page
+    Then I should see "hoopla successfully shown."
+    And I should see "Hide hoopla"
+    Given I am on the CommunityGrows admin_dashboard page
     And I should see "hoopla"
-    And I should see "hoopla" in "Committees" tab
 
 
 Scenario: Inactivate and Deactivate committee  
     Given I am on the committee management page
-    When I press "Deactivate hoopla"
-    Then I should see "hoopla successfully deactivated."
+    And I should see "Activate hoopla"
+    When I press "Activate hoopla"
+    Then I should see "hoopla successfully made active."
     And I am on the committee management page
     And I should see "hoopla"
     And I should see "Delete hoopla"
     And I should see "Hide hoopla"
     And I should see "Inactivate hoopla"
-    And I should see "hoopla" in "Committees" tab
-    When I follow "hoopla" in "Committees" tab
+    Given I am on the CommunityGrows admin_dashboard page
+    And I should see "hoopla"
+
     Then I should see "hoopla is deactivate."
     Then I should not see "Add new document"
     

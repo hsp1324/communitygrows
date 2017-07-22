@@ -2,7 +2,7 @@
   = link_to "Sort Categories By Name", category_index_path(:sort_by => "name")
 %div#categories
   %ul#invisible#sortable1
-    - @categories.each do |category|
+    - @committees.each do |category|
       %table.table.table-striped.table-bordered{:id => "table_#{category.id}"}
         %thead.bg-info
           %tr

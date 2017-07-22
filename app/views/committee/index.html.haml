@@ -5,4 +5,5 @@
     = flash[:notice]
     
 %h4
+  = render :partial => "committee", :locals => { :curr_user => current_user }
   = link_to 'New Committee', new_committee_path, class: "btn btn-success"

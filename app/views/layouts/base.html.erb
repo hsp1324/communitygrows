@@ -37,7 +37,9 @@
           </a>
           <ul class="dropdown-menu">
             <% Committee.all.each do |comm| %>
-              <li><%= link_to comm.name, subcommittee_index_path(comm.name) %></li>
+              <% if comm.hidden == false %>
+                <li><%= link_to comm.name, subcommittee_index_path(comm.name) %></li>
+              <% end %>
             <% end %>
           </ul>
         </li>

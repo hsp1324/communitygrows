@@ -97,6 +97,8 @@ Rails.application.routes.draw do
   get 'committee/:id/hide_committee' => 'committee#hide_committee', as: :hide_committee
   get 'committee/:id/show_committee' => 'committee#show_committee', as: :show_committee
   post 'committee/update_committee_order' => 'committee#update_committee_order', as: :update_committee_order
+  get 'committee/:id/inactivate_committee' => 'committee#inactivate_committee', as: :inactivate_committee
+  get 'committee/:id/activate_committee' => 'committee#activate_committee', as: :activate_committee
 
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page

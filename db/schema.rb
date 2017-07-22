@@ -7,10 +7,10 @@
 # system, you should be using db:schema:load, not running all the migrations
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
-# yoyo I am sunpyo
+#
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721185202) do
+ActiveRecord::Schema.define(version: 20170722033929) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -124,9 +124,6 @@ ActiveRecord::Schema.define(version: 20170721185202) do
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
     t.datetime "last_sign_in_at",        default: '2017-06-30 22:46:32', null: false
-    t.boolean  "internal"
-    t.boolean  "external"
-    t.boolean  "executive"
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

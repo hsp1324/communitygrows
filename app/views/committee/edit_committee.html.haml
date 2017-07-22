@@ -1,15 +1,15 @@
-%h1 Edit "#{@category.name}"
+%h1 Edit "#{@committee.name}"
 
 .container.well
   #flashNotice= flash[:notice]
-  =button_to category_index_path, :method => :get, class: 'btn btn-info' do
+  =button_to committee_index_path, :method => :get, class: 'btn btn-info' do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br
 
-  = form_tag update_category_path(@id, @category), :method => :put do
+  = form_tag update_committee_path(@id, @committee), :method => :put do
     .form-group
-      = label :category, :name, 'Category Name'
-      = text_field :category, 'name', :value => @category.name, class: 'form-control'
+      = label :committee, :name, 'Committee Name'
+      = text_field :committee, 'name', :value => @committee.name, class: 'form-control'
 
     = submit_tag 'Submit', class: 'btn btn-success'

@@ -1,14 +1,14 @@
-%div#categories
+%div#committees
   %ul#sortable1
-    - @committees.each do |category|
-      %table.table.table-striped.table-bordered{ :id => "category_#{category.id}" }
+    - @committees.each do |committee|
+      %table.table.table-striped.table-bordered{ :id => "committee_#{committee.id}" }
         %thead.bg-info
           %tr
-            %th= link_to "#{category.name}", edit_category_path(category.id)
+            %th= link_to "#{committee.name}", edit_committee_path(committee.id)
             %th
-              = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+              = button_to delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-remove
-                Delete #{category.name}
-              = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+                Delete #{committee.name}
+              = button_to delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
                 

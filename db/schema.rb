@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722033929) do
+ActiveRecord::Schema.define(version: 20170722064733) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -96,6 +96,14 @@ ActiveRecord::Schema.define(version: 20170722033929) do
   create_table "expertises", force: :cascade do |t|
     t.boolean "constituency"
     t.string  "name"
+  end
+
+  create_table "participations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "committee_id"
+    t.datetime "joined_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "read_sessions", force: :cascade do |t|

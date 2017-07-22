@@ -12,6 +12,9 @@ curr = User.create!(:name => "Admin John", :email => "admin@communitygrows.org",
 curr1 = User.create!(:name => "Admin Jane", :email => "user@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
 :admin => false)
 
+Committee.delete_all
+committee1 = Committee.create!(:name => "Sun committee", :inactive => true, :hidden => false)
+
 Document.delete_all
 Category.delete_all
 Category.create!(:name => "About Community Grows")

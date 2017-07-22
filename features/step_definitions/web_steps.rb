@@ -45,6 +45,7 @@ When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
   with_scope(parent) { When "#{step}:", table_or_string }
 end
 
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
@@ -63,6 +64,17 @@ When /^(?:|I )follow "([^\"]*)"$/ do |link|
   else
     click_link link
   end
+end
+
+
+
+
+When /^(?:|I )follow "([^\"]*)" in "([^\"]*)" tab$/ do |subtab, maintab|
+  # sb = find_field(maintab)
+  # sb_selected = sb.all(subtab).find
+  # msg = "Selected: #{sb_selected.text.inspect} - value:#{sb_selected.value.inspect}"
+  # assert page.has_select?(dropdown, selected: selected_text), msg
+  select(subtab, from: maintab)
 end
 
 When /^(?:|I )follow first "([^\"]*)"$/ do |link|
@@ -139,6 +151,14 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   expect(page).to have_xpath('//*', :text => regexp)
 end
 
+Then /^(?:|I )should see "([^\"]*)" in "([^\"]*)" tab$/ do |subtab, maintab|
+  # select subtab, :from => maintab
+  # find(maintab).click
+  # select(subtab, :from => maintab )
+  find(subtab).select(maintab)
+  # select(subtab, from: maintab)
+end
+
 Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
   expect(page).to have_no_content(text)
 end
@@ -206,4 +226,9 @@ And /^(?:|I )take a screenshot called "([^\"]*)"$/ do |file_name|
   else
     puts "Can't take a screenshot without @javascript defined"
   end
+end
+
+
+When /^(?:|I )  "([^\"]*)"$/ do |field|
+  choose(field)
 end

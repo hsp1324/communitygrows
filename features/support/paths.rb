@@ -29,6 +29,8 @@ module NavigationHelpers
       category_index_path
     when /the (CommunityGrows )?User Profiles page$/ then
       user_profiles_page_path
+    when /the (CommunityGrows )?committee management page$/ then
+      committee_index_path
     when /the (CommunityGrows )?user info page for "([^"]*)"$/ then
       # puts User.find_by_name($1).id
       user_profile_path(User.find_by_name($1).id)

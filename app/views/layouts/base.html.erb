@@ -36,7 +36,7 @@
             </span>
           </a>
           <ul class="dropdown-menu">
-            <% Commitee.all.each do |comm| %>
+            <% Committee.all.each do |comm| %>
               <li><%= link_to comm.name, subcommittee_index_path(comm.name) %></li>
             <% end %>
           </ul>
@@ -53,7 +53,7 @@
             <ul class="dropdown-menu">
               <li><%= link_to "Category Management", category_index_path if current_user.admin%></li>
               <li><%= link_to "Admin Dashboard", admin_index_path if current_user.admin %></li>
-              <li><%= link_to "Committee Dashboard", committee_index_path if current_user.admin %></li>
+              <li><%= link_to "Committee Management", committee_index_path if current_user.admin %></li>
             </ul>
           </li>
         <% end %>

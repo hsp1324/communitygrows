@@ -6,19 +6,24 @@ Feature: Committee Management
   
   
 Background:
-
-Given a logged in admin
-And I am on the CommunityGrows home page
-And the the following committees exist: "hoopla", "crystal gems", "backstreet boys"
+  
+    Given the following committees exist:
+        | name            | inactive | hidden    |
+        | hoopla          | true     | false     |
+        | crystal gems    | true     | false     |
+        | backstreet boys | true     | false     |
+    Given a logged in admin
+    And I am on the CommunityGrows home page
 
 
 Scenario: Existance of committee management in drop down
     Given I am on the CommunityGrows home page
-    Then I should see "Committee Mangement" in "Admin" tab
+    Then I should see "Admin Dashboard"
+    # Then I should see "Committee Management" in "Admin" tab
 
 
 Scenario: Visiting committee managment page
-    Given I am on the commitee management page
+    Given I am on the CommunityGrows committee management page
     Then I should see "Committee Management"
     And I should see "hoopla"
     And I should see "crystal gems"
@@ -30,7 +35,7 @@ Scenario: Visiting committee managment page
     
 
 Scenario: Create new committee
-    Given I am on the commitee management page
+    Given I am on the committee management page
     When I follow "New Committee"
     And I fill in "Committee Name" with "Good Committee"
     And I press "Submit"
@@ -63,7 +68,7 @@ Scenario: Edit committee
     
     
 Scenario: Delete committee  
-    Given I am on the commitee management page
+    Given I am on the committee management page
     When I press "Delete hoopla"
     And I confirm popup
     Then I should see "hoopla deleted successfully."
@@ -72,9 +77,9 @@ Scenario: Delete committee
     
 
 Scenario: Hide and Show committee  
-    Given I am on the commitee management page
+    Given I am on the committee management page
     When I press "Hide hoopla"
-    And I am on the commitee management page
+    And I am on the committee management page
     Then I should see "hoopla successfully hidden."
     And I should see "hoopla"
     And I should see "Show hoopla"
@@ -83,17 +88,17 @@ Scenario: Hide and Show committee
     And I should not see "hoopla" in "Committees" tab
     
     When I press "Show hoopla"
-    And I am on the commitee management page
+    And I am on the committee management page
     Then I should see "hoopla successfully hidden."
     And I should see "hoopla"
     And I should see "hoopla" in "Committees" tab
 
 
 Scenario: Inactivate and Deactivate committee  
-    Given I am on the commitee management page
+    Given I am on the committee management page
     When I press "Deactivate hoopla"
     Then I should see "hoopla successfully deactivated."
-    And I am on the commitee management page
+    And I am on the committee management page
     And I should see "hoopla"
     And I should see "Hide hoopla"
     And I should see "Delete hoopla"
@@ -103,10 +108,10 @@ Scenario: Inactivate and Deactivate committee
     Then I should see "hoopla is deactivate."
     Then I should not see "Add new document"
     
-    Given I am on the commitee management page
+    Given I am on the committee management page
     When I press "Inactivate hoopla"
     Then I should see "hoopla successfully inactivated."
-    And I am on the commitee management page
+    And I am on the committee management page
     Then I should see "hoopla" in "Committees" tab
     When I follow "hoopla" in "Committees" tab
     Then I should see "hoopla is inactivate."
@@ -115,19 +120,19 @@ Scenario: Inactivate and Deactivate committee
     
 # sad path
 Scenario: should not be able to edit committee name to be blank
-    Given I am on the commitee management page
+    Given I am on the committee management page
     Then I should see "hoopla"
     When I follow first "hoopla"
     And I fill in "Category Name" with ""
     And I press "Submit"
     Then I should see "Please fill in the committee name field."
-    And I am on the commitee management page
+    And I am on the committee management page
     
 Scenario: should not be able to create committee name to be blank
-    Given I am on the commitee management page
+    Given I am on the committee management page
     Then I should see "New Committee"
     When I follow "New Committee"
     And I fill in "Committee Name" with ""
     And I press "Submit"
     Then I should see "Please fill in the committee name field."
-    And I am on the commitee management page
+    And I am on the committee management page

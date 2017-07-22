@@ -1,4 +1,4 @@
-class Commitee < ActiveRecord::Base
+class Committee < ActiveRecord::Base
 
 	def self.has_name?(name)
 		return self.where(name: "#{name}").length != 0

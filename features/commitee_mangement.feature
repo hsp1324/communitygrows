@@ -22,7 +22,7 @@ Scenario: Existance of committee management in drop down
     # Then I should see "Committee Management" in "Admin" tab
 
 
-Scenario: Visiting committee managment page
+Scenario: Visiting committee management page
     Given I am on the CommunityGrows committee management page
     Then I should see "Committee Management"
     And I should see "hoopla"
@@ -39,7 +39,7 @@ Scenario: Create new committee
     When I follow "New Committee"
     And I fill in "Committee Name" with "Good Committee"
     And I press "Submit"
-    Then I am on the committee managment page
+    Then I am on the committee management page
     And I should see "Good Committee"
     And I should see "Delete Good Committee"
     And I should see "Hide Good Committee"
@@ -52,9 +52,9 @@ Scenario: Create new committee
 
 Scenario: Edit committee    
     When I follow first "hoopla"
-    And I fill in "Category Name" with "Great hoopla"
+    And I fill in "Committee Name" with "Great hoopla"
     And I press "Submit"
-    Then I am on the committee managment page
+    Then I am on the committee management page
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
     And I should see "Hide Great hoopla"

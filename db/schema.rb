@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722064733) do
+ActiveRecord::Schema.define(version: 20170722202758) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 20170722064733) do
 
   create_table "committees", force: :cascade do |t|
     t.string  "name"
-    t.boolean "inactive"
     t.boolean "hidden"
+    t.boolean "inactive"
   end
 
   create_table "digestifier_receipts", force: :cascade do |t|
@@ -131,7 +131,10 @@ ActiveRecord::Schema.define(version: 20170722064733) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-06-30 22:46:32', null: false
+    t.datetime "last_sign_in_at",        default: '2017-07-22 20:38:01', null: false
+    t.boolean  "internal"
+    t.boolean  "external"
+    t.boolean  "executive"
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

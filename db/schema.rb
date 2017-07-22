@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722202758) do
+ActiveRecord::Schema.define(version: 20170722214304) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -98,6 +98,14 @@ ActiveRecord::Schema.define(version: 20170722202758) do
     t.string  "name"
   end
 
+  create_table "mail_records", force: :cascade do |t|
+    t.string   "record_type"
+    t.integer  "record_id"
+    t.string   "committee",   default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "participations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "committee_id"
@@ -131,7 +139,7 @@ ActiveRecord::Schema.define(version: 20170722202758) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-07-22 20:38:01', null: false
+    t.datetime "last_sign_in_at",        default: '2017-07-22 21:00:00', null: false
     t.boolean  "internal"
     t.boolean  "external"
     t.boolean  "executive"

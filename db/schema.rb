@@ -45,10 +45,8 @@ ActiveRecord::Schema.define(version: 20170721185202) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "committees", force: :cascade do |t|
-    t.string  "name"
-    t.boolean "inactive"
-    t.boolean "hidden"
+  create_table "commitees", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "digestifier_receipts", force: :cascade do |t|
@@ -123,7 +121,7 @@ ActiveRecord::Schema.define(version: 20170721185202) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-06-30 22:46:32', null: false
+    t.datetime "last_sign_in_at",        default: '2017-07-22 03:07:53', null: false
     t.boolean  "internal"
     t.boolean  "external"
     t.boolean  "executive"

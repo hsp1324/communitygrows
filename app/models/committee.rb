@@ -1,5 +1,6 @@
 class Committee < ActiveRecord::Base
 	
+	has_many :participations
 	has_many :users, through: :participations
 	
 	def self.has_name?(name)

@@ -75,9 +75,6 @@ class UserController < ActionController::Base
         if @user.update_attributes(user_params)
             bypass_sign_in(@user)
             flash[:notice] = []
-            if (@user.internal != true) && (@user.external != true) && (@user.executive != true)
-                flash[:notice] = ["Please select at least your committee to receive emails from."]
-            end
             flash[:notice] << "#{@user.name}'s info was successfully updated." 
         else
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages

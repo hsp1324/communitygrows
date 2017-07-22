@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :read_sessions
   has_many :documents, through: :read_sessions
   
+  has_many :participations
   has_many :committees, through: :participations
   
   # Include default devise modules. Others available are:

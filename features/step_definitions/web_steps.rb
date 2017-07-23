@@ -66,23 +66,16 @@ When /^(?:|I )follow "([^\"]*)"$/ do |link|
   end
 end
 
-
-
-
-When /^(?:|I )follow "([^\"]*)" in "([^\"]*)" tab$/ do |subtab, maintab|
-  # sb = find_field(maintab)
-  # sb_selected = sb.all(subtab).find
-  # msg = "Selected: #{sb_selected.text.inspect} - value:#{sb_selected.value.inspect}"
-  # assert page.has_select?(dropdown, selected: selected_text), msg
-  select(subtab, from: maintab)
-end
-
 When /^(?:|I )follow first "([^\"]*)"$/ do |link|
   if @javascript
     page.find(:link, link, match: :first, visible: true).trigger :click
   else
     click_link link, match: :first
   end
+end
+
+When /^(?:|I )follow second "([^\"]*)"$/ do |link|
+  page.all(:link, link, visible: true)[1].click
 end
 
 When /^(?:|I )fill in hidden field "([^\"]*)" with "([^\"]*)"$/ do |field, value|
@@ -151,13 +144,6 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   expect(page).to have_xpath('//*', :text => regexp)
 end
 
-Then /^(?:|I )should see "([^\"]*)" in "([^\"]*)" tab$/ do |subtab, maintab|
-  # select subtab, :from => maintab
-  # find(maintab).click
-  # select(subtab, :from => maintab )
-  find(subtab).select(maintab)
-  # select(subtab, from: maintab)
-end
 
 Then /^(?:|I )should not see "([^\"]*)"$/ do |text|
   expect(page).to have_no_content(text)

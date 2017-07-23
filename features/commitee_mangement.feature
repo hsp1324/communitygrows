@@ -49,8 +49,9 @@ Scenario: Create new committee
     Then I should see "Good Committee"
     
 
-Scenario: Edit committee    
-    When I follow first "hoopla"
+Scenario: Edit committee   
+    Given I am on the committee management page
+    When I follow second "hoopla"
     And I should see "Edit"
     And I fill in "Committee Name" with "Great hoopla"
     And I press "Submit"
@@ -58,13 +59,14 @@ Scenario: Edit committee
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
     And I should see "Hide Great hoopla"
-    And I should see "Deactivate Great hoopla"
+    And I should see "Activate Great hoopla"
     
     Given I am on the CommunityGrows home page
-    Then I should see "Great hoopla" in "Committees" tab
-    When I follow "Great hoopla" in "Committees" tab
-    Then I should see "Great hoopla is inactivate."
-    Then I should see "Add new document"
+    Then I should see "Great hoopla"
+    When I follow "Great hoopla"
+    Then I should see "Great hoopla is currently inactive"
+    And I should not see "Add new announcement"
+    And I should not see "Add new document"
     
     
 Scenario: Delete committee  
@@ -114,35 +116,38 @@ Scenario: Inactivate and Deactivate committee
     And I should see "Inactivate hoopla"
     Given I am on the CommunityGrows admin_dashboard page
     And I should see "hoopla"
-
-    Then I should see "hoopla is deactivate."
-    Then I should not see "Add new document"
+    When I follow first "hoopla"
+    And I should see "Add new announcement"
+    And I should see "Add new document"
     
     Given I am on the committee management page
+    And I should see "Inactivate hoopla"
     When I press "Inactivate hoopla"
-    Then I should see "hoopla successfully inactivated."
-    And I am on the committee management page
-    Then I should see "hoopla" in "Committees" tab
-    When I follow "hoopla" in "Committees" tab
-    Then I should see "hoopla is inactivate."
-    Then I should see "Add new document"
+    Then I should see "hoopla successfully made inactive."
+    Given I am on the CommunityGrows admin_dashboard page
+    Then I should see "hoopla"
+    When I follow "hoopla"
+    Then I should see "hoopla is currently inactive"
+    And I should not see "Add new announcement"
+    And I should not see "Add new document"
     
     
 # sad path
 Scenario: should not be able to edit committee name to be blank
     Given I am on the committee management page
     Then I should see "hoopla"
-    When I follow first "hoopla"
-    And I fill in "Category Name" with ""
-    And I press "Submit"
-    Then I should see "Please fill in the committee name field."
-    And I am on the committee management page
-    
-Scenario: should not be able to create committee name to be blank
-    Given I am on the committee management page
-    Then I should see "New Committee"
-    When I follow "New Committee"
+    And I should see "Hide hoopla"
+    When I follow second "hoopla"
     And I fill in "Committee Name" with ""
     And I press "Submit"
     Then I should see "Please fill in the committee name field."
     And I am on the committee management page
+    
+# Scenario: should not be able to create committee name to be blank
+#     Given I am on the committee management page
+#     Then I should see "New Committee"
+#     When I follow "New Committee"
+#     And I fill in "Committee Name" with ""
+#     And I press "Submit"
+#     Then I should see "Please fill in the committee name field."
+#     And I am on the committee management page

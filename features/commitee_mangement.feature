@@ -141,13 +141,19 @@ Scenario: should not be able to edit committee name to be blank
     And I fill in "Committee Name" with ""
     And I press "Submit"
     Then I should see "Please fill in the committee name field."
-    And I am on the committee management page
+    When I fill in "Committee Name" with "hoopla"
+    And I press "Submit"
+    Then I should see "Committee name provided already exists. Please enter a different name."
     
-# Scenario: should not be able to create committee name to be blank
-#     Given I am on the committee management page
-#     Then I should see "New Committee"
-#     When I follow "New Committee"
-#     And I fill in "Committee Name" with ""
-#     And I press "Submit"
-#     Then I should see "Please fill in the committee name field."
-#     And I am on the committee management page
+Scenario: should not be able to create committee name to be blank or already existed name
+    Given I am on the committee management page
+    Then I should see "New Committee"
+    When I follow "New Committee"
+    And I fill in "Committee Name" with ""
+    And I press "Submit"
+    Then I should see "Committee name field cannot be blank."
+    When I fill in "Committee Name" with "hoopla"
+    And I press "Submit"
+    Then I should see "Committee name provided already exists. Please enter a different name."
+    
+    

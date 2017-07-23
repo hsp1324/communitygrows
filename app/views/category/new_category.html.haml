@@ -1,13 +1,11 @@
 %h1 Add New Category
 
 .container.well
+  #flashNotice= flash[:notice]
   = button_to category_index_path, :method => :get, class: 'btn btn-info' do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br
-  - if flash[:notice] == 'Please fill in the category name field.' or flash[:notice] == 'The category name provided already exists. Please enter a different name.' or flash[:notice]=="Please enter a valid URL."
-    #flashNotice
-      = flash[:notice]
 
   = form_tag create_category_path do
     .form-group

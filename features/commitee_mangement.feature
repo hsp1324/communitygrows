@@ -133,7 +133,7 @@ Scenario: Inactivate and Deactivate committee
     
     
 # sad path
-Scenario: should not be able to edit committee name to be blank
+Scenario: should not be able to edit committee name to be blank or already existed name
     Given I am on the committee management page
     Then I should see "hoopla"
     And I should see "Hide hoopla"

@@ -5,7 +5,8 @@ class AnnouncementController < ActionController::Base
     include EmailHelper
 
     def show_announcements
-       @announcements = Announcement.where(committee_type: params[:categories])
+       #@announcements = Announcement.where(committee_type: params[:categories])
+       @announcements = Announcement.all
     end
 
     def new_announcement

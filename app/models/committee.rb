@@ -1,5 +1,4 @@
 class Committee < ActiveRecord::Base
-	
 	has_many :participations
 	has_many :users, through: :participations
 	
@@ -22,4 +21,5 @@ class Committee < ActiveRecord::Base
 	def activate
 		self.update_attributes!(:inactive => false)
 	end
+
 end

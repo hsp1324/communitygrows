@@ -1,4 +1,7 @@
 %h1 Board Member Dashboard
+- if flash[:alert] == "You do not have access to this committee. Please contact Kelly for access."
+  #flashNotice
+    = flash[:alert]
 .row
   .col-md-6
     #announcements
@@ -28,7 +31,8 @@
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                 %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
       - if @announcement_list.count > 5 or @subcomittee_announcements_list.count > 5
-        = link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
+        = link_to "Show All", show_announcements_path, :id => :main, :class => "btn btn-small btn-warning"
+        -#= link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
 
   .col-md-6
     #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}

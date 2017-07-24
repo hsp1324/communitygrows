@@ -99,6 +99,9 @@ Rails.application.routes.draw do
   post 'committee/update_committee_order' => 'committee#update_committee_order', as: :update_committee_order
   get 'committee/:id/inactivate_committee' => 'committee#inactivate_committee', as: :inactivate_committee
   get 'committee/:id/activate_committee' => 'committee#activate_committee', as: :activate_committee
+  # added these for adding/removing users from committees
+  delete 'committee/:id/modify_committee_members/:user_id' => 'committee#remove_member', as: :remove_committee_member
+  put 'committee/:id/modify_committee_members/:user_id' => 'committee#add_member', as: :add_committee_member
 
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page

@@ -3,6 +3,11 @@ class SubcommitteeController < ActionController::Base
     before_action :authenticate_user!
     
     def index
+        if !Committee.find_by_name(params[:committee_type]).users.include?(current_user)
+            flash[:alert] = "You do not have access to this committee. Please contact Kelly for access."
+            redirect_to dashboard_index_path
+            return
+        end
     	@inactive = Committee.find_by_name(params[:committee_type]).inactive
         @committee_type = params[:committee_type]
         if @inactive

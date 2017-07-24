@@ -133,4 +133,32 @@ class CommitteeController < ApplicationController
         redirect_to committee_index_path
     end
     
+    #added the two methods below for adding and removing committee members
+    def remove_member
+        if !current_user.admin
+            flash[:message] = "Only admins can remove committee members."
+            redirect_to root_path and return
+        end
+        committee = Committee.find(params[:id])
+        user = User.find(params[:user_id])
+        # remove user from committee with activerecord model query
+        # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!
+        
+        Participation.find_by(committee_id: committee.id, user_id: user.id).destroy!
+        flash[:notice] = "#{user.name} successfully removed from #{committee.name}."
+        redirect_to edit_committee_path and return
+    end
+
+    def add_member
+        if !current_user.admin
+            flash[:message] = "Only admins can add committee members."
+            redirect_to root_path and return
+        end
+        committee = Committee.find(params[:id])
+        user = User.find(params[:user_id])
+        #add user to committee with activerecord model query
+        Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
+        flash[:notice] = "#{user.name} successfully added to #{committee.name}."
+        redirect_to edit_committee_path and return
+    end
 end

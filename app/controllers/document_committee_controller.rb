@@ -21,10 +21,18 @@ class DocumentCommitteeController < ActionController::Base
             @title = params[:title]
             @url = params[:url]
             @committee_type = params[:committee_type]
-            Document.create!(:title => @title, :url => @url, :committee_type => @committee_type)
+            
+            @new_doc = Document.create(:title => @title, :url => @url, :committee_type => @committee_type)
             flash[:notice] = 'Document List creation successful and email was successfully sent.'
+            
+            MailRecord.create!(:record_type => "document", :record_id => @new_doc.id, :committee => @committee_type)
+            
             if Rails.env.production?
-                send_doccom_email(@committee_type,@title)
+                User.all.each do |user|
+                    if user.digest_pref == "real_time"
+                        send_doccom_email(@committee_type,@title)
+                    end
+                end
             end
             redirect_to subcommittee_index_path(@committee_type)
         end
@@ -51,6 +59,14 @@ class DocumentCommitteeController < ActionController::Base
             @committee_type = params[:committee_type]
             @target_document = Document.find params[:document][:id]
             @target_document.update_attributes!(:title => @title, :url => @url, :committee_type => @committee_type)
+            
+            @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+            if @prev_mailrecord
+                @prev_mailrecord.touch
+            else
+                MailRecord.create!(:record_type => "document", :record_id => params[:id], :committee => @committee_type)
+            end
+            
             if Rails.env.production?
                 send_doccom_update_email(@committee_type,@title)
             end
@@ -62,6 +78,11 @@ class DocumentCommitteeController < ActionController::Base
         @committee_type = params[:committee_type]
         @target_document = Document.find params[:document_id]
         @target_document.destroy!
+        
+        @prev_mailrecord =MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+        if @prev_mailrecord
+            @prev_mailrecord.destroy!
+        end
         flash[:notice] = "Executive Document List with title [#{@target_document.title}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_type)
     end

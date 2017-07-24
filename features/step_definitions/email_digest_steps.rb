@@ -29,3 +29,8 @@ end
 Then /the database should( not)? have email with title "([^"]*)" and content "([^"]*)"$/ do |title, content|
 	pending 
 end
+
+#New Tests for iter 2-2
+Then /I should see a MailRecord object with type "([^"]*)" committee "([^"]*)"$/ do |type, com|
+	MailRecord.find_by(record_type: type, committee: com)
+end

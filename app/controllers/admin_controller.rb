@@ -94,14 +94,11 @@ class AdminController < ActionController::Base
         @title = announcement_params[:title]
         @content = announcement_params[:content]
         @type = "dashboard"
-        Announcement.create!(:title => @title, :content => @content, :committee_type => @type)
+        @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
+        MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
         if Rails.env.production?
             User.all.each do |user|
-                if user.digest_pref == "daily"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
-                elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
-                else
+                if user.digest_pref == "real_time"
                     NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
                 end
             end
@@ -122,17 +119,22 @@ class AdminController < ActionController::Base
         authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+        if @prev_mailrecord
+            @prev_mailrecord.touch
+        else
+            MailRecord.create!(:record_type => "announcement", :record_id => params[:id], :committee => @target_announcement.committee_type)
+        end
+        
         if Rails.env.production?
             User.all.each do |user|
-                if user.digest_pref == "daily"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
-                elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
-                else
+                if user.digest_pref == "real_time"
                     NotificationMailer.announcement_update_email(user, @target_announcement).deliver
                 end
             end
         end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
         redirect_to(admin_index_path)
     end
@@ -142,6 +144,12 @@ class AdminController < ActionController::Base
         authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.destroy!
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+        if @prev_mailrecord
+            @prev_mailrecord.destroy!
+        end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
         redirect_to(admin_index_path)
     end

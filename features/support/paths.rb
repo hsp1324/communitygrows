@@ -56,6 +56,9 @@ module NavigationHelpers
     when /^the doc info page for "([^"]*)"$/ then
       info_file_path(Document.find_by_title($1).id)
       
+    when /^subcommittee "([^"]*)"$/ then
+      info_file_path(Document.find_by_title($1).id)
+      
       
     # "Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

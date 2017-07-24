@@ -1,13 +1,11 @@
 %h1 Add New Committee
 
 .container.well
+  #flashNotice= flash[:notice]
   = button_to committee_index_path, :method => :get, class: 'btn btn-info' do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br
-  - if flash[:notice] == 'Please fill in the committee name field.' or flash[:notice] == 'The committee name provided already exists. Please enter a different name.' or flash[:notice]=="Please enter a valid URL."
-    #flashNotice
-      = flash[:notice]
 
   = form_tag create_committee_path do
     .form-group

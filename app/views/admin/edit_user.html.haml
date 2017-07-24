@@ -1,0 +1,104 @@
+%h1 Edit Existing User
+
+- if flash[:notice]
+  - flash[:notice].each do |msg|
+    #flashNotice
+      = msg
+.container.well
+  = link_to admin_index_path, :class => "btn btn-info" do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+  %br
+  // = form_tag update_user_path(@user), :method => :put do
+  //   .form-group
+  //     = label :user, :email, 'Email'
+  //     = text_field :user, 'email', :class => 'form-control'
+  //   .form-group
+  //     = label :user, :password, 'Password'
+  //     = password_field :user, 'password', :class => 'form-control'
+  //   .form-group
+  //     = label :user, :password_confirmation, 'Password Confirmation'
+  //     = password_field :user, 'password_confirmation', :class => 'form-control'
+  //   = submit_tag 'Update user', :class => 'btn btn-success'
+  
+  = form_tag update_user_path(@user), method: :put do
+    .form-group
+      = label :user, :name, "Name: "
+      = text_field :user, 'name', placeholder: @user.name, class: 'form-control'
+    .form-group
+      = label :user, :board_role, "Board Role: "
+      = text_field :user, 'board_role', placeholder: @user.board_role, class: 'form-control'
+    .form-group
+      = label :user, :committee, 'Committee: '
+      = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
+    .form-group
+      = label :user, :email, "Email: "
+      = email_field :user, 'email', placeholder: @user.email, class: 'form-control'
+    .form-group
+      = label :user, :gender, "Gender: "
+      = text_field :user, 'gender', placeholder: @user.gender, class: 'form-control'
+    .form-group
+      = label :user, :ethnicity, "Ethnicity: "
+      = text_field :user, 'ethnicity', placeholder: @user.ethnicity, class: 'form-control'
+    .form-group
+      = label :user, :ethnicity, "Current Company: "
+      = text_field :user, 'current_company', placeholder: @user.current_company, class: 'form-control'
+    .form-group
+      = label :user, :ethnicity, "Current Position: "
+      = text_field :user, 'current_position', placeholder: @user.current_position, class: 'form-control'
+    .form-group
+      = label :user, :about_me, "About Me: "
+      = text_area :user, 'about_me', placeholder: @user.about_me, class: 'form-control', rows: 4
+    .form-group
+      = label :user, :why_join, "Why I Joined Community Grows: "
+      = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
+    
+    %h3 Areas of Expertise
+    %div{:style => "height:400px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "list-style-type:none;"}
+        = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => false), :id, :name do |b|
+          %li 
+            = b.check_box
+            = b.label
+            
+    
+    %h3 Constituency
+    %div{:style => "height:300px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "list-style-type:none;"}
+        = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => true), :id, :name do |b|
+          %li 
+            = b.check_box
+            = b.label
+    
+    %h3 Email Preferences  
+    .form-group
+      = label :user, :internals, "Internal:"
+      = check_box :user, :internal
+    .form-group
+      = label :user, :external, "External:"
+      = check_box :user, :external
+    .form-group
+      = label :user, :executive, "Executive:"
+      = check_box :user, :executive
+    - if current_user.id != @user.id
+      .form-group
+        = label :user, :admin, 'Admin'
+        = select :user, :admin, [['True', true], ['False', false]], {}, :class => 'form-control'
+    - else
+      .form-group
+        = label :user, :admin, 'Admin: '
+        = "Admin's can't edit their own admin status."
+    .form-group
+      = submit_tag 'Update User', :class => "btn btn-success"
+      
+  %h1 Edit Password
+  = form_tag update_user_path(@user), method: :put do
+    .form-group
+      = label :user, :password, "Password: "
+      = password_field :user, 'password', class: 'form-control'
+    .form-group
+      = label :user, :password_confirmation, "Password Confirmation: "
+      = password_field :user, 'password_confirmation', class: 'form-control'
+    .form-group
+      = submit_tag 'Update Password', :class => "btn btn-success"

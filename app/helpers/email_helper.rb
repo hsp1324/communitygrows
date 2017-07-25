@@ -9,7 +9,9 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee, user_id: user.id)
+                    puts "HI1"
+                    if Participation.find_by(committee_id: committee.id, user_id: user.id)
+                        puts "HI2"
                         NotificationMailer.announcement_email(user, announcement).deliver
                     end
                 end
@@ -45,7 +47,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee, user_id: user.id)
+                    if Participation.find_by(committee_id: committee.id, user_id: user.id)
                         NotificationMailer.document_email(user, document).deliver
                     end
                 end

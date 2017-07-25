@@ -11,8 +11,14 @@
       = label :committee, :name, 'Committee Name'
       = text_field :committee, 'name', :value => @committee.name, class: 'form-control'
 
-    .form-group
-      = label :user, :name, 'Add/Remove Users'
+      -#added the three lines below for the submit name change button
+    = form_tag update_committee_path(:committee => @committee, :id => @committee.id), method: :put do
+      .form-group
+      -# = label :committee, :name, 
+      = submit_tag 'Update Name', :class => "btn btn-success"
+
+  .form-group
+    = label :user, :name, 'Add/Remove Users'
     %table.table.table-bordered.table-striped
       #announcement_content
         %thead

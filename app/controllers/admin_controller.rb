@@ -97,7 +97,7 @@ class AdminController < ActionController::Base
         @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
         if Rails.env.production?
-            send_announcement_email("", @new_announce)
+            EmailHelper.send_announcement_email("", @new_announce)
         end
         flash[:notice] = 'Announcement creation successful and email was sent successfully.'
         redirect_to('/admin')
@@ -124,7 +124,7 @@ class AdminController < ActionController::Base
         end
         
         if Rails.env.production?
-            send_announcement_update_email("", @target_announcement)
+            EmailHelper.send_announcement_update_email("", @target_announcement)
         end
         
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"

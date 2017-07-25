@@ -28,7 +28,7 @@ class DocumentCommitteeController < ActionController::Base
             MailRecord.create!(:record_type => "document", :record_id => @new_doc.id, :committee => @committee_type)
             
             if Rails.env.production?
-                send_document_email(@committee_type, @new_doc)
+                EmailHelper.send_document_email(@committee_type, @new_doc)
             end
             redirect_to subcommittee_index_path(@committee_type)
         end
@@ -64,7 +64,7 @@ class DocumentCommitteeController < ActionController::Base
             end
             
             if Rails.env.production?
-                send_document_update_email(@committee_type, @target_document)
+                EmailHelper.send_document_update_email(@committee_type, @target_document)
             end
             flash[:notice] = "Executive Document List with title [#{@target_document.title}] updated successfully and email was successfully sent."
             redirect_to subcommittee_index_path(@committee_type)

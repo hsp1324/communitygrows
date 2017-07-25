@@ -13,7 +13,6 @@ Rails.application.routes.draw do
   resources :admin, :only => [:index]
   resources :documents, :only => [:index]
   #resources :committee, :only => [:index]
-  resources :events, :only => [:index]
 
   get 'admin/:id/edit_user' => 'admin#edit_user', as: :edit_user
   get 'admin/new_user' => 'admin#new_user', as: :new_user
@@ -29,13 +28,6 @@ Rails.application.routes.draw do
   put 'admin/:id/edit_announcement' => 'admin#update_announcement', as: :update_announcement
   get 'admin/:id/delete_announcement' => 'admin#delete_announcement', as: :delete_announcement
   
-  
-  get 'admin/new_event' => 'events#new', as: :a_new_event
-  post 'admin/create_event' => 'events#create', as: :create_new_event
-  post 'admin/:id/update_event' => 'events#update', as: :update_event
-  get 'admin/:id/edit_event' => 'events#edit', as: :edit_event
-  get 'admin/delete_event/:id' => 'events#delete', as: :delete_event
-  get 'event/:id' => 'events#show', as: :show_event
   
   get 'dashboard_announcements/:announcement_id/comments' => 'comment#index', as: :comment
   get 'dashboard_announcements/:announcement_id/comments/new_comment' => 'comment#new_comment', as: :new_comment

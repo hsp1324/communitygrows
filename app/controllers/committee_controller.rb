@@ -9,6 +9,9 @@ class CommitteeController < ApplicationController
     end
 
     def create_committee
+        params[:committee].each do |fields|
+            puts "#committee field: #{fields}"
+        end 
     	if !current_user.admin
             flash[:message] = "Only admins can create committees."
             redirect_to root_path and return

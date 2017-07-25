@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20170722224800) do
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
 <<<<<<< HEAD
+<<<<<<< HEAD
     t.datetime "last_sign_in_at",        default: '2017-07-23 19:31:01', null: false
 =======
     t.datetime "last_sign_in_at",        default: '2017-07-22 23:43:27', null: false
@@ -147,6 +148,9 @@ ActiveRecord::Schema.define(version: 20170722224800) do
     t.boolean  "external"
     t.boolean  "executive"
 >>>>>>> 9837e0cbcf53ed32fa1eac40b5f93cf76b3b8533
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-22 21:00:00', null: false
+>>>>>>> 5d8add60c93c51f7a40928fed29f2ad3648e17a1
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

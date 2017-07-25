@@ -93,15 +93,11 @@ class AdminController < ActionController::Base
         authenticate_user!
         @title = announcement_params[:title]
         @content = announcement_params[:content]
-        @type = "dashboard"
+        @type = ""
         @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
         if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
-                end
-            end
+            send_announcement_email("", @new_announce)
         end
         flash[:notice] = 'Announcement creation successful and email was sent successfully.'
         redirect_to('/admin')
@@ -128,11 +124,7 @@ class AdminController < ActionController::Base
         end
         
         if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver
-                end
-            end
+            send_announcement_update_email("", @target_announcement)
         end
         
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"

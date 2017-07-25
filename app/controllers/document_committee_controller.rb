@@ -4,7 +4,7 @@ class DocumentCommitteeController < ActionController::Base
     before_action :authenticate_user!
     include EmailHelper
     
-    def new_document        
+    def new_document
     end
     
     def create_document
@@ -28,11 +28,7 @@ class DocumentCommitteeController < ActionController::Base
             MailRecord.create!(:record_type => "document", :record_id => @new_doc.id, :committee => @committee_type)
             
             if Rails.env.production?
-                User.all.each do |user|
-                    if user.digest_pref == "real_time"
-                        send_doccom_email(@committee_type,@title)
-                    end
-                end
+                send_document_email(@committee_type, @new_doc)
             end
             redirect_to subcommittee_index_path(@committee_type)
         end
@@ -68,7 +64,7 @@ class DocumentCommitteeController < ActionController::Base
             end
             
             if Rails.env.production?
-                send_doccom_update_email(@committee_type,@title)
+                send_document_update_email(@committee_type, @target_document)
             end
             flash[:notice] = "Executive Document List with title [#{@target_document.title}] updated successfully and email was successfully sent."
             redirect_to subcommittee_index_path(@committee_type)

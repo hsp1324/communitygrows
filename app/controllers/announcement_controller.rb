@@ -5,7 +5,6 @@ class AnnouncementController < ActionController::Base
     include EmailHelper
 
     def show_announcements
-       #@announcements = Announcement.where(committee_type: params[:categories])
        @announcements = Announcement.all
     end
 
@@ -25,11 +24,7 @@ class AnnouncementController < ActionController::Base
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @committee_type)
         
         if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    NotificationMailer.announcement_email(user, @new_announce).deliver
-                end
-            end
+            send_announcement_email(@committee_type, @new_announce)
         end
         flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful and email was successfully sent."
         redirect_to subcommittee_index_path(:committee_type => @committee_type)
@@ -61,8 +56,9 @@ class AnnouncementController < ActionController::Base
         end
         
         if Rails.env.production?
-            send_announcement_update_email(@committee_type,@title)
+            send_announcement_update_email(@committee_type, @target_announcement)
         end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
         redirect_to subcommittee_index_path(@committee_type)
     end

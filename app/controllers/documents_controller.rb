@@ -42,7 +42,7 @@ class DocumentsController < ActionController::Base
             MailRecord.create!(:record_type => "document", :record_id => @file.id, :committee => '')
             
             if Rails.env.production?
-                EmailHelper.send_document_email("", @file)
+                send_document_email("", @file)
             end
             flash[:notice] = "#{@file.title} was successfully created and email was succesfully sent."
             redirect_to documents_path 
@@ -74,7 +74,7 @@ class DocumentsController < ActionController::Base
             end
             
             if Rails.env.production?
-                EmailHelper.send_document_email_update("", @file)
+                send_document_email_update("", @file)
             end
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."
             redirect_to(documents_path)

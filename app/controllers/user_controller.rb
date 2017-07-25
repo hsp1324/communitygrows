@@ -25,7 +25,7 @@ class UserController < ActionController::Base
         @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
         if Rails.env.production?
-            EmailHelper.send_announcement_email("", @new_announce)
+            send_announcement_email("", @new_announce)
         end
         flash[:notice] = 'Announcement creation successful and email was sent successfully.'
     end

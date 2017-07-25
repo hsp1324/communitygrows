@@ -1,6 +1,7 @@
 class AdminController < ActionController::Base
     layout "base"
     #before_action :authenticate_user!, :authorize_user
+    include EmailHelper
     
     def authorize_user
         if not User.find(current_user.id).admin

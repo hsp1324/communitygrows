@@ -1,6 +1,7 @@
 class UserController < ActionController::Base
     layout "base"
     before_action :authenticate_user!
+    include EmailHelper
     
     def user_params
         params.require(:user).permit(:email, :password, :password_confirmation, :name, :board_role, :current_company, :current_position,

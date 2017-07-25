@@ -25,8 +25,10 @@ class AnnouncementController < ActionController::Base
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @committee_type)
         
         if Rails.env.production?
-            if user.digest_pref == "real_time"
-                NotificationMailer.announcement_email(user, @new_announce).deliver
+            User.all.each do |user|
+                if user.digest_pref == "real_time"
+                    NotificationMailer.announcement_email(user, @new_announce).deliver
+                end
             end
         end
         flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful and email was successfully sent."

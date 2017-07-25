@@ -50,4 +50,9 @@ class NotificationMailer < ApplicationMailer
   	@event = event
     mail(to: @user.email, subject: 'A CG event has been updated')
   end
+  
+  def daily_digest_email(user, subject, content)
+    @content = content
+    mail(to: user.email, subject: subject)
+        
 end

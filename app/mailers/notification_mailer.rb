@@ -54,5 +54,5 @@ class NotificationMailer < ApplicationMailer
   def daily_digest_email(user, subject, content)
     @content = content
     mail(to: user.email, subject: subject)
-        
+  end
 end

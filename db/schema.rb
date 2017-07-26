@@ -89,7 +89,10 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.boolean "constituency"
     t.string  "name"
   end
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
   create_table "mail_records", force: :cascade do |t|
     t.string   "record_type"
     t.integer  "record_id"
@@ -131,7 +134,11 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
+<<<<<<< HEAD
     t.datetime "last_sign_in_at",        default: '2017-07-26 04:04:10', null: false
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-25 21:37:57', null: false
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

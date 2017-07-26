@@ -53,6 +53,9 @@ class NotificationMailer < ApplicationMailer
     @content = content
     mail(to: user.email, subject: subject)
   end
+<<<<<<< HEAD
 =======
 >>>>>>> iter2.5-clean
+=======
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
 end

@@ -18,7 +18,7 @@
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                 %td= link_to "#{announcement.title}", comment_path(announcement.id)
       = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
-      %h2 Subcommittee Announcements
+      %h2 Committee Announcements
       #announcement_content
         %table.table.table-bordered.table-striped
           %thead

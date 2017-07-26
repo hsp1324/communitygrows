@@ -72,15 +72,15 @@
             = b.label
     
     %h3 Email Preferences  
-    .form-group
-      = label :user, :internals, "Internal:"
-      = check_box :user, :internal
-    .form-group
-      = label :user, :external, "External:"
-      = check_box :user, :external
-    .form-group
-      = label :user, :executive, "Executive:"
-      = check_box :user, :executive
+    // .form-group
+    //   = label :user, :internals, "Internal:"
+    //   = check_box :user, :internal
+    // .form-group
+    //   = label :user, :external, "External:"
+    //   = check_box :user, :external
+    // .form-group
+    //   = label :user, :executive, "Executive:"
+    //   = check_box :user, :executive
     - if current_user.id != @user.id
       .form-group
         = label :user, :admin, 'Admin'

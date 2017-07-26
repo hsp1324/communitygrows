@@ -9,7 +9,7 @@
 User.delete_all
 curr = User.create!(:name => "Admin John", :email => "shawnpliu@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
 :admin => true)
-curr1 = User.create!(:name => "User Jane", :email => "mail.community.grows.gmail.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+curr1 = User.create!(:name => "User Jane", :email => "mail.community.grows@gmail.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
 :admin => false)
 
 Committee.delete_all

@@ -13,37 +13,37 @@ Background: admin is on the admin dashboard
 Scenario: should be able to add an announcement
   Then I should see "New Announcement"
   When I follow "New Announcement"
-  And I fill in "Title" with "new title"
-  And I fill in "Content" with "new content"
+  And I fill in "Title" with "newnew title"
+  And I fill in "Content" with "newnew content"
   And I press "Submit"
-  Then I should see "new title"
-  And I should see "new content"
+  Then I should see "Announcement creation successful and email was sent successfully."
+  Then I should see "newnew title"
 
 # happy path
 Scenario: should be able to edit a created announcement
   Then I should see "New Announcement"
   When I follow "New Announcement"
-  And I fill in "Title" with "new title"
-  And I fill in "Content" with "new content"
+  And I fill in "Title" with "newnew title"
+  And I fill in "Content" with "newnew content"
   And I press "Submit"
-  Then I should see "Edit Announcement"
-  When I follow first "Edit Announcement"
-  And I fill in "Title" with "edited title"
-  And I fill in "Content" with "edited content"
+  Then I should see "Announcement creation successful and email was sent successfully."
+  And I should see "newnew title"
+  When I follow "newnew title"
+  Then I fill in "Title" with "edited title"
+  Then I fill in "Content" with "edited content"
   And I press "Submit"
   Then I should see "edited title"
-  And I should see "edited content"
 
 # happy path
 @javascript
 Scenario: should be able to delete a created announcement
   Then I should see "New Announcement"
   When I follow "New Announcement"
-  And I fill in "Title" with "new title"
+  And I fill in "Title" with "newnew title"
   And I fill in "Content" with "new content"
   And I press "Submit"
-  Then I should see "new title"
-  And I should see "new content"
+  Then I should see "Announcement creation successful and email was sent successfully."
+  Then I shoul see "newnew title"
   Then I should see "Delete Announcement"
   When I follow first "Delete Announcement"
   And I confirm popup

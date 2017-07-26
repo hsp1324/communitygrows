@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170722224800) do
+=======
+ActiveRecord::Schema.define(version: 20170722214304) do
+>>>>>>> f27665cee024ba21944686a37bd090823f080800
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -85,6 +89,7 @@ ActiveRecord::Schema.define(version: 20170722224800) do
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
+<<<<<<< HEAD
   create_table "events", force: :cascade do |t|
     t.string   "title"
     t.string   "location"
@@ -93,11 +98,20 @@ ActiveRecord::Schema.define(version: 20170722224800) do
     t.string   "url"
   end
 
+=======
+>>>>>>> f27665cee024ba21944686a37bd090823f080800
   create_table "expertises", force: :cascade do |t|
     t.boolean "constituency"
     t.string  "name"
   end
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
+>>>>>>> f27665cee024ba21944686a37bd090823f080800
   create_table "mail_records", force: :cascade do |t|
     t.string   "record_type"
     t.integer  "record_id"
@@ -141,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170722224800) do
     t.boolean  "admin"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     t.datetime "last_sign_in_at",        default: '2017-07-23 19:31:01', null: false
 =======
     t.datetime "last_sign_in_at",        default: '2017-07-22 23:43:27', null: false
@@ -151,6 +166,12 @@ ActiveRecord::Schema.define(version: 20170722224800) do
 =======
     t.datetime "last_sign_in_at",        default: '2017-07-22 21:00:00', null: false
 >>>>>>> 5d8add60c93c51f7a40928fed29f2ad3648e17a1
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-26 04:04:10', null: false
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-25 21:37:57', null: false
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
+>>>>>>> f27665cee024ba21944686a37bd090823f080800
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

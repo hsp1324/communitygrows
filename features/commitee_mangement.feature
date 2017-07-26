@@ -104,7 +104,7 @@ Scenario: Hide and Show committee
     And I should see "hoopla"
 
 
-Scenario: Inactivate and Deactivate committee  
+Scenario: Activate and Inactivate committee  
     Given I am on the committee management page
     And I should see "Activate hoopla"
     When I press "Activate hoopla"
@@ -116,6 +116,13 @@ Scenario: Inactivate and Deactivate committee
     And I should see "Inactivate hoopla"
     Given I am on the CommunityGrows admin_dashboard page
     And I should see "hoopla"
+    When I follow first "hoopla"
+    Then I should see "You do not have access to this committee. Please contact Kelly for access."
+    Given I am on the committee management page
+    And I follow second "hoopla"
+    And I should see "Add Admin to hoopla"
+    And I press "Add Admin to hoopla"
+    And I should see "Admin successfully added to hoopla."
     When I follow first "hoopla"
     And I should see "Add new announcement"
     And I should see "Add new document"

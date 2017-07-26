@@ -34,9 +34,13 @@ module NavigationHelpers
     when /the (CommunityGrows )?user info page for "([^"]*)"$/ then
       # puts User.find_by_name($1).id
       user_profile_path(User.find_by_name($1).id)
-    when /the subcommittee "([^"]*)" page$/ then 
-      '/subcommittee_index/'+ $1
+<<<<<<< HEAD
+    
+ 
+=======
+
       
+>>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
     when /the edit user page for "([^"]*)"$/ then
       edit_user_path(User.find_by_email($1).id)
     

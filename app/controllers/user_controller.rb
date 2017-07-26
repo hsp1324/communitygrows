@@ -1,6 +1,7 @@
 class UserController < ActionController::Base
     layout "base"
     before_action :authenticate_user!
+    include EmailHelper
     
     def user_params
         params.require(:user).permit(:email, :password, :password_confirmation, :name, :board_role, :current_company, :current_position,
@@ -20,63 +21,14 @@ class UserController < ActionController::Base
     def create_announcement
         @title = announcement_params[:title]
         @content = announcement_params[:content]
-        @type = "dashboard"
+        @type = ""
         @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
         if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    NotificationMailer.announcement_email(user, @new_announce).deliver
-                end
-            end
+            send_announcement_email("", @new_announce)
         end
         flash[:notice] = 'Announcement creation successful and email was sent successfully.'
-        redirect_to('/admin')
     end
-    
-    def edit_announcement
-        @id = params[:id]
-        @target_announcement = Announcement.find @id
-    end
-    
-    def update_announcement
-        @target_announcement = Announcement.find params[:id]
-        @target_announcement.update_attributes!(announcement_params)
-        
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-        if @prev_mailrecord
-            @prev_mailrecord.touch
-        else
-            MailRecord.create!(:record_type => "announcement", :record_id => params[:id], :committee => @target_announcement.committee_type)
-        end
-        
-        if Rails.env.production?
-            
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver
-                end
-            end
-        end
-        flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
-        redirect_to(admin_index_path)
-    end
-    
-    def delete_announcement
-        @target_announcement = Announcement.find params[:id]
-        @target_announcement.destroy!
-        
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-        if @prev_mailrecord
-            @prev_mailrecord.destroy!
-        end
-        
-        flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
-        redirect_to(admin_index_path)
-    end
-    
-    
-    
     
     def update_user_credentials
         @user = current_user

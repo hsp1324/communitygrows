@@ -1,5 +1,6 @@
 class CommitteeController < ApplicationController
     layout "base"
+    # serialize :committee
     
     def index
         @committees = Committee.all

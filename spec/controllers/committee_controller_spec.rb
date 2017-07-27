@@ -6,7 +6,7 @@ describe CommitteeController do
     before(:each) do
         sign_in users(:tester)
         @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
-		@test_user = User.find_by(name: "Rspec")
+		@test_admin = User.find_by(name: "Rspec_admin")
 		@test_committee = Committee.find_by(name: "Nice")
     end
 	describe 'new committee' do
@@ -221,23 +221,24 @@ describe CommitteeController do
 	describe 'Add committee member' do
 
 		it 'shows a flash message when member is successfully added to committee' do
+			put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+			expect(flash[:notice]).to eq("Rspec_admin successfully added to Nice.")
+			put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+			expect(flash[:notice]).to eq("Rspec_admin successfully removed from Nice.")
+		end
+		
+		it 'Only admins can add and delete committee members.' do
+			sign_in users(:user)
+			@test_user = User.find_by(name: "Rspec_user")
 			put :add_member, params: {id: @test_committee.id, user_id: @test_user.id}
-			expect(flash[:notice]).to eq("Rspec successfully added to Nice.")
-			put :remove_member, params: {id: @test_committee.id, user_id: @test_user.id}
-			expect(flash[:notice]).to eq("Rspec successfully removed from Nice.")
+			expect(flash[:message]).to eq("Only admins can add committee members.")
+			sign_in users(:tester)
+			put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+			sign_in users(:user)
+			put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+			expect(flash[:message]).to eq("Only admins can remove committee members.")
 		end
 
-		# it 'sets the committee\'s hidden attribute to false' do
-		# 	expect_any_instance_of(Committee).to receive(:add_committee_member)
-		# 	get :add_member, params: {id: test_committee.id,  user_id: test_user.id}
-		# end
-
-		# it 'redirects non-admin users' do
-  #          sign_in users(:user)
-  #          get :inactivate_committee, params: {id: @test_committee.id}
-  #          expect(response).to redirect_to root_path
-  #          sign_out users(:user)
-  #      end
 	end
 	
 end

@@ -1,52 +1,52 @@
-# Feature: Committee Management
+Feature: Committee Management
   
-#   As an admin
-#   I want to add, remove, edit, In hide, or show categories
-#   So that documents can be sorted more effectively
+  As an admin
+  I want to add, remove, edit, In hide, or show categories
+  So that documents can be sorted more effectively
   
   
-# Background:
+Background:
   
-#     Given the following committees exist:
-#         | name            | inactive | hidden    |
-#         | hoopla          | true     | false     |
-#         | crystal gems    | true     | false     |
-#         | backstreet boys | true     | false     |
-#     Given a logged in admin
-#     And I am on the CommunityGrows home page
+    Given the following committees exist:
+        | name            | inactive | hidden    |
+        | hoopla          | true     | false     |
+        | crystal gems    | true     | false     |
+        | backstreet boys | true     | false     |
+    Given a logged in admin
+    And I am on the CommunityGrows home page
 
 
-# Scenario: Existance of committee management in drop down
-#     Given I am on the CommunityGrows home page
-#     Then I should see "Admin Dashboard"
-#     # Then I should see "Committee Management" in "Admin" tab
+Scenario: Existance of committee management in drop down
+    Given I am on the CommunityGrows home page
+    Then I should see "Admin Dashboard"
+    # Then I should see "Committee Management" in "Admin" tab
 
 
-# Scenario: Visiting committee management page
-#     Given I am on the CommunityGrows committee management page
-#     Then I should see "Committee Management"
-#     And I should see "hoopla"
-#     And I should see "crystal gems"
-#     And I should see "backstreet boys"
-#     And I should see "New Committee"
-#     And I should see "Activate hoopla"
-#     And I should see "Delete crystal gems"
-#     And I should see "Hide backstreet boys"
+Scenario: Visiting committee management page
+    Given I am on the CommunityGrows committee management page
+    Then I should see "Committee Management"
+    And I should see "hoopla"
+    And I should see "crystal gems"
+    And I should see "backstreet boys"
+    And I should see "New Committee"
+    And I should see "Activate hoopla"
+    And I should see "Delete crystal gems"
+    And I should see "Hide backstreet boys"
     
 
-# Scenario: Create new committee
-#     Given I am on the committee management page
-#     When I follow "New Committee"
-#     And I fill in "Committee Name" with "Good Committee"
-#     And I press "Submit"
-#     Then I am on the committee management page
-#     And I should see "Good Committee"
-#     And I should see "Delete Good Committee"
-#     And I should see "Show Good Committee"
-#     And I should see "Activate Good Committee"
+Scenario: Create new committee
+    Given I am on the committee management page
+    When I follow "New Committee"
+    And I fill in "Committee Name" with "Good Committee"
+    And I press "Submit"
+    Then I am on the committee management page
+    And I should see "Good Committee"
+    And I should see "Delete Good Committee"
+    And I should see "Show Good Committee"
+    And I should see "Activate Good Committee"
     
-#     Given I am on the CommunityGrows admin_dashboard page
-#     Then I should not see "Good Committee"
+    Given I am on the CommunityGrows admin_dashboard page
+    Then I should not see "Good Committee"
     
 
 # Scenario: Edit committee   

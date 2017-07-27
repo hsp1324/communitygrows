@@ -1,7 +1,7 @@
 Feature: Committee Management
   
   As an admin
-  I want to add, remove, edit, In hide, or show categories
+  I want to add, remove, edit, hide or show, active or inactive committees
   So that documents can be sorted more effectively
   
   

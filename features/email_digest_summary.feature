@@ -7,7 +7,7 @@ Feature: Users with daily digest preference will receive a summary of all emails
 
 Background: an admin is currently on the dashboard
 	
-	Given the following committees exist:
+	Given the following committees exist
     | name            | inactive  | hidden    |
     | hoopla          | false     | false     |
     | crystal gems    | false     | false     |

@@ -27,7 +27,22 @@ Given /^admin "([^\"]*)" is in the following committees: "([^\"]*)"$/ do |admin_
     committees.split(',').each do |committee|
         step "admin #{admin_name} is in committee #{committee.strip}"
     end
+end
+
+#By Wen. Drop down menu for file transfer selection
+And /^(?:|I )should see document "([^\"]*)"$/ do |document_name|
+    pending
+end
+
+And /^(?:|I )should see the following documents: "([^\"]*)"$/ do |documents|
+    pending
 end 
+
+And /^(?:|I )select "([^\"]*)" from drop down menu "([^\"]*)"/ do |category_name, document_name|
+    pending
+end
+
+
 
 
 

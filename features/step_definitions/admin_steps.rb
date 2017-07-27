@@ -10,7 +10,7 @@ Given /^a valid admin$/ do
            })
 end
 # By Wen
-Given /^a valid admin ([a-zA-z]*)$/ do |name|
+Given /^a valid admin (.*)$/ do |name|
   @user = User.create!({
              :name => name,
              :email => "admindummy@dummy.com",

@@ -1,55 +1,55 @@
-# require 'spec_helper'
-# require 'rails_helper'
+require 'spec_helper'
+require 'rails_helper'
 
-# describe CommitteeController do 
-# 	fixtures :users
-#     before(:each) do
-#         sign_in users(:tester)
-#         @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
-#     end
-# 	describe 'new committee' do
-# 		it 'renders the new committee template' do
-# 			get :new_committee
-# 			expect(response).to render_template("new_committee")
-# 		end
-# # 		it 'redirects non-admin users' do
-# #             sign_in users(:user)
-# #             get :new_committee
-# #             expect(response).to redirect_to root_path
-# #             sign_out users(:user)
-# #         end
-# 	end
-
-# 	describe 'create committee' do
-# 		it 'redirects to the committee index page' do
-# 			post :create_committee, params: {committee: {name: "Good Committee"}}
-# 			expect(response).to redirect_to(committee_index_path)
-# 		end
-# 		it 'should not allow a blank name field' do
-# 			post :create_committee, params: {committee: {name: ""}}
-# 			expect(flash[:notice]).to eq("Committee name field cannot be blank.")
-# 			expect(response).to redirect_to(new_committee_path)
-# 		end
-# 		it 'should not allow an already used committee name field' do
-# 			expect(Committee).to receive(:has_name?).with("Good Committee").and_return(true)
-# 			post :create_committee, params: {committee: {name: "Good Committee"}}
-# 			expect(flash[:notice]).to eq("Committee name provided already exists. Please enter a different name.")
-# 			expect(response).to redirect_to(new_committee_path)
-# 		end
-
-# 		it 'creates a committee' do
-# 			expect(Committee).to receive(:create!).with(name: "Good Committee", hidden: true, inactive: true)
-#             post :create_committee, params: {committee: {name: "Good Committee"}}
-#             expect(flash[:notice]).to eq("Committee Good Committee was successfully created!")
-#         end
-
-#         it 'redirects non-admin users' do
+describe CommitteeController do 
+	fixtures :users
+    before(:each) do
+        sign_in users(:tester)
+        @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
+    end
+	describe 'new committee' do
+		it 'renders the new committee template' do
+			get :new_committee
+			expect(response).to render_template("new_committee")
+		end
+# 		it 'redirects non-admin users' do
 #             sign_in users(:user)
-#             post :create_committee, params: {committee: {name: "Good Committee"}}
+#             get :new_committee
 #             expect(response).to redirect_to root_path
 #             sign_out users(:user)
 #         end
-# 	end
+	end
+
+	describe 'create committee' do
+		it 'redirects to the committee index page' do
+			post :create_committee, params: {committee: {name: "Good Committee"}}
+			expect(response).to redirect_to(committee_index_path)
+		end
+		it 'should not allow a blank name field' do
+			post :create_committee, params: {committee: {name: ""}}
+			expect(flash[:notice]).to eq("Committee name field cannot be blank.")
+			expect(response).to redirect_to(new_committee_path)
+		end
+		it 'should not allow an already used committee name field' do
+			expect(Committee).to receive(:has_name?).with("Good Committee").and_return(true)
+			post :create_committee, params: {committee: {name: "Good Committee"}}
+			expect(flash[:notice]).to eq("Committee name provided already exists. Please enter a different name.")
+			expect(response).to redirect_to(new_committee_path)
+		end
+
+		it 'creates a committee' do
+			expect(Committee).to receive(:create!).with(name: "Good Committee", hidden: true, inactive: true)
+            post :create_committee, params: {committee: {name: "Good Committee"}}
+            expect(flash[:notice]).to eq("Committee Good Committee was successfully created!")
+        end
+
+        it 'redirects non-admin users' do
+            sign_in users(:user)
+            post :create_committee, params: {committee: {name: "Good Committee"}}
+            expect(response).to redirect_to root_path
+            sign_out users(:user)
+        end
+	end
 
 # 	describe 'edit committee' do
 # 		it 'renders the edit committee template' do
@@ -213,5 +213,5 @@
 #         end
 # 	end
 	
-# end
+end
 

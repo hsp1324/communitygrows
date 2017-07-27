@@ -38,7 +38,7 @@ describe CommitteeController do
 		end
 
 		it 'creates a committee' do
-			expect(Committee).to receive(:create!).with(name: "Good Committee", hidden: false, inactive: false)
+			expect(Committee).to receive(:create!).with(name: "Good Committee", hidden: true, inactive: true)
             post :create_committee, params: {committee: {name: "Good Committee"}}
             expect(flash[:notice]).to eq("Committee Good Committee was successfully created!")
         end
@@ -161,5 +161,57 @@ describe CommitteeController do
             sign_out users(:user)
         end
 	end
+	
+	
+	describe 'activate committee' do
+		it 'redirects to the committee index page' do
+			get :activate_committee, params: {id: 1}
+			expect(response).to redirect_to(committee_index_path)
+		end
+
+		it 'shows a flash message when committee successfully active' do
+			get :activate_committee, params: {id: 1}
+			expect(flash[:notice]).to eq("Nice successfully made active.")
+		end
+
+		it 'sets the committee\'s hidden attribute to true' do
+			expect_any_instance_of(Committee).to receive(:activate)
+			get :activate_committee, params: {id: 1}
+		end
+
+		it 'redirects non-admin users' do
+            sign_in users(:user)
+            get :activate_committee, params: {id: 1}
+            expect(response).to redirect_to root_path
+            sign_out users(:user)
+        end
+	end
+
+
+
+	describe 'Inactivate committee' do
+		it 'redirects to the committee index page' do
+			get :inactivate_committee, params: {id: 1}
+			expect(response).to redirect_to(committee_index_path)
+		end
+
+		it 'shows a flash message when committee successfully inactive' do
+			get :inactivate_committee, params: {id: 1}
+			expect(flash[:notice]).to eq("Nice successfully made inactive.")
+		end
+
+		it 'sets the committee\'s hidden attribute to false' do
+			expect_any_instance_of(Committee).to receive(:inactivate)
+			get :inactivate_committee, params: {id: 1}
+		end
+
+		it 'redirects non-admin users' do
+            sign_in users(:user)
+            get :inactivate_committee, params: {id: 1}
+            expect(response).to redirect_to root_path
+            sign_out users(:user)
+        end
+	end
+	
 end
 

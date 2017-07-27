@@ -28,7 +28,7 @@ Scenario: When I create main announcement, I should see a new MailRecord object 
 
 Scenario: When I create a subcommittee announcements, I should see a new MailRecord object for subcommittee announcement
 	
-	Given I am on the subcommittee "hoopla" page
+	Given I am on subcommittee "hoopla" page
 	# Then I should see "You do not have access to this committee."
 	#Check if redirects to flash message!
 	When I follow "Add new announcement"
@@ -38,7 +38,7 @@ Scenario: When I create a subcommittee announcements, I should see a new MailRec
   	Then I should see a MailRecord object with type "announcement" committee "hoopla"
 
 Scenario: When I create a subcommittee document, I should see a MailRecord object for subcommittee document
-	Given I am on the subcommittee "hoopla" page
+	Given I am on subcommittee "hoopla" page
   	When I follow "Add new document"
 	And I fill in "title" with "Jack"
   	And I fill in "url" with "www.cs169.com"

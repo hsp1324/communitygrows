@@ -8,7 +8,7 @@ class DashboardController < ActionController::Base
         if @curr_calendar
             @curr_calendar_id = @curr_calendar.html
         end
-        @announcement_list = Announcement.where(committee_type: "dashboard").order(created_at: :DESC)
-        @subcomittee_announcements_list = Announcement.where.not(committee_type: "dashboard").order(created_at: :DESC)
+        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
+        @subcomittee_announcements_list = Announcement.where.not(committee_type: "").order(created_at: :DESC)
     end
 end

@@ -32,7 +32,7 @@ class CommitteeController < ApplicationController
                 flash[:notice] = "Committee name provided already exists. Please enter a different name."
                 redirect_to new_committee_path
             else
-                Committee.create!(:name => committee[:name], :hidden => false, :inactive => false)
+                Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
                 flash[:notice] = "Committee #{committee[:name]} was successfully created!"
                 redirect_to committee_index_path
             end

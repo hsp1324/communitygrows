@@ -55,9 +55,15 @@ module NavigationHelpers
     
     when /^the doc info page for "([^"]*)"$/ then
       info_file_path(Document.find_by_title($1).id)
-      
+    
+    #not sure if in use due to legacy code
     when /^subcommittee "([^"]*)"$/ then
       info_file_path(Document.find_by_title($1).id)
+      
+    when /^subcommittee "([^"]*)" page$/ then
+      subcommittee_index_path($1)
+      
+      
       
       
     # "Add more mappings here.

@@ -25,3 +25,4 @@ end
 # Then /"([^"]*)" should be checked$/ do |element|
 #     page.find("#markasread").checked?.should be_true
 # end
+

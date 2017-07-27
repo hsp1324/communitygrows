@@ -24,7 +24,7 @@ class AdminController < ActionController::Base
     
     def index
         @users = User.all
-        @announcement_list = Announcement.where(committee_type: "dashboard").order(created_at: :DESC)
+        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
         if !current_user.admin
             flash[:message] = "Access not granted. Please sign in again."
             redirect_to("/users/sign_in")

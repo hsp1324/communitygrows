@@ -46,6 +46,13 @@ Scenario: Most Recent Main Announcements / Show All
 
 Scenario: Most Recent Subcommittee Announcements / Show All
 
+	Given I am on the committee management page
+    And I follow second "hoopla"
+    And I should see "Add Admin to hoopla"
+    And I press "Add Admin to hoopla"
+    And I should see "Admin successfully added to hoopla."
+	# Given the "sample_user" user in "hoopla" committee
+	
 	Given I follow "hoopla"
 	And I should see "Subcommittee"
 	And I should see "Add new announcement"

@@ -1,7 +1,7 @@
 Feature: Committee Management
   
   As an admin
-  I want to add, remove, edit, In hide, or show categories
+  I want to add, remove, edit, hide or show, active or inactive committees
   So that documents can be sorted more effectively
   
   
@@ -42,11 +42,11 @@ Scenario: Create new committee
     Then I am on the committee management page
     And I should see "Good Committee"
     And I should see "Delete Good Committee"
-    And I should see "Hide Good Committee"
-    And I should see "Inactivate Good Committee"
+    And I should see "Show Good Committee"
+    And I should see "Activate Good Committee"
     
     Given I am on the CommunityGrows admin_dashboard page
-    Then I should see "Good Committee"
+    Then I should not see "Good Committee"
     
 
 Scenario: Edit committee   
@@ -54,7 +54,7 @@ Scenario: Edit committee
     When I follow second "hoopla"
     And I should see "Edit"
     And I fill in "Committee Name" with "Great hoopla"
-    And I press "Submit"
+    And I press "Update Name"
     Then I am on the committee management page
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
@@ -64,7 +64,7 @@ Scenario: Edit committee
     Given I am on the CommunityGrows home page
     Then I should see "Great hoopla"
     When I follow "Great hoopla"
-    Then I should see "Great hoopla is currently inactive"
+    Then I should see "You do not have access to this committee. Please contact Kelly for access."
     And I should not see "Add new announcement"
     And I should not see "Add new document"
     
@@ -146,10 +146,10 @@ Scenario: should not be able to edit committee name to be blank or already exist
     And I should see "Hide hoopla"
     When I follow second "hoopla"
     And I fill in "Committee Name" with ""
-    And I press "Submit"
+    And I press "Update Name"
     Then I should see "Please fill in the committee name field."
     When I fill in "Committee Name" with "hoopla"
-    And I press "Submit"
+    And I press "Update Name"
     Then I should see "Committee name provided already exists. Please enter a different name."
     
 Scenario: should not be able to create committee name to be blank or already existed name

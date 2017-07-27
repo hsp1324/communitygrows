@@ -47,15 +47,9 @@ class NotificationMailer < ApplicationMailer
   	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
   	end
   end
-  
-<<<<<<< HEAD
+
   def daily_digest_email(user, subject, content)
     @content = content
     mail(to: user.email, subject: subject)
   end
-<<<<<<< HEAD
-=======
->>>>>>> iter2.5-clean
-=======
->>>>>>> 5cdba87ef0c4f2c7c3cfc064aef88c6b8cd759db
 end

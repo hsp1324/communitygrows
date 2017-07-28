@@ -1,6 +1,16 @@
 class CommitteeController < ApplicationController
     layout "base"
     
+    def admin_only(action)
+        if !current_user.admin
+            flash[:message] = "Only admins can #{action} committee"
+            # return false
+            redirect_to root_path and return
+        else
+            return true
+        end
+    end
+    
     def index
         @committees = Committee.all
     end
@@ -9,13 +19,8 @@ class CommitteeController < ApplicationController
     end
 
     def create_committee
-        params[:committee].each do |fields|
-            puts "#committee field: #{fields}"
-        end 
-    	if !current_user.admin
-            flash[:message] = "Only admins can create committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('create')
+        return if !is_admin
         committee = params[:committee]
         if committee[:name].to_s == ""
             flash[:notice] = "Committee name field cannot be blank."
@@ -32,10 +37,8 @@ class CommitteeController < ApplicationController
     end
 
     def delete_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can create committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('delete')
+        return if !is_admin
         @id = params[:id] 
         @committee = Committee.find(@id)
         @committee.destroy!
@@ -44,20 +47,16 @@ class CommitteeController < ApplicationController
     end       
 
     def edit_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can create committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('edit')
+        return if !is_admin
         @id = params[:id] 
         @committee = Committee.find(@id)
         @committees = Committee.all
     end
 
     def update_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can create committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update')
+        return if !is_admin
         @committee = Committee.find(params[:id])
         committee = params[:committee]
         if committee[:name].to_s == ''
@@ -77,10 +76,8 @@ class CommitteeController < ApplicationController
     end
 
     def hide_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can hide committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('hide')
+        return if !is_admin
         committee = Committee.find(params[:id])
         committee.hide 
         flash[:notice] = "#{committee.name} successfully hidden."
@@ -88,10 +85,8 @@ class CommitteeController < ApplicationController
     end
 
     def show_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can show committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('show')
+        return if !is_admin
         committee = Committee.find(params[:id])
         committee.show
         flash[:notice] = "#{committee.name} successfully shown."
@@ -99,10 +94,8 @@ class CommitteeController < ApplicationController
     end
 
     def inactivate_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can inactivate committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('inactivate')
+        return if !is_admin
         committee = Committee.find(params[:id])
         committee.inactivate
         flash[:notice] = "#{committee.name} successfully made inactive."
@@ -110,10 +103,8 @@ class CommitteeController < ApplicationController
     end
 
     def activate_committee
-        if !current_user.admin
-            flash[:message] = "Only admins can activate committees."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('activate')
+        return if !is_admin
         committee = Committee.find(params[:id])
         committee.activate
         flash[:notice] = "#{committee.name} successfully made active."

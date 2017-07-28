@@ -82,5 +82,9 @@ class DocumentCommitteeController < ActionController::Base
         flash[:notice] = "Executive Document List with title [#{@target_document.title}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_type)
     end
+    
+    def transfer_document
+        #implement document transfer! ^_^ thanks
+    end 
 end
 

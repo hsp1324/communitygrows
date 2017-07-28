@@ -67,4 +67,8 @@ describe DocumentCommitteeController do
             expect(response).to redirect_to(subcommittee_index_path(committee_type: @doc.committee_type))
         end
     end
+    
+    describe 'transfering document' do
+        # please write test for transfering document ^_^
+    end 
 end

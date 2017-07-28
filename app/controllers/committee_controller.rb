@@ -17,7 +17,7 @@ class CommitteeController < ApplicationController
 
     def new_committee
     end
-
+    
     def create_committee
         is_admin = admin_only('create')
         return if !is_admin
@@ -29,7 +29,6 @@ class CommitteeController < ApplicationController
             flash[:notice] = "Committee name provided already exists. Please enter a different name."
             redirect_to new_committee_path
         else
-            committee = params[:committee]
             Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
             flash[:notice] = "Committee #{committee[:name]} was successfully created!"
             redirect_to committee_index_path
@@ -66,8 +65,6 @@ class CommitteeController < ApplicationController
             flash[:notice] = "Committee name provided already exists. Please enter a different name."
             redirect_to edit_committee_path
         else
-            @committee = Committee.find(params[:id])
-            committee = params[:committee]
             @committee.update_attributes!(:name => committee[:name].to_s)
             flash[:notice] = "Committee with name [#{@committee.name}] updated successfully and email was successfully sent."
             redirect_to committee_index_path
@@ -113,10 +110,8 @@ class CommitteeController < ApplicationController
     
     #added the two methods below for adding and removing committee members
     def remove_member
-        if !current_user.admin
-            flash[:message] = "Only admins can remove committee members."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('remove')
+        return if !is_admin
         committee = Committee.find(params[:id])
         user = User.find(params[:user_id])
         # remove user from committee with activerecord model query
@@ -128,10 +123,8 @@ class CommitteeController < ApplicationController
     end
 
     def add_member
-        if !current_user.admin
-            flash[:message] = "Only admins can add committee members."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('add')
+        return if !is_admin
         committee = Committee.find(params[:id])
         user = User.find(params[:user_id])
         #add user to committee with activerecord model query

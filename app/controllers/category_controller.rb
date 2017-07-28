@@ -38,17 +38,9 @@ class CategoryController < ActionController::Base
             redirect_to new_category_path
         else
             category = params[:category]
-            if category[:name].to_s == "" then
-                flash[:notice] = "Please fill in the category name field."
-                redirect_to new_category_path
-            elsif Category.has_name?(category[:name]) then
-                flash[:notice] = "The category name provided already exists. Please enter a different name."
-                redirect_to new_category_path
-            else
-                Category.create!(:name => category[:name])
-                flash[:notice] = "The category #{category[:name]} was successfully created!"
-                redirect_to category_index_path
-            end
+            Category.create!(:name => category[:name])
+            flash[:notice] = "The category #{category[:name]} was successfully created!"
+            redirect_to category_index_path
         end
     end
 
@@ -78,17 +70,9 @@ class CategoryController < ActionController::Base
         else
             @category = Category.find(params[:id])
             category = params[:category]
-            if category[:name].to_s == '' then
-                flash[:notice] = "Please fill in the category name field."
-                redirect_to edit_category_path
-            elsif Category.has_name?(category[:name].to_s)
-                flash[:notice] = "The category name provided already exists. Please enter a different name."
-                redirect_to edit_category_path
-            else
-                @category.update_attributes!(:name => category[:name].to_s)
-                flash[:notice] = "Categroy with name [#{@category.name}] updated successfully and email was successfully sent."
-                redirect_to category_index_path
-            end
+            @category.update_attributes!(:name => category[:name].to_s)
+            flash[:notice] = "Categroy with name [#{@category.name}] updated successfully and email was successfully sent."
+            redirect_to category_index_path
         end
             
     end

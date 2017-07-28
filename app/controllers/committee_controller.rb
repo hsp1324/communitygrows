@@ -25,17 +25,9 @@ class CommitteeController < ApplicationController
             redirect_to new_committee_path
         else
             committee = params[:committee]
-            if committee[:name].to_s == "" then
-                flash[:notice] = "Please fill in the committee name field."
-                redirect_to new_committee_path
-            elsif Committee.has_name?(committee[:name]) then
-                flash[:notice] = "Committee name provided already exists. Please enter a different name."
-                redirect_to new_committee_path
-            else
-                Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
-                flash[:notice] = "Committee #{committee[:name]} was successfully created!"
-                redirect_to committee_index_path
-            end
+            Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
+            flash[:notice] = "Committee #{committee[:name]} was successfully created!"
+            redirect_to committee_index_path
         end
     end
 
@@ -77,17 +69,9 @@ class CommitteeController < ApplicationController
         else
             @committee = Committee.find(params[:id])
             committee = params[:committee]
-            if committee[:name].to_s == '' then
-                flash[:notice] = "Please fill in the committee name field."
-                redirect_to edit_committee_path
-            elsif Committee.has_name?(committee[:name].to_s)
-                flash[:notice] = "Committee name provided already exists. Please enter a different name."
-                redirect_to edit_committee_path
-            else
-                @committee.update_attributes!(:name => committee[:name].to_s)
-                flash[:notice] = "Committee with name [#{@committee.name}] updated successfully and email was successfully sent."
-                redirect_to committee_index_path
-            end
+            @committee.update_attributes!(:name => committee[:name].to_s)
+            flash[:notice] = "Committee with name [#{@committee.name}] updated successfully and email was successfully sent."
+            redirect_to committee_index_path
         end
 
     end

@@ -39,4 +39,27 @@ RSpec.describe Category, type: :model do
         expect(@category.hidden?).to be(false)
       end
     end
+    
+    describe 'sort_by_name' do
+      it 'name ASC' do
+        Category.sort_by_name
+      end
+    end
+    
+    describe 'order_by_name' do
+      it 'name ASC' do
+        Category.order_by_name
+      end
+    end
+    
+    describe 'sort_docs' do
+      it 'DESC' do
+        Category.sort_docs(@category, "updated_at")
+      end
+      
+      it 'ASC' do
+        Category.sort_docs(@category, "else_updated_at")
+      end
+    end
+  
 end

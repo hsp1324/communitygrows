@@ -132,4 +132,5 @@ class CommitteeController < ApplicationController
         flash[:notice] = "#{user.name} successfully added to #{committee.name}."
         redirect_to edit_committee_path and return
     end
+    
 end

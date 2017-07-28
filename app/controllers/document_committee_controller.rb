@@ -84,7 +84,14 @@ class DocumentCommitteeController < ActionController::Base
     end
     
     def transfer_document
-        #implement document transfer! ^_^ thanks
+        @single_transfer = params[:single_transfer]
+        if @single_transfer
+            puts "I expect single transfer to be false but it is #{@single_transfer}"
+            #implement document transfer! ^_^ thanks
+            @document_id = params[:id]
+            @document = Document.find @document_id
+            puts "We are transfering just one document: #{@single_transfer}"
+        end 
     end 
 end
 

@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   delete 'subcommittee_index/:committee_type/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
   get 'subcommittee_index/:committee_type/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
   put 'subcommittee_index/:committee_type/update_document' => 'document_committee#update_document', as: :update_committee_document
+  #new route created for transfer document
+  get 'subcommittee_index/:committee_type/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document 
   
   get 'documents/new_file' => 'documents#new_file', as: :new_file
   post 'documents/create' => 'documents#create_file', as: :create_file

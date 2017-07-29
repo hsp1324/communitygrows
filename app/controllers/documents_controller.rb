@@ -49,10 +49,6 @@ class DocumentsController < ActionController::Base
         end
     end
     
-    #when transfering multiple documents must call create_file many times
-    def create_multiple_file
-    end
-    
     def update_file
         @target_file = Document.find params[:format]
         @file = params[:file]

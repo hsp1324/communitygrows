@@ -23,6 +23,8 @@ class AdminController < ActionController::Base
     end
     
     def index
+        authenticate_user!
+        authorize_user
         @users = User.all
         @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
         if !current_user.admin

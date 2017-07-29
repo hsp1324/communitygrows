@@ -1,0 +1,25 @@
+%h1 Transfer Documents
+
+.container.well
+  .form-group
+    = label :user, :name, 'Transfer Documents'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %thead
+          %tr
+            %th Document
+            %th Document Repository
+        %tbody
+        - if @single_transfer == "true"
+          %tr
+            %td= link_to "#{@document.title}", @document.url
+            %td= "drop down menu for document repositories"
+        - else
+          - Document.where(committee_type: @committee_type).each do |document|
+            %tr
+              %td= link_to "#{document.title}", document.url
+              %td= "drop down menu for document repositories"
+          
+        =button_to committee_index_path, :method => :get, class: 'btn btn-info' do
+          %span.glyphicon.glyphicon-transfer
+          Transfer Documents

@@ -82,5 +82,18 @@ class DocumentCommitteeController < ActionController::Base
         flash[:notice] = "Executive Document List with title [#{@target_document.title}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_type)
     end
+    
+    def transfer_document
+        @single_transfer = params[:single_transfer]
+        @committee_type = params[:committee_type]
+        puts "Is the value of single_transfer a string? #{@single_transfer.is_a? String}"
+        if @single_transfer == "true"
+            puts "I expect single transfer to be false but it is #{@single_transfer}"
+            #implement document transfer! ^_^ thanks
+            @document_id = params[:id]
+            @document = Document.find @document_id
+            puts "We are transfering just one document: #{@single_transfer}"
+        end 
+    end 
 end
 

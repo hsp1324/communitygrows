@@ -3,6 +3,8 @@ class SubcommitteeController < ActionController::Base
     before_action :authenticate_user!
     
     def index
+        # puts "**********************"
+        # puts "committee type is #{params[:committee_type]}"
         if !Committee.find_by_name(params[:committee_type]).users.include?(current_user)
             flash[:alert] = "You do not have access to this committee. Please contact Kelly for access."
             redirect_to dashboard_index_path

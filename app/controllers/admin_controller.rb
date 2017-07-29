@@ -153,6 +153,7 @@ class AdminController < ActionController::Base
     end
     
     def update_calendar
+        flash[:notice] = 'New Calendar Creation successful'
         authenticate_user!
         authorize_user
         Calendar.destroy_all

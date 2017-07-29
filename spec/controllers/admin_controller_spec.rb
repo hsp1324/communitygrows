@@ -60,5 +60,13 @@ describe AdminController do
             expect(response).to redirect_to(:admin_index)
         end
     end
+    
+    describe 'login user' do
+        it 'Cannot access to Admin page' do
+            sign_in users(:user)
+            get :index
+            expect(flash[:message]).to eq("Access not granted. Please sign in again.") 
+        end
+    end
 
 end

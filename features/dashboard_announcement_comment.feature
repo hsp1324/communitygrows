@@ -19,10 +19,10 @@ Background: user is on the main dashboard page and announcement is made
   And I am on the CommunityGrows dashboard page
   
 # happy path
-Scenario: User can see admin announcements
+Scenario: User can see admin announcements, only the lastest 5 annuncement can be shown
   Then I should see "aaaaaaa"
-  And I should see "bbbbbbb"
   And I should see "ccccccc"
+  And I should not see "bbbbbbb"
 
 # happy path  
 Scenario: User can see committee announcements

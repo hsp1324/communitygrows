@@ -5,7 +5,9 @@ class AdminController < ActionController::Base
     
     def authorize_user
         if not User.find(current_user.id).admin
-            redirect_to "/dashboard"
+            flash[:message] = "Access not granted. Please sign in again."
+            redirect_to "/dashboard" and return
+        return true
         end
     end
     
@@ -23,12 +25,16 @@ class AdminController < ActionController::Base
     end
     
     def index
+        authenticate_user!
+        authorize_user
         @users = User.all
         @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
-        if !current_user.admin
-            flash[:message] = "Access not granted. Please sign in again."
-            redirect_to("/users/sign_in")
-        end
+        # if !current_user.admin
+        #     flash[:message] = "Access not granted. Please sign in again."
+        #     redirect_to("/users/sign_in")
+        # end
+        
+        
     end
     
     def edit_user
@@ -147,6 +153,7 @@ class AdminController < ActionController::Base
     end
     
     def update_calendar
+        flash[:notice] = 'New Calendar Creation successful'
         authenticate_user!
         authorize_user
         Calendar.destroy_all

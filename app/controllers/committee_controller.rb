@@ -3,7 +3,7 @@ class CommitteeController < ApplicationController
     
     def admin_only(action)
         if !current_user.admin
-            flash[:message] = "Only admins can #{action} committee"
+            flash[:message] = "Only admins can #{action}"
             # return false
             redirect_to root_path and return
         else
@@ -19,7 +19,7 @@ class CommitteeController < ApplicationController
     end
     
     def create_committee
-        is_admin = admin_only('create')
+        is_admin = admin_only('create committee')
         return if !is_admin
         committee = params[:committee]
         if committee[:name].to_s == ""
@@ -36,7 +36,7 @@ class CommitteeController < ApplicationController
     end
 
     def delete_committee
-        is_admin = admin_only('delete')
+        is_admin = admin_only('delete committee')
         return if !is_admin
         @id = params[:id] 
         @committee = Committee.find(@id)
@@ -46,7 +46,7 @@ class CommitteeController < ApplicationController
     end       
 
     def edit_committee
-        is_admin = admin_only('edit')
+        is_admin = admin_only('edit committee')
         return if !is_admin
         @id = params[:id] 
         @committee = Committee.find(@id)
@@ -54,7 +54,7 @@ class CommitteeController < ApplicationController
     end
 
     def update_committee
-        is_admin = admin_only('update')
+        is_admin = admin_only('update committee')
         return if !is_admin
         @committee = Committee.find(params[:id])
         committee = params[:committee]
@@ -73,7 +73,7 @@ class CommitteeController < ApplicationController
     end
 
     def hide_committee
-        is_admin = admin_only('hide')
+        is_admin = admin_only('hide committee')
         return if !is_admin
         committee = Committee.find(params[:id])
         committee.hide 
@@ -82,7 +82,7 @@ class CommitteeController < ApplicationController
     end
 
     def show_committee
-        is_admin = admin_only('show')
+        is_admin = admin_only('show committee')
         return if !is_admin
         committee = Committee.find(params[:id])
         committee.show
@@ -91,7 +91,7 @@ class CommitteeController < ApplicationController
     end
 
     def inactivate_committee
-        is_admin = admin_only('inactivate')
+        is_admin = admin_only('inactivate committee')
         return if !is_admin
         committee = Committee.find(params[:id])
         committee.inactivate
@@ -100,7 +100,7 @@ class CommitteeController < ApplicationController
     end
 
     def activate_committee
-        is_admin = admin_only('activate')
+        is_admin = admin_only('activate committee')
         return if !is_admin
         committee = Committee.find(params[:id])
         committee.activate
@@ -110,7 +110,7 @@ class CommitteeController < ApplicationController
     
     #added the two methods below for adding and removing committee members
     def remove_member
-        is_admin = admin_only('remove')
+        is_admin = admin_only('remove committee members.')
         return if !is_admin
         committee = Committee.find(params[:id])
         user = User.find(params[:user_id])
@@ -123,7 +123,7 @@ class CommitteeController < ApplicationController
     end
 
     def add_member
-        is_admin = admin_only('add')
+        is_admin = admin_only('add committee members.')
         return if !is_admin
         committee = Committee.find(params[:id])
         user = User.find(params[:user_id])

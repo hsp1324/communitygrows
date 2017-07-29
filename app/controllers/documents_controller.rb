@@ -113,10 +113,11 @@ class DocumentsController < ActionController::Base
         end
     end
     
-    def update_document_order
-        if request.xhr?
-            Document.update_document_order(params[:category].to_a[0].split(" ")[0], params[:document])
-        end 
-    end
+    # def update_document_order
+    #     if request.xhr?
+    #         Document.update_document_order(params[:category].to_a[0].split(" ")[0], params[:document])
+    #     end 
+    # end
+    
     
 end

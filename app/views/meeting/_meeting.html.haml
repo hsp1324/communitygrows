@@ -1,0 +1,14 @@
+%div#meetings
+  %ul#sortable1
+    - @meetings.each do |meeting|
+      %table.table.table-striped.table-bordered{ :id => "meeting_#{meeting.id}" }
+        %thead.bg-info
+          %tr
+            %th= link_to "#{meeting.name}", edit_meeting_path(meeting.id)
+            %th
+              = button_to delete_meeting_path(meeting.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+                %span.glyphicon.glyphicon-remove
+                Delete #{meeting.name}
+              = button_to delete_meeting_path(meeting.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+                %span.glyphicon.glyphicon-remove
+                

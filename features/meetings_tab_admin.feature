@@ -1,18 +1,18 @@
 Feature: Meetings Tab
 
 	As an admin
-    I want a meetigs management page
+    I want a meetings management page
 	Where I can control a centralized meetings tab on the board portal
 	So that boarder memebres can view upcoming events, their dates, their times, their descriptions, their adgeneds and join in the meeting via google hangouts once the meeting has started
 
 Background:
 	
 	Given the following meetings exist:
-		| name   | description      | date    | time   | location         | adgenda          | hangouts        |
-        | hoopla | "hoops are cool" | 7/22/17 | 4:44pm | "124 Rainbow RD" | "www.google.com" | ""              |
-        | ooopla | "ooops are cool" | 7/23/17 | 4:43pm | "123 Rainbow RD" | "www.google.com" | "www.google.com"|
-        | poopla | "poops are cool" | 7/24/17 | 4:42pm | "122 Rainbow RD" | "www.google.com" | "www.google.com"|
-    Given a logged in user
+		| name   | description      | date    | time   | location         | agenda           | hangout          |
+        | hoopla | "hoops are cool" | 7/22/17 | 4:44pm | "124 Rainbow RD" | "www.google.com" | ""               |
+        | ooopla | "ooops are cool" | 7/23/17 | 4:43pm | "123 Rainbow RD" | "www.google.com" | "www.google.com" |
+        | poopla | "poops are cool" | 7/24/17 | 4:42pm | "122 Rainbow RD" | "www.google.com" | "www.google.com" |
+    Given a logged in admin
     And I am on the CommunityGrows home page
 
 
@@ -33,15 +33,11 @@ Scenario: Visiting meeting management page
 Scenario: Create new meeting
     Given I am on the meeting management page
     When I follow "New Meeting"
-    And I fill in "Meeting Name" with "noola"
-    And I fill in "Agenda" with "www.google.com"
-    And I fill in "Date" with "7/22/17"
-    And I fill in "Time" with "4:44"
-    And I fill in "Hangout" with "www.google.com"
+    And I fill in "Meeting Name" with "Good Meeting"
     And I press "Submit"
     Then I am on the meeting management page
-    And I should see "noola"
-    And I should see "Delete noola"
+    And I should see "Good Meeting"
+    And I should see "Delete Good Meeting"
 
 Scenario: Delete meeting  
     Given I am on the meeting management page
@@ -50,20 +46,33 @@ Scenario: Delete meeting
     When I press "Delete poopla"
     And I confirm popup
     Then I should see "Meeting with name poopla deleted successfully."
-    And I should not see "poopla"
-
-    Given I am on the CommunityGrows home page
-    Then I should see "Meetings"
-    When I follow "Meetings"
-    Then I should not see "poopla"
 
 Scenario: Edit meeting   
     Given I am on the meeting management page
+    Then I should see "hoopla"
     When I follow "hoopla"
-    Then I should see "Edit"
-    When I fill in "Committee Name" with "Great hoopla"
-    And I press "Submit"
-    Then I am on the meeting management page
+    And I fill in "Meeting Name" with "Great hoopla"
+    And I press "Update Name"
+
+    And I fill in "Meeting Date" with "07/22/2017"
+    And I press "Update Date"
+
+    And I fill in "Meeting Time" with "4:44 PM"
+    And I press "Update Time"
+
+    And I fill in "Meeting Location" with "123 Rainbow RD"
+    And I press "Update Location"
+
+    And I fill in "Meeting Description" with "the quick brown fox jumps"
+    And I press "Update Description"
+
+    And I fill in "Meeting Agenda" with "www.google.com"
+    And I press "Update Agenda"
+
+    And I fill in "Meeting Hangout Link" with "www.google.com"
+    And I press "Update Hangout"
+
+    Given I am on the meeting management page
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
     
@@ -71,6 +80,13 @@ Scenario: Edit meeting
     Then I should see "Meetings"
     When I follow "Meetings"
     Then I should see "Great hoopla"
+    And I should see "07/22/2017"
+    And I should see "4:44 PM"
+    When I follow "Great hoopla"
+    Then I should see "the quick brown fox jumps"
+    And I should see "123 Rainbow RD"
+    And I should see "Agenda"
+    And I should see "Join Meeting"
 
 Scenario: Vsiting the meetings page
     When I follow "Meetings"
@@ -84,21 +100,11 @@ Scenario: Vsiting the meetings page
     And I should see "7/22/17"
     And I should see "7/23/17"
     And I should see "7/24/17"
-    
-Scenario: Viewing meeting details, with inactive google hangout link
-    Given I am on the meetings page
-    When I follow "hoopla"
-    Then I should see "hoopla details"
-    And I should see "hoops are cool"
-    And I should see "www.google.com"
-    And I should see "124 Rainbow RD"
-    And I should see "Meeting Pending"
 
 Scenario: Viewing meeting details, with active google hangout link
 	Given I am on the meetings page
     When I follow "ooopla"
-    Then I should see "ooopla details"
-    And I should see "ooops are cool"
-    And I should see "www.google.com"
+    Then I should see "ooops are cool"
+    And I should see "Agenda"
     And I should see "123 Rainbow RD"
-    And I should see "Join"
+    And I should see "Join Meeting"

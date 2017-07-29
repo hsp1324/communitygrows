@@ -11,23 +11,13 @@ class UserController < ActionController::Base
     def index
         @user = current_user
         if flash[:notice] == "Signed in successfully."
-            flash[:notice] = nil
         end
     end
-    
+
     def new_announcement
     end
     
     def create_announcement
-        @title = announcement_params[:title]
-        @content = announcement_params[:content]
-        @type = ""
-        @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
-        MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
-        if Rails.env.production?
-            send_announcement_email("", @new_announce)
-        end
-        flash[:notice] = 'Announcement creation successful and email was sent successfully.'
     end
     
     def update_user_credentials

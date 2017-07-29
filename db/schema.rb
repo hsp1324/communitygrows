@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722214304) do
+ActiveRecord::Schema.define(version: 20170728161257) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "meetings", force: :cascade do |t|
+    t.string "name"
+    t.string "date"
+    t.string "time"
+    t.string "location"
+    t.string "description"
+    t.string "agenda"
+    t.string "hangout"
+  end
+
   create_table "participations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "committee_id"
@@ -131,7 +141,7 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-07-27 01:09:45', null: false
+    t.datetime "last_sign_in_at",        default: '2017-07-28 17:35:54', null: false
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

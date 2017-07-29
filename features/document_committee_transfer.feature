@@ -31,7 +31,7 @@ Background:
 Scenario: Visiting Committee hoopla page to see transfer buttons
   
   Given I am on subcommittee "hoopla" page
-# Then I should see hoopla Subcommittee
+  Then I should see hoopla Subcommittee
   And I should see the following documents: "answer_key, Ruby_where, Dinos_green"
   And I should not see "Michael Cera"
   And I should see "Transfer answer_key"
@@ -67,7 +67,7 @@ Scenario: Transfering document Ruby_where to Document repository under category 
 Scenario: Transfering multiple documents to Document Repository via the transfer documents button
   
   Given I am on subcommittee "hoopla" page
-  When I press "Transfer Documents"
+  When I press "Edit Announcement"
   #redirects to a new page
   Then I should see "Transfer Documents"
   And I should see "Ruby_where"

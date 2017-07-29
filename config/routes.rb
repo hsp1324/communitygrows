@@ -101,6 +101,22 @@ Rails.application.routes.draw do
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page
   get 'user_profiles/:id' => 'user_profiles#user_profile', as: :user_profile
 
+  #Meeting Management
+  get 'meeting' => 'meeting#index', as: :meeting_index
+  get 'meeting/new_meeting' => 'meeting#new_meeting', as: :new_meeting
+  post 'meeting/create' => 'meeting#create_meeting', as: :create_meeting
+  delete 'meeting/:id/delete_meeting' => 'meeting#delete_meeting', as: :delete_meeting
+  get 'meeting/:id/edit_meeting' => 'meeting#edit_meeting', as: :edit_meeting
+  put 'meeting/:id/edit_meeting' => 'meeting#update_meeting', as: :update_meeting
+  put 'meeting/:id/edit_meeting_date' => 'meeting#update_meeting_date', as: :update_meeting_date
+  put 'meeting/:id/edit_meeting_time' => 'meeting#update_meeting_time', as: :update_meeting_time
+  put 'meeting/:id/edit_meeting_location' => 'meeting#update_meeting_location', as: :update_meeting_location
+  put 'meeting/:id/edit_meeting_description' => 'meeting#update_meeting_description', as: :update_meeting_description
+  put 'meeting/:id/edit_meeting_agenda' => 'meeting#update_meeting_agenda', as: :update_meeting_agenda
+  put 'meeting/:id/edit_meeting_hangout' => 'meeting#update_meeting_hangout', as: :update_meeting_hangout
+  get 'meeting/list' => 'meeting#meeting_list', as: :meeting_list
+  get 'meeting/:id/show' => 'meeting#show', as: :meeting_show
+
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

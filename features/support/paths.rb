@@ -62,6 +62,12 @@ module NavigationHelpers
       
     when /^subcommittee "([^"]*)" page$/ then
       subcommittee_index_path($1)
+
+    when /the (CommunityGrows )?meeting management page$/ then
+      meeting_index_path
+
+    when /the (CommunityGrows )?meetings page$/ then
+      meeting_list_path
       
       
       

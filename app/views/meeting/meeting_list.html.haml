@@ -1,0 +1,21 @@
+%h1 Upcoming Meetings
+
+.container.well
+  #flashNotice= flash[:notice]
+  %br
+
+
+  .form-group
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %thead
+          %tr
+            %th Name
+            %th Date
+            %th Time
+        %tbody
+          - @meetings.each do |meeting|
+            %tr
+              %td= link_to "#{meeting.name}", meeting_show_path(meeting.id)
+              %td= meeting.date
+              %td= meeting.time

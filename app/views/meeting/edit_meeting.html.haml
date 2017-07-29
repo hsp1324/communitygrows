@@ -1,0 +1,90 @@
+%h1 Edit "#{@meeting.name}"
+
+.container.well
+  #flashNotice= flash[:notice]
+  =button_to meeting_index_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+
+
+    .form-group
+    = label :meeting, :name, 'Update Meeting Attributes'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :name, 'Meeting Name'
+                  = text_field :meeting, 'name', :value => @meeting.name, class: 'form-control'
+
+                = submit_tag 'Update Name', class: 'btn btn-success'
+
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_date_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :date, 'Meeting Date'
+                  = text_field :meeting, 'date', :value => @meeting.date, class: 'form-control'
+
+                = submit_tag 'Update Date', class: 'btn btn-success'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_time_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :time, 'Meeting Time'
+                  = text_field :meeting, 'time', :value => @meeting.time, class: 'form-control'
+
+                = submit_tag 'Update Time', class: 'btn btn-success'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_location_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :location, 'Meeting Location'
+                  = text_field :meeting, 'location', :value => @meeting.location, class: 'form-control'
+
+                = submit_tag 'Update Location', class: 'btn btn-success'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_description_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :description, 'Meeting Description'
+                  = text_field :meeting, 'description', :value => @meeting.description, class: 'form-control'
+
+                = submit_tag 'Update Description', class: 'btn btn-success'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_agenda_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :agenda, 'Meeting Agenda'
+                  = text_field :meeting, 'agenda', :value => @meeting.agenda, class: 'form-control'
+
+                = submit_tag 'Update Agenda', class: 'btn btn-success'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %tr
+            %td
+              = form_tag update_meeting_hangout_path(@id, @meeting), :method => :put do
+                .form-group
+                  = label :meeting, :hangout, 'Meeting Hangout Link'
+                  = text_field :meeting, 'hangout', :value => @meeting.hangout, class: 'form-control'
+
+                = submit_tag 'Update Hangout', class: 'btn btn-success'

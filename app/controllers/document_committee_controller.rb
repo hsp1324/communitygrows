@@ -86,6 +86,7 @@ class DocumentCommitteeController < ActionController::Base
     def transfer_document
         @single_transfer = params[:single_transfer]
         @committee_type = params[:committee_type]
+        # @all_categories = params[:all_categories]
         puts "Is the value of single_transfer a string? #{@single_transfer.is_a? String}"
         if @single_transfer == "true"
             puts "I expect single transfer to be false but it is #{@single_transfer}"
@@ -93,7 +94,11 @@ class DocumentCommitteeController < ActionController::Base
             @document_id = params[:id]
             @document = Document.find @document_id
             puts "We are transfering just one document: #{@single_transfer}"
-        end 
+        end
+        @all_categories = [['no selection']]
+        Category.all.each do |category|
+            @all_categories << [category.name]
+        end
     end 
 end
 

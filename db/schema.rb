@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728161257) do
+ActiveRecord::Schema.define(version: 20170729101044) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -77,11 +77,12 @@ ActiveRecord::Schema.define(version: 20170728161257) do
   create_table "documents", force: :cascade do |t|
     t.string   "url"
     t.string   "title"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "committee_type"
     t.integer  "category_id"
     t.integer  "custom_order"
+    t.boolean  "transfer",       default: false
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
@@ -141,7 +142,7 @@ ActiveRecord::Schema.define(version: 20170728161257) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-07-28 17:35:54', null: false
+    t.datetime "last_sign_in_at",        default: '2017-07-29 14:49:46', null: false
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

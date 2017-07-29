@@ -87,18 +87,33 @@ class DocumentCommitteeController < ActionController::Base
         @single_transfer = params[:single_transfer]
         @committee_type = params[:committee_type]
         # @all_categories = params[:all_categories]
-        puts "Is the value of single_transfer a string? #{@single_transfer.is_a? String}"
         if @single_transfer == "true"
-            puts "I expect single transfer to be false but it is #{@single_transfer}"
-            #implement document transfer! ^_^ thanks
             @document_id = params[:id]
             @document = Document.find @document_id
-            puts "We are transfering just one document: #{@single_transfer}"
         end
-        @all_categories = [['no selection']]
+        @all_categories = [['no selection', 'no selection']]
         Category.all.each do |category|
-            @all_categories << [category.name]
+            @all_categories << [category.name, category.name]
         end
-    end 
+    end
+    
+    #When you transfer files from committee page to document repository
+    def transfer_file_to_repository
+        @committee_type = params[:committee_type]
+        flash[:notice] = "Dinosaurs say, Hey hand over the files, you promised!!!"
+        @documents = params[:document]
+        if @documents != nil
+            @documents.each_pair do |document_id, category_type|
+                next if category_type == "no selection"
+                @doc = Document.find(document_id)
+                next if @doc.transfer == true
+                @file_params = {:url => @doc.url, :title => @doc.title}
+                @category = Category.find_by(:name => category_type)
+                @category.documents.create(@file_params)
+                @doc.update_attribute :transfer, true
+            end
+        end
+        redirect_to subcommittee_index_path(@committee_type)
+    end
 end
 

@@ -27,10 +27,10 @@ class AdminController < ActionController::Base
         authorize_user
         @users = User.all
         @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
-        if !current_user.admin
-            flash[:message] = "Access not granted. Please sign in again."
-            redirect_to("/users/sign_in")
-        end
+        # if !current_user.adming
+        #     flash[:message] = "Access not granted. Please sign in again."
+        #     redirect_to("/users/sign_in") 
+        # end
     end
     
     def edit_user

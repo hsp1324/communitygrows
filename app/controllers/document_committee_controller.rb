@@ -82,5 +82,38 @@ class DocumentCommitteeController < ActionController::Base
         flash[:notice] = "Executive Document List with title [#{@target_document.title}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_type)
     end
+    
+    def transfer_document
+        @single_transfer = params[:single_transfer]
+        @committee_type = params[:committee_type]
+        # @all_categories = params[:all_categories]
+        if @single_transfer == "true"
+            @document_id = params[:id]
+            @document = Document.find @document_id
+        end
+        @all_categories = [['no selection', 'no selection']]
+        Category.all.each do |category|
+            @all_categories << [category.name, category.name]
+        end
+    end
+    
+    #When you transfer files from committee page to document repository
+    def transfer_file_to_repository
+        @committee_type = params[:committee_type]
+        flash[:notice] = "Dinosaurs say, Hey hand over the files, you promised!!!"
+        @documents = params[:document]
+        if @documents != nil
+            @documents.each_pair do |document_id, category_type|
+                next if category_type == "no selection"
+                @doc = Document.find(document_id)
+                next if @doc.transfer == true
+                @file_params = {:url => @doc.url, :title => @doc.title}
+                @category = Category.find_by(:name => category_type)
+                @category.documents.create(@file_params)
+                @doc.update_attribute :transfer, true
+            end
+        end
+        redirect_to subcommittee_index_path(@committee_type)
+    end
 end
 

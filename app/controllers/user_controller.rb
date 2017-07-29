@@ -11,10 +11,9 @@ class UserController < ActionController::Base
     def index
         @user = current_user
         if flash[:notice] == "Signed in successfully."
-            flash[:notice] = nil
         end
     end
-    
+
     def new_announcement
     end
     

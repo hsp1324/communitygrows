@@ -22,16 +22,17 @@ class AdminController < ActionController::Base
         params.require(:announcement).permit(:title, :content)
     end
     
-    def index
-        authenticate_user!
-        authorize_user
-        @users = User.all
-        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
-        # if !current_user.adming
-        #     flash[:message] = "Access not granted. Please sign in again."
-        #     redirect_to("/users/sign_in") 
-        # end
-    end
+
+
+
+
+
+
+
+
+
+
+
     
     def edit_user
         authenticate_user!

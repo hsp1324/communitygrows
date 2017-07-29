@@ -14,6 +14,29 @@ describe UserController do
     end
     
     
+    describe "CommunityGrows website" do
+        it 'user should make a new announcement' do
+            curr = User.create!(:name => "Rspec_user", :email => "usser@cg.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => false)
+            visit "/users/sign_in"
+            fill_in :user_email,    :with => curr.email
+            fill_in :user_password, :with => curr.password
+            click_button "Log in"
+            expect(page).to have_content("Dashboard")
+    
+          
+            click_link "Add"
+            expect(page).to have_content("Title")
+            expect(page).to have_content("Content")
+            fill_in "Title", :with => 'abcd'
+            fill_in "Content", :with => 'bcd'
+            click_button "Submit"
+            expect(page).to have_content("abcd")
+            expect(page).to have_content("bcd")
+    end
+    
+  end    
+    
+    
     
     describe 'update' do
         it 'should redirect to account info page on success' do
@@ -56,14 +79,7 @@ RSpec.describe "User announcements/calendar", :type => :request do
       fill_in :user_password, :with => curr.password
       click_button "Log in"
       expect(page).to have_content("Dashboard")
-      
-      # then go back to the root again
-      visit "/"
-      expect(page).to have_content("Dashboard")
-    end
-    
-    it 'should make a new announcement and edit it' do
-      visit '/user'
+
       
       click_link "New Announcement"
       expect(page).to have_content("Title")

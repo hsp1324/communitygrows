@@ -28,7 +28,7 @@ Scenario: should be able to edit a created announcement
   And I press "Submit"
   Then I should see "Announcement creation successful and email was sent successfully."
   And I should see "newnew title"
-  When I follow "newnew title"
+  When I follow first "Edit Announcement"
   Then I fill in "Title" with "edited title"
   Then I fill in "Content" with "edited content"
   And I press "Submit"
@@ -43,10 +43,11 @@ Scenario: should be able to delete a created announcement
   And I fill in "Content" with "new content"
   And I press "Submit"
   Then I should see "Announcement creation successful and email was sent successfully."
-  Then I shoul see "newnew title"
+  Then I should see "newnew title"
   Then I should see "Delete Announcement"
   When I follow first "Delete Announcement"
   And I confirm popup
-  Then I should not see "new content"
+  Then I should see "Announcement with title [newnew title] deleted successfully"
+  Then I should not see "Delete Announcement"
 
 # no sad path because the design of CRUD is specifically open to the admin's discretion

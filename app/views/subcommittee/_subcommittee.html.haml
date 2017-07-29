@@ -87,5 +87,5 @@
 - if @inactive == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document
-  = link_to transfer_committee_document_path(:single_transfer => false), class: 'btn btn-success' do
+  = link_to transfer_committee_document_path(:single_transfer => false, :committee_type => @committee_type), class: 'btn btn-success' do
     Transfer All Documents

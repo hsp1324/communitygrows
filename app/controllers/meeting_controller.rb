@@ -2,20 +2,7 @@ class MeetingController < ApplicationController
     layout "base"
     require 'time'
     require 'date'
-    
-    def admin_only(action)
-        if !current_user.admin
-            flash[:message] = "Only admins can #{action}"
-            # return false
-            redirect_to root_path and return
-        else
-            return true
-        end
-    end
-    
-    
-    
-    
+    include AdminHelper
     
     def index
         @meetings = Meeting.all

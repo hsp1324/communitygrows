@@ -39,7 +39,7 @@ And /^(?:|I )should see the following documents: "([^\"]*)"$/ do |documents|
 end 
 
 And /^(?:|I )select "([^\"]*)" from drop down menu "([^\"]*)"/ do |category_name, document_name|
-    pending
+    select category_name, from: document_name
 end
 
 

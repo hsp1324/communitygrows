@@ -151,7 +151,7 @@ end
 		
         it 'redirects non-admin users' do
             sign_in users(:user)
-            put :update_meeting_date, params: {id: @test_meeting.id, meeting: {time: "11:22 PM"}}
+            put :update_meeting_time, params: {id: @test_meeting.id, meeting: {time: "11:22 PM"}}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end				
@@ -173,7 +173,7 @@ end
 		end
         it 'redirects non-admin users' do
             sign_in users(:user)
-            put :update_meeting_date, params: {id: @test_meeting.id, meeting: {location: "California"}}
+            put :update_meeting_location, params: {id: @test_meeting.id, meeting: {location: "California"}}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end		
@@ -229,7 +229,7 @@ end
 		end	
         it 'redirects non-admin users' do
             sign_in users(:user)
-            put :update_meeting_description, params: {id: @test_meeting.id, meeting: {agenda: "https//google.com"}}
+            put :update_meeting_agenda, params: {id: @test_meeting.id, meeting: {agenda: "https//google.com"}}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end		

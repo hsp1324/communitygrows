@@ -57,10 +57,8 @@ class MeetingController < ApplicationController
     end
 
     def delete_meeting
-        if !current_user.admin
-            flash[:message] = "Only admins can create Meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('delete meetings')
+        return if !is_admin
         @id = params[:id] 
         @meeting = Meeting.find(@id)
         @meeting.destroy!
@@ -69,20 +67,17 @@ class MeetingController < ApplicationController
     end       
 
     def edit_meeting
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('edit meetings')
+        return if !is_admin
+        
         @id = params[:id] 
         @meeting = Meeting.find(@id)
         @meetings = Meeting.all
     end
 
     def update_meeting
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update meetings')
+        return if !is_admin
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
         if meeting[:name].to_s == ''
@@ -101,7 +96,7 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_date
-        is_admin = admin_only('create committee')
+        is_admin = admin_only('update meeting date')
         return if !is_admin
 
         @meeting = Meeting.find(params[:id])
@@ -125,7 +120,7 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_time
-        is_admin = admin_only('create committee')
+        is_admin = admin_only('update meeting time')
         return if !is_admin
 
         @meeting = Meeting.find(params[:id])
@@ -149,10 +144,8 @@ class MeetingController < ApplicationController
 
 
     def update_meeting_location
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update meeting location')
+        return if !is_admin
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
         if meeting[:location].to_s == ''
@@ -168,10 +161,8 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_description
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update meeting description')
+        return if !is_admin
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
         if meeting[:description].to_s == ''
@@ -187,10 +178,8 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_agenda
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update meeting agenda')
+        return if !is_admin
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
         if meeting[:agenda].to_s == ''
@@ -212,10 +201,8 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_hangout
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update meeting hangout')
+        return if !is_admin
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
         if meeting[:hangout].to_s == ''

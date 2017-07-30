@@ -3,6 +3,16 @@ class CategoryController < ActionController::Base
     layout "base"
     before_action :authenticate_user!
 
+    def admin_only(action)
+        if !current_user.admin
+            flash[:message] = "Only admins can #{action}"
+            # return false
+            redirect_to root_path and return
+        else
+            return true
+        end
+    end
+
     def index
         if params[:doc_order]
             category = Category.find(params[:doc_order][:category])
@@ -18,17 +28,14 @@ class CategoryController < ActionController::Base
     end
 
     def new_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path
-        end
+        is_admin = admin_only('create categories.')
+        return if !is_admin
     end
     
     def create_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('create categories.')
+        return if !is_admin
+
         category = params[:category]
         if category[:name].to_s == ""
             flash[:notice] = "Category name field cannot be blank."
@@ -44,21 +51,9 @@ class CategoryController < ActionController::Base
         end
     end
 
-    def edit_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
-        @id = params[:id] 
-        @category = Category.find(@id)
-        @categories = Category.all
-    end
-
     def update_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('update categories.')
+        return if !is_admin
         @category = Category.find(params[:id])
         category = params[:category]
         if category[:name].to_s == ''
@@ -76,7 +71,16 @@ class CategoryController < ActionController::Base
         end
             
     end
-
+    
+    def edit_category
+        is_admin = admin_only('edit categories.')
+        return if !is_admin
+        @id = params[:id] 
+        @category = Category.find(@id)
+        @categories = Category.all
+    end
+    
+    
     def update_category_order
         if request.xhr?
             Category.update_category_order(params[:table])
@@ -84,10 +88,8 @@ class CategoryController < ActionController::Base
     end
 
     def delete_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('delete categories.')
+        return if !is_admin
         @category = Category.find(params[:id])
         @category.destroy!
         flash[:notice] = "Category with name #{@category.name} deleted successfully."
@@ -95,10 +97,8 @@ class CategoryController < ActionController::Base
     end
 
     def hide_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('hide categories.')
+        return if !is_admin
         category = Category.find(params[:id])
         category.hide
         flash[:notice] = "#{category.name} successfully hidden."
@@ -106,10 +106,8 @@ class CategoryController < ActionController::Base
     end
 
     def show_category
-        if !current_user.admin
-            flash[:message] = "Only admins can create categories."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('show categories.')
+        return if !is_admin
         category = Category.find(params[:id])
         category.show
         flash[:notice] = "#{category.name} successfully shown."

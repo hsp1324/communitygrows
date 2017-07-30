@@ -17,7 +17,7 @@ class AdminController < ActionController::Base
     end
     
     def announcement_params
-        params.require(:announcement).permit(:title, :content)
+        params.require(:announcement).permit(:title, :content, :emergency)
     end
     
     def index
@@ -95,13 +95,25 @@ class AdminController < ActionController::Base
         authenticate_user!
         @title = announcement_params[:title]
         @content = announcement_params[:content]
+        @emergency = announcement_params[:emergency]
         @type = ""
-        @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @type)
-        MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
-        if Rails.env.production?
-            send_announcement_email("", @new_announce)
+        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
+        
+        if !@emergency
+            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
+            flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        else
+            flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
         end
-        flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        
+        if Rails.env.production?
+            if @emergency
+                send_emergency_announcement_email("", @new_announce)
+            else
+                send_announcement_email("", @new_announce)
+            end
+        end
+        
         redirect_to('/admin')
     end
     

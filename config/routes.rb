@@ -19,8 +19,7 @@ Rails.application.routes.draw do
   delete 'admin/:id' => 'admin#delete_user', as: :delete_user
   put 'admin/:id/update' => 'admin#update_user', as: :update_user
   post 'admin/create' => 'admin#create_user', as: :create_user
-  
-  put '/admin/update_calendar' => 'admin#update_calendar', as: :update_calendar
+
 
   get 'admin/new_announcement' => 'admin#new_announcement', as: :new_announcement
   put 'admin/create_announcement' => 'admin#create_announcement', as: :create_announcement
@@ -101,6 +100,18 @@ Rails.application.routes.draw do
   # added these for adding/removing users from committees
   delete 'committee/:id/modify_committee_members/:user_id' => 'committee#remove_member', as: :remove_committee_member
   put 'committee/:id/modify_committee_members/:user_id' => 'committee#add_member', as: :add_committee_member
+  
+  # Calendar Management
+  get 'calendar' => 'calendar#index', as: :calendar_index
+  get 'calendar/new_calendar' => 'calendar#new_calendar', as: :new_calendar
+  post 'calendar/create' => 'calendar#create_calendar', as: :create_calendar
+  delete 'calendar/:id/delete_calendar' => 'calendar#delete_calendar', as: :delete_calendar
+  get 'calendar/:id/edit_calendar' => 'calendar#edit_calendar', as: :edit_calendar
+  put 'calendar/:id/edit_calendar' => 'calendar#update_calendar', as: :update_calendar
+  get 'calendar/:id/hide_calendar' => 'calendar#hide_calendar', as: :hide_calendar
+  get 'calendar/:id/show_calendar' => 'calendar#show_calendar', as: :show_calendar
+  post 'calendar/update_calendar_order' => 'calendar#update_calendar_order', as: :update_calendar_order
+  get 'calendar/:id/action_calendar' => 'calendar#action_calendar', as: :action_calendar
 
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page

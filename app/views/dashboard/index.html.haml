@@ -1,4 +1,6 @@
 %h1 Board Member Dashboard
+
+
 - if flash[:alert] == "You do not have access to this committee. Please contact Kelly for access."
   #flashNotice
     = flash[:alert]
@@ -15,8 +17,12 @@
           %tbody
             - @announcement_list[0..4].each do |announcement|
               %tr
-                %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-                %td= link_to "#{announcement.title}", comment_path(announcement.id)
+                -if announcement.emergency
+                  %td.red= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                  %td.red= link_to "#{announcement.title}", comment_path(announcement.id)
+                -else
+                  %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                  %td= link_to "#{announcement.title}", comment_path(announcement.id)
       = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
       %h2 Committee Announcements
       #announcement_content
@@ -35,6 +41,14 @@
         -#= link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
 
   .col-md-6
-    #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-      %h2
-      %iframe#cal{:scrolling => "no", :name => "cal2", :src=>"https://calendar.google.com/calendar/embed?src=communitygrows.org_03nrt2fo8v86kgpo43356j9fbo%40group.calendar.google.com&amp;showTi=0&amp;showNav=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles", :width=>"100%", :height=>"90%"}
+    %h2
+    :javascript
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            googleCalendarApiKey: '697259088972-7ekksb7tm647t1km7ropn8l890hfh105.apps.googleusercontent.com',
+            events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'}
+        });
+    })
+
+    #calendar
+    //%iframe#cal{:scrolling => "no", :name => "cal2", :src=>"https://calendar.google.com/calendar/embed?src=communitygrows.org_03nrt2fo8v86kgpo43356j9fbo%40group.calendar.google.com&amp;showTi=0&amp;showNav=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles", :width=>"100%", :height=>"90%"}

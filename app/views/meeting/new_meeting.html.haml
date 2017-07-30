@@ -1,0 +1,15 @@
+%h1 Add New Meeting
+
+.container.well
+  #flashNotice= flash[:notice]
+  = button_to meeting_index_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+
+  = form_tag create_meeting_path do
+    .form-group
+      = label :meeting, :name, 'Meeting Name'
+      = text_field :meeting, 'name', class: 'form-control'
+
+    = submit_tag 'Submit', class: 'btn btn-success'

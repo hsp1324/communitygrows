@@ -3,6 +3,8 @@ require 'rails_helper'
 
 describe DocumentCommitteeController do 
     fixtures :users
+    # fixtures :About_Community_Grows
+    # fixtures :Board_Overview
     before(:each) do
         sign_in users(:tester)
         post :create_document, params: {title: "before hook", url: "rspec.com", committee_type: :internal}
@@ -73,7 +75,7 @@ describe DocumentCommitteeController do
         # expect page to be redirected to a new page where user chooses which repository the document goes to
         # this test is currently incorrect and needs fixing!!
         it 'transfer a document to document repository' do
-            transfer :transfer_document, params: {committee_type: @doc.committee_type, document_id: @doc.id}
+            post :transfer_file_to_repository, params: {committee_type: @doc.committee_type, document_id: @doc.id}
             expect(response).to redirect_to(subcommittee_index_path(committee_type: @doc.committee_type))
         end 
     end 

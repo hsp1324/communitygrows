@@ -3,6 +3,20 @@ class MeetingController < ApplicationController
     require 'time'
     require 'date'
     
+    def admin_only(action)
+        if !current_user.admin
+            flash[:message] = "Only admins can #{action}"
+            # return false
+            redirect_to root_path and return
+        else
+            return true
+        end
+    end
+    
+    
+    
+    
+    
     def index
         @meetings = Meeting.all
     end
@@ -87,13 +101,12 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_date
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('create committee')
+        return if !is_admin
 
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
+
 
         if meeting[:date].to_s == ''
             flash[:notice] = "Please fill in the date field."
@@ -112,10 +125,8 @@ class MeetingController < ApplicationController
     end
 
     def update_meeting_time
-        if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('create committee')
+        return if !is_admin
 
         @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]

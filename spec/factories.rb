@@ -4,4 +4,8 @@ FactoryGirl.define do
         content 'testing'
         committee_type 'internal'
     end
+    
+    factory :category do
+        name 'Board Overview'
+    end
 end

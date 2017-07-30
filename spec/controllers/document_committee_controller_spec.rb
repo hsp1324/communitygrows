@@ -3,8 +3,6 @@ require 'rails_helper'
 
 describe DocumentCommitteeController do 
     fixtures :users
-    # fixtures :About_Community_Grows
-    # fixtures :Board_Overview
     before(:each) do
         sign_in users(:tester)
         post :create_document, params: {title: "before hook", url: "rspec.com", committee_type: :internal}
@@ -74,9 +72,18 @@ describe DocumentCommitteeController do
         # please write test for transfering document ^_^
         # expect page to be redirected to a new page where user chooses which repository the document goes to
         # this test is currently incorrect and needs fixing!!
-        it 'transfer a document to document repository' do
-            post :transfer_file_to_repository, params: {committee_type: @doc.committee_type, document_id: @doc.id}
-            expect(response).to redirect_to(subcommittee_index_path(committee_type: @doc.committee_type))
+        
+        it 'successfully shown in subcommittee_index_page' do
+            get :transfer_document, params: {committee_type: @doc.committee_type, single_transfer: true, id: @doc.id}
         end 
+        
+        it 'successfully transferred' do
+            @a = FactoryGirl.create(:category)
+            doc_hash = {"#{@doc.id}": "Board Overview"}
+            post :transfer_file_to_repository, params: {committee_type: @doc.committee_type, document_id: @doc.id, document: doc_hash}
+            expect(response).to redirect_to(subcommittee_index_path(committee_type: @doc.committee_type))
+            expect(flash[:notice]).to include("Dinosaurs say, Hey hand over the files, you promised!!!")
+        end 
+        
     end 
 end

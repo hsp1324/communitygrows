@@ -27,6 +27,7 @@ gem 'coffee-rails', '>= 4.1.0'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
 gem 'momentjs-rails'
+gem 'bootstrap-popover-rails'
 
 gem 'whenever', :require => false
 gem 'rspec-activemodel-mocks'

@@ -47,6 +47,7 @@ GEM
     autotest-rails (4.2.1)
       ZenTest (~> 4.5)
     bcrypt (3.1.11)
+    bootstrap-popover-rails (0.1.0)
     builder (3.2.2)
     byebug (9.0.6)
     capybara (2.10.2)
@@ -275,6 +276,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_tree
   autotest-rails
+  bootstrap-popover-rails
   byebug
   capybara
   codeclimate-test-reporter

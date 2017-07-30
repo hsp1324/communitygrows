@@ -53,28 +53,28 @@ class CommitteeController < ApplicationController
     def hide_committee
         is_admin = admin_only('hide committee')
         return if !is_admin
-        hide_show_object(Committee, 'hide', committee_index_path)
+        do_action(Committee, 'hide', committee_index_path)
         # redirect_to committee_index_path
     end
 
     def show_committee
         is_admin = admin_only('show committee')
         return if !is_admin
-        hide_show_object(Committee, 'show', committee_index_path)
+        do_action(Committee, 'show', committee_index_path)
         # redirect_to committee_index_path
     end
 
     def inactivate_committee
         is_admin = admin_only('inactivate committee')
         return if !is_admin
-        active_inactive_object(Committee, 'inactive', committee_index_path)
+        do_action(Committee, 'inactive', committee_index_path)
         # redirect_to committee_index_path
     end
 
     def activate_committee
         is_admin = admin_only('activate committee')
         return if !is_admin
-        active_inactive_object(Committee, 'active', committee_index_path)
+        do_action(Committee, 'active', committee_index_path)
         # redirect_to committee_index_path
     end
     

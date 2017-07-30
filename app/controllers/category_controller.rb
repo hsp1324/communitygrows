@@ -74,14 +74,14 @@ class CategoryController < ActionController::Base
     def hide_category
         is_admin = admin_only('hide categories.')
         return if !is_admin
-        hide_show_object(Category, 'hide', category_index_path)
+        do_action(Category, 'hide', category_index_path)
         # redirect_to category_index_path
     end
 
     def show_category
         is_admin = admin_only('show categories.')
         return if !is_admin
-        hide_show_object(Category, 'show', category_index_path)
+        do_action(Category, 'show', category_index_path)
         # redirect_to category_index_path
     end
     

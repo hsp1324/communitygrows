@@ -55,26 +55,21 @@ module ControllerHelper
         end
     end
     
-    def hide_show_object(type, hide_or_show, redirect_path)
-        found_object = type.find(params[:id])
-        if hide_or_show == 'hide'
-            found_object.hide 
-            flash[:notice] = "#{found_object.name} successfully hidden."
-        else
-            found_object.show
-            flash[:notice] = "#{found_object.name} successfully shown."
-        end
-        redirect_to redirect_path
-    end
     
-    def active_inactive_object(type, active_or_inactive, redirect_path)
+    def do_action(type, action, redirect_path)
         found_object = type.find(params[:id])
-        if active_or_inactive == 'inactive'
+        if action == 'inactive'
             found_object.inactivate
             flash[:notice] = "#{found_object.name} successfully made inactive."
-        else
+        elsif action == 'active'
             found_object.activate
             flash[:notice] = "#{found_object.name} successfully made active."
+        elsif action == 'hide'
+            found_object.hide 
+            flash[:notice] = "#{found_object.name} successfully hidden."
+        elsif action == 'show'
+            found_object.show
+            flash[:notice] = "#{found_object.name} successfully shown."
         end
         redirect_to redirect_path
     end

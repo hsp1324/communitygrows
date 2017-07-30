@@ -15,10 +15,6 @@ class AdminController < ActionController::Base
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee, :board_role, :current_company,
         :current_position, :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin, expertise_ids:[])
     end
-
-    def calendar_params
-        params.require(:calendar).permit(:html)
-    end
     
     def announcement_params
         params.require(:announcement).permit(:title, :content)
@@ -152,14 +148,5 @@ class AdminController < ActionController::Base
         redirect_to(admin_index_path)
     end
     
-    def update_calendar
-        flash[:notice] = 'New Calendar Creation successful'
-        authenticate_user!
-        authorize_user
-        Calendar.destroy_all
-        @new_calendar = Calendar.create!(calendar_params)
-        flash[:notice] = 'New Calendar Creation successful'
-        redirect_to('/admin')
-    end
 end
 

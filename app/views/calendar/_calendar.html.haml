@@ -1,0 +1,29 @@
+%div#calendars
+  %ul#sortable1
+    - @calendars.each do |calendar|
+      %table.table.table-striped.table-bordered{:id => "calendar_#{calendar.id}"}
+        %thead.bg-info
+          %tr
+            %th= link_to "#{calendar.name}", edit_calendar_path(calendar.id)
+            - if calendar.hidden?
+              %th
+                = button_to action_calendar_path(calendar.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info btn-xs hidden-xs' do
+                  %span.glyphicon.glyphicon-eye-open
+                  Show #{calendar.name}
+                = button_to action_calendar_path(calendar.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info visible-xs' do
+                  %span.glyphicon.glyphicon-eye-open
+            - else 
+              %th
+                = button_to action_calendar_path(calendar.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning btn-xs hidden-xs' do
+                  %span.glyphicon.glyphicon-eye-close
+                  Hide #{calendar.name}
+                = button_to action_calendar_path(calendar.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning visible-xs' do
+                  %span.glyphicon.glyphicon-eye-close
+
+            %th
+              = button_to delete_calendar_path(calendar.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+                %span.glyphicon.glyphicon-remove
+                Delete #{calendar.name}
+              = button_to delete_calendar_path(calendar.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+                %span.glyphicon.glyphicon-remove
+                

@@ -1,0 +1,18 @@
+%h1 Add New Calendar
+
+.container.well
+  #flashNotice= flash[:notice]
+  = button_to calendar_index_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+
+  = form_tag create_calendar_path do
+    .form-group
+      = label :calendar, :name, 'Calendar Name'
+      = text_field :calendar, 'name', class: 'form-control'
+    .form-group
+      = label :calendar, :link, 'Public ICAL Link'
+      = text_field :calendar, 'link', class: 'form-control'
+
+    = submit_tag 'Submit', class: 'btn btn-success'

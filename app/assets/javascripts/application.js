@@ -16,4 +16,15 @@
 //= require bootstrap.min
 //= require categories
 //= require markasread
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/gcal
+
+$('#calendar').fullCalendar({
+    googleCalendarApiKey: '697259088972-7ekksb7tm647t1km7ropn8l890hfh105.apps.googleusercontent.com',
+    events: {
+        googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'
+    }
+});
+
 

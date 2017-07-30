@@ -43,8 +43,16 @@ module ControllerHelper
     
     def edit_object(type)
         @id = params[:id] 
-        @found_object = type.find(@id)
-        @found_objects = type.all
+        if type == Category
+            @category = Category.find(@id)
+            @categories = Category.all
+        elsif type == Committee
+            @committee = Committee.find(@id)
+            @committees = Committee.all
+        else
+            @meeting = Meeting.find(@id)
+            @meetings = Meeting.all
+        end
     end
     
     def hide_show_object(type, hide_or_show, redirect_path)
@@ -55,6 +63,18 @@ module ControllerHelper
         else
             found_object.show
             flash[:notice] = "#{found_object.name} successfully shown."
+        end
+        redirect_to redirect_path
+    end
+    
+    def active_inactive_object(type, active_or_inactive, redirect_path)
+        found_object = type.find(params[:id])
+        if active_or_inactive == 'inactive'
+            found_object.inactivate
+            flash[:notice] = "#{found_object.name} successfully made inactive."
+        else
+            found_object.activate
+            flash[:notice] = "#{found_object.name} successfully made active."
         end
         redirect_to redirect_path
     end

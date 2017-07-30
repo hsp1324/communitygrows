@@ -39,9 +39,7 @@ class CommitteeController < ApplicationController
     def edit_committee
         is_admin = admin_only('edit committee')
         return if !is_admin
-        @id = params[:id] 
-        @committee = Committee.find(@id)
-        @committees = Committee.all
+        edit_object(Committee)
     end
 
     def update_committee
@@ -69,19 +67,15 @@ class CommitteeController < ApplicationController
     def inactivate_committee
         is_admin = admin_only('inactivate committee')
         return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.inactivate
-        flash[:notice] = "#{committee.name} successfully made inactive."
-        redirect_to committee_index_path
+        active_inactive_object(Committee, 'inactive', committee_index_path)
+        # redirect_to committee_index_path
     end
 
     def activate_committee
         is_admin = admin_only('activate committee')
         return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.activate
-        flash[:notice] = "#{committee.name} successfully made active."
-        redirect_to committee_index_path
+        active_inactive_object(Committee, 'active', committee_index_path)
+        # redirect_to committee_index_path
     end
     
     #added the two methods below for adding and removing committee members

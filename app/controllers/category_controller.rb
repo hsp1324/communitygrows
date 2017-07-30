@@ -54,9 +54,7 @@ class CategoryController < ActionController::Base
     def edit_category
         is_admin = admin_only('edit categories.')
         return if !is_admin
-        @id = params[:id] 
-        @category = Category.find(@id)
-        @categories = Category.all
+        edit_object(Category)
     end
     
     

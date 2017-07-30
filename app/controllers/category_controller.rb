@@ -71,17 +71,25 @@ class CategoryController < ActionController::Base
         redirect_to category_index_path
     end
 
-    def hide_category
-        is_admin = admin_only('hide categories.')
-        return if !is_admin
-        do_action(Category, 'hide', category_index_path)
-        # redirect_to category_index_path
-    end
+    # def hide_category
+    #     is_admin = admin_only('hide categories.')
+    #     return if !is_admin
+    #     do_action(Category, 'hide', category_index_path)
+    #     # redirect_to category_index_path
+    # end
 
-    def show_category
-        is_admin = admin_only('show categories.')
+    # def show_category
+    #     is_admin = admin_only('show categories.')
+    #     return if !is_admin
+    #     do_action(Category, 'show', category_index_path)
+    #     # redirect_to category_index_path
+    # end
+    
+    def action_category
+        my_action = params[:do_action]
+        is_admin = admin_only('#{my_action} categories.')
         return if !is_admin
-        do_action(Category, 'show', category_index_path)
+        do_action(Category, my_action, category_index_path)
         # redirect_to category_index_path
     end
     

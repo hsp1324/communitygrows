@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   put 'categories/:id/edit_category' => 'category#update_category', as: :update_category
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
+  get 'categories/:id/action_category' => 'category#action_category', as: :action_category
   post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
 
   # Committee Management
@@ -91,6 +92,7 @@ Rails.application.routes.draw do
   post 'committee/update_committee_order' => 'committee#update_committee_order', as: :update_committee_order
   get 'committee/:id/inactivate_committee' => 'committee#inactivate_committee', as: :inactivate_committee
   get 'committee/:id/activate_committee' => 'committee#activate_committee', as: :activate_committee
+  get 'committee/:id/action_committee' => 'committee#action_committee', as: :action_committee
   # added these for adding/removing users from committees
   delete 'committee/:id/modify_committee_members/:user_id' => 'committee#remove_member', as: :remove_committee_member
   put 'committee/:id/modify_committee_members/:user_id' => 'committee#add_member', as: :add_committee_member

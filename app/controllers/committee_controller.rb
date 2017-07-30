@@ -50,32 +50,44 @@ class CommitteeController < ApplicationController
 
     end
 
-    def hide_committee
-        is_admin = admin_only('hide committee')
-        return if !is_admin
-        do_action(Committee, 'hide', committee_index_path)
-        # redirect_to committee_index_path
-    end
+    # def hide_committee
+    #     is_admin = admin_only('hide committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'hide', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def show_committee
-        is_admin = admin_only('show committee')
-        return if !is_admin
-        do_action(Committee, 'show', committee_index_path)
-        # redirect_to committee_index_path
-    end
+    # def show_committee
+    #     is_admin = admin_only('show committee')
+    #     return if !is_admin
+    #     act = params[:do_action]
+    #     puts "*"*100
+    #     puts "do_action: #{act}"
+    #     puts "*"*100
+    #     do_action(Committee, 'show', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def inactivate_committee
-        is_admin = admin_only('inactivate committee')
-        return if !is_admin
-        do_action(Committee, 'inactive', committee_index_path)
-        # redirect_to committee_index_path
-    end
+    # def inactivate_committee
+    #     is_admin = admin_only('inactivate committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'inactive', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def activate_committee
-        is_admin = admin_only('activate committee')
+    # def activate_committee
+    #     is_admin = admin_only('activate committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'active', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
+    
+    def action_committee
+        my_action = params[:do_action]
+        is_admin = admin_only('#{my_action} committee.')
         return if !is_admin
-        do_action(Committee, 'active', committee_index_path)
-        # redirect_to committee_index_path
+        do_action(Committee, my_action, committee_index_path)
+        # redirect_to category_index_path
     end
     
     #added the two methods below for adding and removing committee members

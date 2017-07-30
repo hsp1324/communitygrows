@@ -116,23 +116,23 @@ describe CategoryController do
 
 	describe 'hide category' do
 		it 'redirects to the category index page' do
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 			expect(response).to redirect_to(category_index_path)
 		end
 
 		it 'shows a flash message when category successfully hidden' do
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 			expect(flash[:notice]).to eq("Crazy Category successfully hidden.")
 		end
 
 		it 'sets the category\'s hidden attribute to true' do
 			expect_any_instance_of(Category).to receive(:hide)
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :hide_category, params: {id: 25}
+            get :action_category, params: {id: 25, do_action: 'hide'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end
@@ -140,23 +140,23 @@ describe CategoryController do
 
 	describe 'show category' do
 		it 'redirects to the category index page' do
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 			expect(response).to redirect_to(category_index_path)
 		end
 
 		it 'shows a flash message when category successfully shown' do
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 			expect(flash[:notice]).to eq("Crazy Category successfully shown.")
 		end
 
 		it 'sets the category\'s hidden attribute to false' do
 			expect_any_instance_of(Category).to receive(:show)
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :show_category, params: {id: 25}
+            get :action_category, params: {id: 25, do_action: 'show'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end

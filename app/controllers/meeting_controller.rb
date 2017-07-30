@@ -53,9 +53,7 @@ class MeetingController < ApplicationController
     def edit_meeting
         is_admin = admin_only('edit meetings')
         return if !is_admin
-        @id = params[:id] 
-        @meeting = Meeting.find(@id)
-        @meetings = Meeting.all
+        edit_object(Meeting)
     end
 
     def update_meeting

@@ -118,23 +118,23 @@ describe CommitteeController do
 
 	describe 'hide committee' do
 		it 'redirects to the committee index page' do
-			get :hide_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'hide'}
 			expect(response).to redirect_to(committee_index_path)
 		end
 
 		it 'shows a flash message when committee successfully hidden' do
-			get :hide_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'hide'}
 			expect(flash[:notice]).to eq("Nice successfully hidden.")
 		end
 
 		it 'sets the committee\'s hidden attribute to true' do
 			expect_any_instance_of(Committee).to receive(:hide)
-			get :hide_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'hide'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :hide_committee, params: {id: @test_committee.id}
+            get :action_committee, params: {id: @test_committee.id, do_action: 'hide'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end
@@ -142,23 +142,23 @@ describe CommitteeController do
 
 	describe 'show committee' do
 		it 'redirects to the committee index page' do
-			get :show_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'show'}
 			expect(response).to redirect_to(committee_index_path)
 		end
 
 		it 'shows a flash message when committee successfully shown' do
-			get :show_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'show'}
 			expect(flash[:notice]).to eq("Nice successfully shown.")
 		end
 
 		it 'sets the committee\'s hidden attribute to false' do
 			expect_any_instance_of(Committee).to receive(:show)
-			get :show_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'show'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :show_committee, params: {id: @test_committee.id}
+            get :action_committee, params: {id: @test_committee.id, do_action: 'show'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end
@@ -167,23 +167,23 @@ describe CommitteeController do
 	
 	describe 'activate committee' do
 		it 'redirects to the committee index page' do
-			get :activate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'active'}
 			expect(response).to redirect_to(committee_index_path)
 		end
 
 		it 'shows a flash message when committee successfully active' do
-			get :activate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'active'}
 			expect(flash[:notice]).to eq("Nice successfully made active.")
 		end
 
 		it 'sets the committee\'s hidden attribute to true' do
 			expect_any_instance_of(Committee).to receive(:activate)
-			get :activate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'active'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :activate_committee, params: {id: @test_committee.id}
+            get :action_committee, params: {id: @test_committee.id, do_action: 'active'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end
@@ -193,23 +193,23 @@ describe CommitteeController do
 
 	describe 'Inactivate committee' do
 		it 'redirects to the committee index page' do
-			get :inactivate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'inactive'}
 			expect(response).to redirect_to(committee_index_path)
 		end
 
 		it 'shows a flash message when committee successfully inactive' do
-			get :inactivate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'inactive'}
 			expect(flash[:notice]).to eq("Nice successfully made inactive.")
 		end
 
 		it 'sets the committee\'s hidden attribute to false' do
 			expect_any_instance_of(Committee).to receive(:inactivate)
-			get :inactivate_committee, params: {id: @test_committee.id}
+			get :action_committee, params: {id: @test_committee.id, do_action: 'inactive'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :inactivate_committee, params: {id: @test_committee.id}
+            get :action_committee, params: {id: @test_committee.id, do_action: 'inactive'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end

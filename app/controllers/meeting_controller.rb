@@ -3,6 +3,7 @@ class MeetingController < ApplicationController
     require 'time'
     require 'date'
     include AdminHelper
+    include ControllerHelper
     
     def index
         @meetings = Meeting.all
@@ -24,39 +25,34 @@ class MeetingController < ApplicationController
         params[:meeting].each do |fields|
             puts "#meeting field: #{fields}"
         end 
-    	if !current_user.admin
-            flash[:message] = "Only admins can create meetings."
-            redirect_to root_path and return
-        end
+        is_admin = admin_only('create committee')
+        return if !is_admin
         meeting = params[:meeting]
-        if meeting[:name].to_s == ""
-            flash[:notice] = "Meeting name field cannot be blank."
-            redirect_to new_meeting_path
-        elsif Meeting.has_name?(meeting[:name])
-            flash[:notice] = "Meeting name provided already exists. Please enter a different name."
-            redirect_to new_meeting_path
-        else
-            meeting = params[:meeting]
-            Meeting.create!(:name => meeting[:name])
-            flash[:notice] = "Meeting #{meeting[:name]} was successfully created!"
-            redirect_to meeting_index_path
-        end
+        create_object(Meeting, meeting, new_meeting_path, meeting_index_path)
+        # if meeting[:name].to_s == ""
+        #     flash[:notice] = "Meeting name field cannot be blank."
+        #     redirect_to new_meeting_path
+        # elsif Meeting.has_name?(meeting[:name])
+        #     flash[:notice] = "Meeting name provided already exists. Please enter a different name."
+        #     redirect_to new_meeting_path
+        # else
+        #     meeting = params[:meeting]
+        #     Meeting.create!(:name => meeting[:name])
+        #     flash[:notice] = "Meeting #{meeting[:name]} was successfully created!"
+        #     redirect_to meeting_index_path
+        # end
     end
 
     def delete_meeting
         is_admin = admin_only('delete meetings')
         return if !is_admin
-        @id = params[:id] 
-        @meeting = Meeting.find(@id)
-        @meeting.destroy!
-        flash[:notice] = "Meeting with name #{@meeting.name} deleted successfully."
+        delete_object(Meeting)
         redirect_to meeting_index_path
     end       
 
     def edit_meeting
         is_admin = admin_only('edit meetings')
         return if !is_admin
-        
         @id = params[:id] 
         @meeting = Meeting.find(@id)
         @meetings = Meeting.all
@@ -65,21 +61,8 @@ class MeetingController < ApplicationController
     def update_meeting
         is_admin = admin_only('update meetings')
         return if !is_admin
-        @meeting = Meeting.find(params[:id])
         meeting = params[:meeting]
-        if meeting[:name].to_s == ''
-            flash[:notice] = "Please fill in the meeting name field."
-            redirect_to edit_meeting_path
-        elsif Meeting.has_name?(meeting[:name].to_s)
-            flash[:notice] = "Meeting name provided already exists. Please enter a different name."
-            redirect_to edit_meeting_path
-        else
-            @meeting = Meeting.find(params[:id])
-            meeting = params[:meeting]
-            @meeting.update_attributes!(:name => meeting[:name].to_s)
-            flash[:notice] = "Meeting with name [#{@meeting.name}] updated successfully."
-            redirect_to edit_meeting_path
-        end
+        update_object(Meeting, meeting, edit_meeting_path, edit_meeting_path)
     end
 
     def update_meeting_date

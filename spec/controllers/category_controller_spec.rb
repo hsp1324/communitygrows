@@ -33,14 +33,14 @@ describe CategoryController do
 		it 'should not allow an already used category name field' do
 			expect(Category).to receive(:has_name?).with("Good Category").and_return(true)
 			post :create_category, params: {category: {name: "Good Category"}}
-			expect(flash[:notice]).to eq("The category name provided already exists. Please enter a different name.")
+			expect(flash[:notice]).to eq("Category name provided already exists. Please enter a different name.")
 			expect(response).to redirect_to(new_category_path)
 		end
 
 		it 'creates a category' do
 			expect(Category).to receive(:create!).with(name: "Good Category")
             post :create_category, params: {category: {name: "Good Category"}}
-            expect(flash[:notice]).to eq("The category Good Category was successfully created!")
+            expect(flash[:notice]).to eq("Category Good Category was successfully created!")
         end
 
         it 'redirects non-admin users' do
@@ -78,7 +78,7 @@ describe CategoryController do
 		it 'should not allow an already used category name field' do
 			expect(Category).to receive(:has_name?).with("Crazy Category").and_return true
 			put :update_category, params: {id: 25, category: {name: "Crazy Category"}}
-			expect(flash[:notice]).to eq("The category name provided already exists. Please enter a different name.")
+			expect(flash[:notice]).to eq("Category name provided already exists. Please enter a different name.")
 			expect(response).to redirect_to(edit_category_path)
 		end
 

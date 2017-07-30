@@ -40,7 +40,7 @@ describe CommitteeController do
 		end
 
 		it 'creates a committee' do
-			expect(Committee).to receive(:create!).with(name: "Good Committee", hidden: true, inactive: true)
+			expect(Committee).to receive(:create!).with(name: "Good Committee", :hidden => true, :inactive => true)
             post :create_committee, params: {committee: {name: "Good Committee"}}
             expect(flash[:notice]).to eq("Committee Good Committee was successfully created!")
         end

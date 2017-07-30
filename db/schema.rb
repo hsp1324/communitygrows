@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722214304) do
+ActiveRecord::Schema.define(version: 20170728161257) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -96,6 +96,16 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.string   "committee",   default: ""
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "meetings", force: :cascade do |t|
+    t.string "name"
+    t.string "date"
+    t.string "time"
+    t.string "location"
+    t.string "description"
+    t.string "agenda"
+    t.string "hangout"
   end
 
   create_table "participations", force: :cascade do |t|

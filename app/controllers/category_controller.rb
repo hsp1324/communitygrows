@@ -3,6 +3,7 @@ class CategoryController < ActionController::Base
     layout "base"
     before_action :authenticate_user!
     include AdminHelper
+    include ControllerHelper
 
     def index
         if params[:doc_order]
@@ -26,41 +27,28 @@ class CategoryController < ActionController::Base
     def create_category
         is_admin = admin_only('create categories.')
         return if !is_admin
-
         category = params[:category]
-        if category[:name].to_s == ""
-            flash[:notice] = "Category name field cannot be blank."
-            redirect_to new_category_path
-        elsif Category.has_name?(category[:name])
-            flash[:notice] = "The category name provided already exists. Please enter a different name."
-            redirect_to new_category_path
-        else
-            category = params[:category]
-            Category.create!(:name => category[:name])
-            flash[:notice] = "The category #{category[:name]} was successfully created!"
-            redirect_to category_index_path
-        end
+        create_object(Category, category, new_category_path, category_index_path)
+        # if category[:name].to_s == ""
+        #     flash[:notice] = "Category name field cannot be blank."
+        #     redirect_to new_category_path
+        # elsif Category.has_name?(category[:name])
+        #     flash[:notice] = "The category name provided already exists. Please enter a different name."
+        #     redirect_to new_category_path
+        # else
+        #     category = params[:category]
+        #     Category.create!(:name => category[:name])
+        #     flash[:notice] = "The category #{category[:name]} was successfully created!"
+        #     redirect_to category_index_path
+        # end
+        
     end
 
     def update_category
         is_admin = admin_only('update categories.')
         return if !is_admin
-        @category = Category.find(params[:id])
         category = params[:category]
-        if category[:name].to_s == ''
-            flash[:notice] = "Please fill in the category name field."
-            redirect_to edit_category_path
-        elsif Category.has_name?(category[:name].to_s)
-            flash[:notice] = "The category name provided already exists. Please enter a different name."
-            redirect_to edit_category_path
-        else
-            @category = Category.find(params[:id])
-            category = params[:category]
-            @category.update_attributes!(:name => category[:name].to_s)
-            flash[:notice] = "Categroy with name [#{@category.name}] updated successfully and email was successfully sent."
-            redirect_to category_index_path
-        end
-            
+        update_object(Category, category, edit_category_path, category_index_path)
     end
     
     def edit_category
@@ -81,28 +69,22 @@ class CategoryController < ActionController::Base
     def delete_category
         is_admin = admin_only('delete categories.')
         return if !is_admin
-        @category = Category.find(params[:id])
-        @category.destroy!
-        flash[:notice] = "Category with name #{@category.name} deleted successfully."
+        delete_object(Category)
         redirect_to category_index_path
     end
 
     def hide_category
         is_admin = admin_only('hide categories.')
         return if !is_admin
-        category = Category.find(params[:id])
-        category.hide
-        flash[:notice] = "#{category.name} successfully hidden."
-        redirect_to category_index_path
+        hide_show_object(Category, 'hide', category_index_path)
+        # redirect_to category_index_path
     end
 
     def show_category
         is_admin = admin_only('show categories.')
         return if !is_admin
-        category = Category.find(params[:id])
-        category.show
-        flash[:notice] = "#{category.name} successfully shown."
-        redirect_to category_index_path
+        hide_show_object(Category, 'show', category_index_path)
+        # redirect_to category_index_path
     end
     
     def update_category_order

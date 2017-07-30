@@ -69,7 +69,7 @@ Scenario: should not be able to edit category name to be blank or already existe
     Then I should see "Please fill in the category name field."
     When I fill in "Category Name" with "Good Category"
     And I press "Submit"
-    Then I should see "The category name provided already exists. Please enter a different name."
+    Then I should see "Category name provided already exists. Please enter a different name."
     
 Scenario: should not be able to create category name to be blank or already existed name
     Given I am on the category management page
@@ -80,6 +80,6 @@ Scenario: should not be able to create category name to be blank or already exis
     Then I should see "Category name field cannot be blank."
     When I fill in "Category Name" with "Good Category"
     And I press "Submit"
-    Then I should see "The category name provided already exists. Please enter a different name."
+    Then I should see "Category name provided already exists. Please enter a different name."
     
     

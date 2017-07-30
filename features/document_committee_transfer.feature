@@ -57,7 +57,7 @@ Scenario: Transfering document Ruby_where to Document repository under category 
   #Select from drop down menu "The Practice of Yogurt"
   And I select "The Practice of Yogurt" from drop down menu "Ruby_where"
   #Transfer button
-  When I follow "Transfer Documents"
+  When I press "Transfer Documents"
   Then I should see "Documents were successfully transferred to Document Repository"
   Given I am on the document repository page
   Then I should see "Ruby_where"
@@ -76,9 +76,9 @@ Scenario: Transfering multiple documents to Document Repository via the transfer
   And I select "The Practice of Yogurt" from drop down menu "Ruby_where"
   And I select "The Practice of Yogurt" from drop down menu "answer_key"
   #Transfer button
-  When I follow "Transfer Documents"
+  When I press "Transfer Documents"
   Then I should see "Documents were successfully transferred to Document Repository"
-  Given I am on the document repostiroy page
+  Given I am on the document repository page
   Then I should see "Ruby_where"
   Then I should see "Dinos_green"
   Then I should see "answer_key"

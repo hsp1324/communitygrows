@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170729101044) do
+=======
+ActiveRecord::Schema.define(version: 20170730201817) do
+>>>>>>> 9aaaa10ca1bc06143543c01c9d5277b488ddfde0
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -18,10 +22,13 @@ ActiveRecord::Schema.define(version: 20170729101044) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "committee_type"
+    t.boolean  "emergency"
   end
 
   create_table "calendars", force: :cascade do |t|
-    t.string   "html"
+    t.string   "name"
+    t.string   "link"
+    t.boolean  "hidden"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -142,7 +149,11 @@ ActiveRecord::Schema.define(version: 20170729101044) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
+<<<<<<< HEAD
     t.datetime "last_sign_in_at",        default: '2017-07-29 14:49:46', null: false
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-30 13:02:08', null: false
+>>>>>>> 9aaaa10ca1bc06143543c01c9d5277b488ddfde0
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

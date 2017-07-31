@@ -31,6 +31,7 @@ class Category < ActiveRecord::Base
 		self.update_attributes!(:hidden => false)
 	end
 	
+	
 	def self.update_category_order(order)
 		order.each_with_index do |id, i|
             self.find(id).update_columns(:custom_order => i)
@@ -54,4 +55,13 @@ class Category < ActiveRecord::Base
             doc.update_columns(:custom_order => i)
         end
     end
+    
+	def self.string_title
+		return "Category"
+	end
+	
+	def self.string_lower
+		return "category"
+	end
+	
 end

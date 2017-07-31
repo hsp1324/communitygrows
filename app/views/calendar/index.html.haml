@@ -1,0 +1,9 @@
+%h1 Calendar Management
+  
+- if flash[:notice] and flash[:notice]!="Signed in successfully."
+  #flashNotice
+    = flash[:notice]
+    
+%h4
+  = render :partial => "calendar", :locals => { :curr_user => current_user }
+  = link_to 'New Calendar', new_calendar_path, class: "btn btn-success"

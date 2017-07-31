@@ -13,5 +13,7 @@
     .form-group
       = label :announcement, :content, "Content: "
       = text_area :announcement, 'content', cols: 40, rows: 10, placeholder: "Your content here", class: 'form-control'
-    
+    .form-group
+      = label :announcement, "Emergency: ", style: "#{'display:none' if User.find(current_user.id).admin != true}"
+      = check_box :announcement, :emergency, style: "#{'display:none' if User.find(current_user.id).admin != true}"
     = submit_tag 'Submit', class: 'btn btn-success'

@@ -16,4 +16,8 @@
 //= require bootstrap.min
 //= require categories
 //= require markasread
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/gcal
+
 

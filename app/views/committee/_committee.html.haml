@@ -7,32 +7,32 @@
             %th= link_to "#{committee.name}", edit_committee_path(committee.id)
             - if committee.hidden?
               %th
-                = button_to show_committee_path(committee.id), method: :get, class: 'btn btn-info btn-xs hidden-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info btn-xs hidden-xs' do
                   %span.glyphicon.glyphicon-eye-open
                   Show #{committee.name}
-                = button_to show_committee_path(committee.id), method: :get, class: 'btn btn-info visible-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info visible-xs' do
                   %span.glyphicon.glyphicon-eye-open
             - else 
               %th
-                = button_to hide_committee_path(committee.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning btn-xs hidden-xs' do
                   %span.glyphicon.glyphicon-eye-close
                   Hide #{committee.name}
-                = button_to hide_committee_path(committee.id), method: :get, class: 'btn btn-warning visible-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning visible-xs' do
                   %span.glyphicon.glyphicon-eye-close
 
             - if committee.inactive?
               %th
-                = button_to activate_committee_path(committee.id), method: :get, class: 'btn btn-info btn-xs hidden-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "active"}, class: 'btn btn-info btn-xs hidden-xs' do
                   %span.glyphicon.glyphicon-plus-sign
                   Activate #{committee.name}
-                = button_to activate_committee_path(committee.id), method: :get, class: 'btn btn-info visible-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "active"}, class: 'btn btn-info visible-xs' do
                   %span.glyphicon.glyphicon-plus-sign
             - else 
               %th
-                = button_to inactivate_committee_path(committee.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "inactive"}, class: 'btn btn-warning btn-xs hidden-xs' do
                   %span.glyphicon.glyphicon-minus-sign
                   Inactivate #{committee.name}
-                = button_to inactivate_committee_path(committee.id), method: :get, class: 'btn btn-warning visible-xs' do
+                = button_to action_committee_path(committee.id), method: :get, params: {do_action: "inactive"}, class: 'btn btn-warning visible-xs' do
                   %span.glyphicon.glyphicon-minus-sign
 
 

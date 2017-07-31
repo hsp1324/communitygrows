@@ -19,8 +19,7 @@ Rails.application.routes.draw do
   delete 'admin/:id' => 'admin#delete_user', as: :delete_user
   put 'admin/:id/update' => 'admin#update_user', as: :update_user
   post 'admin/create' => 'admin#create_user', as: :create_user
-  
-  put '/admin/update_calendar' => 'admin#update_calendar', as: :update_calendar
+
 
   get 'admin/new_announcement' => 'admin#new_announcement', as: :new_announcement
   put 'admin/create_announcement' => 'admin#create_announcement', as: :create_announcement
@@ -72,6 +71,11 @@ Rails.application.routes.draw do
 
   # Category Management
   get 'categories/index' => 'category#index', as: :category_index
+  put 'categories/curd_category' => 'category#curd_category'
+  get 'categories/:id/curd_category' => 'category#curd_category'
+  delete 'categories/:id/curd_category' => 'category#curd_category'
+  put 'categories/curd_category' => 'category#curd_category'
+  
   get 'categories/new_category' => 'category#new_category', as: :new_category
   post 'categories/create' => 'category#create_category', as: :create_category
   delete 'categories/:id/delete_category' => 'category#delete_category', as: :delete_category
@@ -79,6 +83,7 @@ Rails.application.routes.draw do
   put 'categories/:id/edit_category' => 'category#update_category', as: :update_category
   get 'categories/:id/hide_category' => 'category#hide_category', as: :hide_category
   get 'categories/:id/show_category' => 'category#show_category', as: :show_category
+  get 'categories/:id/action_category' => 'category#action_category', as: :action_category
   post 'categories/update_category_order' => 'category#update_category_order', as: :update_category_order
 
   # Committee Management
@@ -94,13 +99,42 @@ Rails.application.routes.draw do
   post 'committee/update_committee_order' => 'committee#update_committee_order', as: :update_committee_order
   get 'committee/:id/inactivate_committee' => 'committee#inactivate_committee', as: :inactivate_committee
   get 'committee/:id/activate_committee' => 'committee#activate_committee', as: :activate_committee
+  get 'committee/:id/action_committee' => 'committee#action_committee', as: :action_committee
   # added these for adding/removing users from committees
   delete 'committee/:id/modify_committee_members/:user_id' => 'committee#remove_member', as: :remove_committee_member
   put 'committee/:id/modify_committee_members/:user_id' => 'committee#add_member', as: :add_committee_member
+  
+  # Calendar Management
+  get 'calendar' => 'calendar#index', as: :calendar_index
+  get 'calendar/new_calendar' => 'calendar#new_calendar', as: :new_calendar
+  post 'calendar/create' => 'calendar#create_calendar', as: :create_calendar
+  delete 'calendar/:id/delete_calendar' => 'calendar#delete_calendar', as: :delete_calendar
+  get 'calendar/:id/edit_calendar' => 'calendar#edit_calendar', as: :edit_calendar
+  put 'calendar/:id/edit_calendar' => 'calendar#update_calendar', as: :update_calendar
+  get 'calendar/:id/hide_calendar' => 'calendar#hide_calendar', as: :hide_calendar
+  get 'calendar/:id/show_calendar' => 'calendar#show_calendar', as: :show_calendar
+  post 'calendar/update_calendar_order' => 'calendar#update_calendar_order', as: :update_calendar_order
+  get 'calendar/:id/action_calendar' => 'calendar#action_calendar', as: :action_calendar
 
   # User Profiles
   get 'user_profiles' =>'user_profiles#index', as: :user_profiles_page
   get 'user_profiles/:id' => 'user_profiles#user_profile', as: :user_profile
+
+  #Meeting Management
+  get 'meeting' => 'meeting#index', as: :meeting_index
+  get 'meeting/new_meeting' => 'meeting#new_meeting', as: :new_meeting
+  post 'meeting/create' => 'meeting#create_meeting', as: :create_meeting
+  delete 'meeting/:id/delete_meeting' => 'meeting#delete_meeting', as: :delete_meeting
+  get 'meeting/:id/edit_meeting' => 'meeting#edit_meeting', as: :edit_meeting
+  put 'meeting/:id/edit_meeting' => 'meeting#update_meeting', as: :update_meeting
+  put 'meeting/:id/edit_meeting_date' => 'meeting#update_meeting_date', as: :update_meeting_date
+  put 'meeting/:id/edit_meeting_time' => 'meeting#update_meeting_time', as: :update_meeting_time
+  put 'meeting/:id/edit_meeting_location' => 'meeting#update_meeting_location', as: :update_meeting_location
+  put 'meeting/:id/edit_meeting_description' => 'meeting#update_meeting_description', as: :update_meeting_description
+  put 'meeting/:id/edit_meeting_agenda' => 'meeting#update_meeting_agenda', as: :update_meeting_agenda
+  put 'meeting/:id/edit_meeting_hangout' => 'meeting#update_meeting_hangout', as: :update_meeting_hangout
+  get 'meeting/list' => 'meeting#meeting_list', as: :meeting_list
+  get 'meeting/:id/show' => 'meeting#show', as: :meeting_show
 
   
   # Example of regular route:

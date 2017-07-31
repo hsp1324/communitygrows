@@ -21,7 +21,7 @@ Scenario: should be able to sort categories alphabetically
   And I should see "Good Category" before "Incredible Category"
 
 # happy path
-@javascript
+# @javascript
 Scenario: should be able to sort categories manually
   # When I drag the category "Incredible Category" to the top slot
   And I am on the document repository page
@@ -29,7 +29,7 @@ Scenario: should be able to sort categories manually
   # And I should see "Good Category" before "Better Category"
 
 # happy path
-@javascript
+# @javascript
 Scenario: should be able to drag documents between categories
   Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
   And I create a document called "doc2" with url "fun.com/goodness" in category "Incredible Category"
@@ -47,7 +47,7 @@ Scenario: should be able to drag documents between categories
   # Then I should see the document "document" in the category "Better Category"
   # And I should see the document "doc2" in the category "Better Category"
 
-@javascript
+# @javascript
 Scenario: should be able to select and drag multiple documents at a time
   Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
   And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"
@@ -60,7 +60,7 @@ Scenario: should be able to select and drag multiple documents at a time
   # And I should see the document "doc2" in the category "Better Category"
   # And I should see the document "doc3" in the category "Better Category"
   
-@javascript
+# @javascript
 Scenario: should be able to select and drag all documents in a category by pressing select all
   Given I create a document called "document" with url "doc.com/bestdoc" in category "Good Category"
   And I create a document called "doc2" with url "fun.com/goodness" in category "Good Category"

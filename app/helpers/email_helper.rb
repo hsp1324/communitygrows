@@ -18,7 +18,13 @@ module EmailHelper
             end
         end
     end
-
+    
+    def send_emergency_announcement_email (announcement)
+        User.all.each do |user|
+            NotificationMailer.emergency_email(user, announcement).deliver
+        end
+    end
+    
     def send_announcement_update_email(committee, announcement)
         if committee == ""
             User.all.each do |user|

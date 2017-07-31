@@ -37,7 +37,7 @@ Scenario: should not be able to edit category names to be blank
 Scenario: should be able to delete a created category
   When I press "Delete Good Category"
   And I confirm popup
-  Then I should see "Good Category deleted successfully."
+  Then I should see "Category with name Good Category deleted successfully."
 
 # happy path
 Scenario: should be able to hide a category

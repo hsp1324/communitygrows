@@ -4,7 +4,7 @@ Feature: a user should be able to view a calendar on the dashboard
             I want to be able to view the current calendar on the dashboard
 
 Background:
-Given a logged in user
+Given a logged in admin
 And I am on the CommunityGrows dashboard page
 
 Scenario:  Checking the calendar

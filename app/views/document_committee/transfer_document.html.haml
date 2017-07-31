@@ -18,7 +18,7 @@
               .form-group
                 %tr
                   %td= link_to "#{@document.title}", @document.url
-                  %td= select_tag "document[#{@doc_attr}]", options_for_select(@all_categories)
+                  %td= select_tag "document[#{@document.title}]", options_for_select(@all_categories)
             .form-group
               = submit_tag 'Submit', :class => "btn btn-success"
         - else
@@ -28,6 +28,6 @@
             - @doc_attr = [document.id]
               %tr
                 %td= link_to "#{document.title}", document.url
-                %td= select_tag "document[#{@doc_attr}]", options_for_select(@all_categories)
+                %td= select_tag "document[#{document.title}]", options_for_select(@all_categories)
             .form-group
               = submit_tag 'Submit', :class => "btn btn-success"

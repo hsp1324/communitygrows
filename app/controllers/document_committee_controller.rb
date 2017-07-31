@@ -8,11 +8,18 @@ class DocumentCommitteeController < ActionController::Base
     end
     
     def create_document
-        if params[:title].to_s == "" or params[:url].to_s == ""
+        @document_name = params[:title].to_s
+        @committee_type = params[:committee_type]
+        @document_exists = Document.find_by(:title => @document_name, :committee_type => @committee_type)
+        if @document_name == "" or params[:url].to_s == ""
             flash[:notice] = "Populate all fields before submission."
             redirect_to new_committee_document_path
         elsif !(params[:url]=~/.com(.*)/)
             flash[:notice] = "Please enter a valid URL."
+            redirect_to new_committee_document_path
+        elsif @document_exists
+            puts "Will I Am **************************************************************"
+            flash[:notice] = "Document named #{@document_name} already exists."
             redirect_to new_committee_document_path
         else
             if !(params[:url]=~/http(s)?:/)
@@ -20,7 +27,6 @@ class DocumentCommitteeController < ActionController::Base
             end
             @title = params[:title]
             @url = params[:url]
-            @committee_type = params[:committee_type]
             
             @new_doc = Document.create(:title => @title, :url => @url, :committee_type => @committee_type)
             flash[:notice] = 'Document List creation successful and email was successfully sent.'
@@ -100,17 +106,17 @@ class DocumentCommitteeController < ActionController::Base
     #When you transfer files from committee page to document repository
     def transfer_file_to_repository
         @committee_type = params[:committee_type]
-        flash[:notice] = "Dinosaurs say, Hey hand over the files, you promised!!!"
         @documents = params[:document]
         if @documents != nil
-            @documents.each_pair do |document_id, category_type|
+            @documents.each_pair do |document_name, category_type|
                 next if category_type == "no selection"
-                @doc = Document.find(document_id)
+                @doc = Document.find_by(:title => document_name)
                 next if @doc.transfer == true
                 @file_params = {:url => @doc.url, :title => @doc.title}
                 @category = Category.find_by(:name => category_type)
                 @category.documents.create(@file_params)
                 @doc.update_attribute :transfer, true
+                flash[:notice] = "Documents were successfully transferred to Document Repository"
             end
         end
         redirect_to subcommittee_index_path(@committee_type)

@@ -55,6 +55,9 @@ Rails.application.routes.draw do
   delete 'subcommittee_index/:committee_type/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
   get 'subcommittee_index/:committee_type/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
   put 'subcommittee_index/:committee_type/update_document' => 'document_committee#update_document', as: :update_committee_document
+  #new route created for transfer document
+  get 'subcommittee_index/:committee_type/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document
+  post 'subcommittee_index/:committee_type/transfer_file_to_repository' => 'document_committee#transfer_file_to_repository', as: :transfer_file_repo
   
   get 'documents/new_file' => 'documents#new_file', as: :new_file
   post 'documents/create' => 'documents#create_file', as: :create_file
@@ -68,6 +71,11 @@ Rails.application.routes.draw do
 
   # Category Management
   get 'categories/index' => 'category#index', as: :category_index
+  put 'categories/curd_category' => 'category#curd_category'
+  get 'categories/:id/curd_category' => 'category#curd_category'
+  delete 'categories/:id/curd_category' => 'category#curd_category'
+  put 'categories/curd_category' => 'category#curd_category'
+  
   get 'categories/new_category' => 'category#new_category', as: :new_category
   post 'categories/create' => 'category#create_category', as: :create_category
   delete 'categories/:id/delete_category' => 'category#delete_category', as: :delete_category

@@ -23,7 +23,7 @@ module ControllerHelper
             elsif type == Calendar
                 if object[:link].to_s == ""
                     flash[:notice] = "#{type.string_title} link field cannot be blank."
-                    redirect_to fail_redirect_path
+                    redirect_to fail_redirect_path and return
                 end
                 Calendar.create!(:name => object[:name], :link => object[:link], :hidden => true)
             end
@@ -54,13 +54,13 @@ module ControllerHelper
         else
             if type.has_name?(object[:name].to_s)
                 flash[:notice] = "#{type.string_title} name provided already exists. Please enter a different name."
-                redirect_to fail_redirect_path
+                redirect_to fail_redirect_path and return
             end
             @found_object.update_attributes!(:name => object[:name].to_s)
         end
         
         flash[:notice] = "#{type.string_title} with name [#{@found_object.name}] updated successfully and email was successfully sent."
-        redirect_to success_redirect_path
+        redirect_to success_redirect_path and return
     end
     
     def edit_object(type)

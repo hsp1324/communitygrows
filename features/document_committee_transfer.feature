@@ -14,7 +14,7 @@ Background:
     | answer_key   |     cs169.testbank.com   | hoopla         |
     | Ruby_where   |     happypuppies.com     | hoopla         |
     | Dinos_green  |     noitaint.com         | hoopla         |
-    | Mihcael Cera |     crystalfairy.com     | crystal gems   |
+    | Michael Cera |     crystalfairy.com     | crystal gems   |
 
   Given the following categories exist:
     |     name     |     hidden     |  
@@ -28,21 +28,19 @@ Background:
   And a category called "The Practice of Yogurt"
   And I am on the CommunityGrows dashboard page
   
-Scenario: Visiting Committee hoopla page to see transfer buttons
+Scenario: Visiting Committee hoopla page
   
   Given I am on subcommittee "hoopla" page
-# Then I should see hoopla Subcommittee
-  And I should see the following documents: "answer_key, Ruby_where, Dinos_green"
+  Then I should see "Hoopla Subcommittee"
+  And I should see "answer_key"
+  And I should see "Ruby_where"
+  And I should see "Dinos_green"
   And I should not see "Michael Cera"
-  And I should see "Transfer answer_key"
-  And I should see "Transfer Ruby_where"
-  And I should see "Delete Dinos_green"
-  And I should see "Edit answer_key"
   
 Scenario: Transfering document Ruby_where to Document repository under category The Practice of Yogurt
   
   Given I am on subcommittee "hoopla" page
-  When I press "Transfer Ruby_where"
+  When I follow second "Transfer Document" 
   #redirects to a new page
   Then I should see "Transfer Documents"
   Then I should see "Ruby_where"
@@ -57,30 +55,31 @@ Scenario: Transfering document Ruby_where to Document repository under category 
   Then I should see "Taos"
   Then I should see "The Practice of Yogurt"
   #Select from drop down menu "The Practice of Yogurt"
-  And I select "The Practice of Yogurt" from drop down menu "Ruby_where"
+  And I select "The Practice of Yogurt" from drop down menu "Ruby_where" on transfer documents page
   #Transfer button
-  When I press "Transfer all"
+  When I press "Submit"
   Then I should see "Documents were successfully transferred to Document Repository"
+  Then I should see "Archived"
   Given I am on the document repository page
   Then I should see "Ruby_where"
   
 Scenario: Transfering multiple documents to Document Repository via the transfer documents button
   
   Given I am on subcommittee "hoopla" page
-  When I press "Transfer Documents"
+  When I follow "Transfer All Documents"
   #redirects to a new page
   Then I should see "Transfer Documents"
   And I should see "Ruby_where"
   And I should see "Dinos_green" 
   And I should see "answer_key"
   #Select from drop down menu
-  And I select "The Practice of Yogurt" from drop down menu "Dinos_green"
-  And I select "The Practice of Yogurt" from drop down menu "Ruby_where"
-  And I select "The Practice of Yogurt" from drop down menu "answer_key"
+  And I select "The Practice of Yogurt" from drop down menu "Dinos_green" on transfer documents page
+  And I select "The Practice of Yogurt" from drop down menu "Ruby_where" on transfer documents page
+  And I select "The Practice of Yogurt" from drop down menu "answer_key" on transfer documents page
   #Transfer button
-  When I press "Transfer all"
+  When I press "Submit"
   Then I should see "Documents were successfully transferred to Document Repository"
-  Given I am on the document repostiroy page
+  Given I am on the document repository page
   Then I should see "Ruby_where"
   Then I should see "Dinos_green"
   Then I should see "answer_key"

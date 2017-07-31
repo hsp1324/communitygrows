@@ -38,8 +38,9 @@ And /^(?:|I )should see the following documents: "([^\"]*)"$/ do |documents|
     pending
 end 
 
-And /^(?:|I )select "([^\"]*)" from drop down menu "([^\"]*)"/ do |category_name, document_name|
-    pending
+And /^(?:|I )select "([^\"]*)" from drop down menu "([^\"]*)" on transfer documents page/ do |category_name, document_name|
+    document_name = 'document_' + document_name.strip.gsub(" ", "_")
+    select category_name, from: document_name
 end
 
 

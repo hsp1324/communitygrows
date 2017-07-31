@@ -1,12 +1,16 @@
 #admin
-  %h1 #{@committee_type.capitalize} Subcommittee
+  %h1 #{@committee_type.capitalize} Committee
 
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
+- if @notmember
+  =flash[:alert]
 - if @inactive
-  #flashInactive
-    = flash[:inactive]
+  =flash[:inactive]
+
+
+
 
 %h2 Announcements
 
@@ -27,7 +31,7 @@
           %td= announcement.content
           %td= announcement.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          - if @inactive == false
+          - if @inactive == false and @notmember == false
             %td
               = link_to edit_committee_announcement_path(:announcement_id => announcement.id), :class => "btn btn-info btn-xs hidden-xs" do
                 %span.glyphicon.glyphicon-edit
@@ -41,7 +45,7 @@
                 Delete Announcement
               = link_to delete_committee_announcement_path(:announcement_id => announcement.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
                 %span.glyphicon.glyphicon-remove
-- if @inactive == false
+- if @inactive == false and @notmember == false
   = link_to new_committee_announcement_path, class: 'btn btn-success' do
     Add new announcement
 
@@ -57,13 +61,15 @@
         %th Updated at
         %th Edit
         %th Delete
+        %th Transfer
     %tbody
       - @document_list.each do |document|
         %tr
           %td= link_to document.title, document.url, :target => "_blank"
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          - if @inactive == false
+
+          - if @inactive == false and @notmember == false
             %td
               = link_to edit_committee_document_path(:id => document.id), class: 'btn btn-info btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-edit
@@ -77,6 +83,20 @@
                 Delete Document
               = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
-- if @inactive == false
+                
+          - if !document.transfer
+            %td
+              = link_to transfer_committee_document_path(:id => document.id, :single_transfer => true), class:'btn btn-info btn-xs hidden-xs' do
+                %span.glyphicon.glyphicon-transfer
+                Transfer Document
+              = link_to transfer_committee_document_path(:id => document.id, :single_transfer => true), class:'btn btn-info visible-xs' do
+                %span.glyphicon.glyphicon-transfer
+          - if document.transfer
+            %td
+              Archived
+
+- if @inactive == false and @notmember == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document
+  = link_to transfer_committee_document_path(:single_transfer => false, :committee_type => @committee_type), class: 'btn btn-success' do
+    Transfer All Documents

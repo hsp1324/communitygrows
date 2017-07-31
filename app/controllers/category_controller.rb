@@ -24,6 +24,25 @@ class CategoryController < ActionController::Base
         return if !is_admin
     end
     
+    def curd_category
+        is_admin = admin_only('create categories.')
+        return if !is_admin
+        category = params[:category]
+        crud_action = params[:do_action]
+        if crud_action == 'create'
+            create_object(Category, category, new_category_path, category_index_path)
+        elsif crud_action == 'update'
+            update_object(Category, category, edit_category_path, category_index_path)
+        elsif crud_action == 'delete'
+            delete_object(Category)
+            redirect_to category_index_path
+        else
+            redirect_to category_index_path
+        end
+        
+        
+    end
+    
     def create_category
         is_admin = admin_only('create categories.')
         return if !is_admin

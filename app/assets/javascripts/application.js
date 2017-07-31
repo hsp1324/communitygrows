@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap.min
@@ -19,5 +20,4 @@
 //= require moment
 //= require fullcalendar
 //= require fullcalendar/gcal
-
 

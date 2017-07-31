@@ -12,7 +12,7 @@ gem 'rake'
 
 gem 'figaro'
 
-gem 'fullcalendar-rails', '>= 2.1.1'
+gem 'rails-assets-fullcalendar', source: 'https://rails-assets.org'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 5.0'
@@ -25,7 +25,7 @@ gem 'coffee-rails', '>= 4.1.0'
 
 #allow for old style, non turbolinks jquery calls
 gem 'jquery-turbolinks'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '6.0.1'
 gem 'momentjs-rails'
 gem 'bootstrap-popover-rails'
 

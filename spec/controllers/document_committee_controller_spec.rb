@@ -79,10 +79,10 @@ describe DocumentCommitteeController do
         
         it 'successfully transferred' do
             @a = FactoryGirl.create(:category)
-            doc_hash = {"#{@doc.id}": "Board Overview"}
+            doc_hash = {"#{@doc.title}": "Board Overview"}
             post :transfer_file_to_repository, params: {committee_type: @doc.committee_type, document_id: @doc.id, document: doc_hash}
             expect(response).to redirect_to(subcommittee_index_path(committee_type: @doc.committee_type))
-            expect(flash[:notice]).to include("Dinosaurs say, Hey hand over the files, you promised!!!")
+            expect(flash[:notice]).to include("Documents were successfully transferred to Document Repository")
         end 
         
     end 

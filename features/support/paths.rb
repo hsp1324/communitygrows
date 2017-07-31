@@ -63,7 +63,7 @@ module NavigationHelpers
       info_file_path(Document.find_by_title($1).id)
       
     when /^subcommittee "([^"]*)" page$/ then
-      subcommittee_index_path($1)
+      subcommittee_index_path(committee_type: $1)
 
     when /the (CommunityGrows )?meeting management page$/ then
       meeting_index_path

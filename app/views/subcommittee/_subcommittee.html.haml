@@ -61,12 +61,14 @@
         %th Updated at
         %th Edit
         %th Delete
+        %th Transfer
     %tbody
       - @document_list.each do |document|
         %tr
           %td= link_to document.title, document.url, :target => "_blank"
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
+
           - if @inactive == false and @notmember == false
             %td
               = link_to edit_committee_document_path(:id => document.id), class: 'btn btn-info btn-xs hidden-xs' do
@@ -81,6 +83,20 @@
                 Delete Document
               = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
+                
+          - if !document.transfer
+            %td
+              = link_to transfer_committee_document_path(:id => document.id, :single_transfer => true), class:'btn btn-info btn-xs hidden-xs' do
+                %span.glyphicon.glyphicon-transfer
+                Transfer Document
+              = link_to transfer_committee_document_path(:id => document.id, :single_transfer => true), class:'btn btn-info visible-xs' do
+                %span.glyphicon.glyphicon-transfer
+          - if document.transfer
+            %td
+              Archived
+
 - if @inactive == false and @notmember == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document
+  = link_to transfer_committee_document_path(:single_transfer => false, :committee_type => @committee_type), class: 'btn btn-success' do
+    Transfer All Documents

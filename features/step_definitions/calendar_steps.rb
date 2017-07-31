@@ -1,12 +1,10 @@
-Given /the following calendar exists/ do |calendar|
-    pending
-end
-
 Given /the following calendars exist/ do |calendar_table|
+    # Committee.delete_all
     calendar_table.hashes.each do |calendar|
-        pending
+        Calendar.create!(calendar)
     end
 end
+
 
 
 Then /^there should be a iframe with id "([^"]*)"$/ do |cal|

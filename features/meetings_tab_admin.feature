@@ -33,11 +33,15 @@ Scenario: Visiting meeting management page
 Scenario: Create new meeting
     Given I am on the meeting management page
     When I follow "New Meeting"
-    And I fill in "Meeting Name" with "Good Meeting"
+    And I fill in "Meeting Name" with "Bad Meeting"
+    And I fill in "Meeting Date" with "07/22/2017"
+    And I fill in "Meeting Time" with "4:44 PM"
+    And I fill in "Meeting Location" with "123 Rainbow RD"
+    And I fill in "Meeting Description" with "the quick brown fox jumps"
     And I press "Submit"
     Then I am on the meeting management page
-    And I should see "Good Meeting"
-    And I should see "Delete Good Meeting"
+    And I should see "Bad Meeting"
+    And I should see "Delete Bad Meeting"
 
 Scenario: Delete meeting  
     Given I am on the meeting management page

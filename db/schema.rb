@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722214304) do
+ActiveRecord::Schema.define(version: 20170730201817) do
 
   create_table "announcements", force: :cascade do |t|
     t.string   "title"
@@ -18,10 +18,13 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "committee_type"
+    t.boolean  "emergency"
   end
 
   create_table "calendars", force: :cascade do |t|
-    t.string   "html"
+    t.string   "name"
+    t.string   "link"
+    t.boolean  "hidden"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -77,11 +80,12 @@ ActiveRecord::Schema.define(version: 20170722214304) do
   create_table "documents", force: :cascade do |t|
     t.string   "url"
     t.string   "title"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "committee_type"
     t.integer  "category_id"
     t.integer  "custom_order"
+    t.boolean  "transfer",       default: false
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
@@ -96,6 +100,16 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.string   "committee",   default: ""
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "meetings", force: :cascade do |t|
+    t.string "name"
+    t.string "date"
+    t.string "time"
+    t.string "location"
+    t.string "description"
+    t.string "agenda"
+    t.string "hangout"
   end
 
   create_table "participations", force: :cascade do |t|
@@ -131,7 +145,11 @@ ActiveRecord::Schema.define(version: 20170722214304) do
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
     t.boolean  "admin"
-    t.datetime "last_sign_in_at",        default: '2017-07-27 01:09:45', null: false
+<<<<<<< HEAD
+    t.datetime "last_sign_in_at",        default: '2017-07-30 13:02:08', null: false
+=======
+    t.datetime "last_sign_in_at",        default: '2017-07-31 03:40:25', null: false
+>>>>>>> 91655b4b675f167eb82b7dc3703fcd09d1349e65
     t.string   "name"
     t.string   "board_role"
     t.string   "committee"

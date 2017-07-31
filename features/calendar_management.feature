@@ -34,8 +34,7 @@ Scenario: Create new calendar
     Then I am on the calendar management page
     And I should see "Fundraiser"
     And I should see "Delete Fundraiser"
-    And I should see "Hide Fundraiser"
-    And I should see "Edit Fundraiser"
+    And I should see "Show Fundraiser"
 
 #Sad Path
 Scenario: Create new calendar with a blank name
@@ -44,8 +43,7 @@ Scenario: Create new calendar with a blank name
     And I fill in "Calendar Name" with ""
     And I fill in "Link" with "www.google.com"
     And I press "Submit"
-    Then I am on the new calendar page
-    And I should see "Please enter a valid name"
+    And I should see "Calendar name field cannot be blank."
 
 #Sad Path
 Scenario: Create new calendar with a blank link
@@ -54,42 +52,39 @@ Scenario: Create new calendar with a blank link
     And I fill in "Calendar Name" with "Fundraiser"
     And I fill in "Link" with ""
     And I press "Submit"
-    Then I am on the new calendar page
-    And I should see "Please enter a valid link"
+    And I should see "Calendar link field cannot be blank."
 
 #Happy Path
 Scenario: Edit calendar   
     Given I am on the calendar management page
-    When I follow "Edit Public"
+    When I follow "Public Events"
     And I should see "Edit"
     And I fill in "Calendar Name" with "Private"
-    And I press "Submit"
-    Then I am on the committee management page
+    And I press "Update Calendar"
+    Then I am on the calendar management page
     And I should see "Private"
     And I should see "Delete Private"
     And I should see "Hide Private"
-    And I should see "Edit Private"
     
 #Sad Path
 Scenario: Edit calendar   
     Given I am on the calendar management page
-    When I follow "Edit Public"
+    When I follow "Public Events"
     And I should see "Edit"
     And I fill in "Calendar Name" with ""
-    And I press "Submit"
-    Then I am on the edit calendar page
-    And I should see "Please enter a non-empty name"
+    And I press "Update Calendar"
+    And I should see "Please fill in the calendar name field."
     
 Scenario: Delete calendar
     Given I am on the calendar management page
-    And I should see "Delete Public"
-    When I press "Delete Public"
+    And I should see "Delete Public Events"
+    When I press "Delete Public Events"
     And I confirm popup
-    Then I should see "Calendar Public Events was deleted successfully."
+    Then I should see "Calendar with name Public Events deleted successfully."
 
 Scenario: Hide and Show Calendar  
     Given I am on the calendar management page
-    And I should see "Hide calendar"
+    And I should see "Hide Public Events"
     When I press "Hide Public Events"
     Then I should see "Public Events successfully hidden."
     And I should see "Show Public Events"

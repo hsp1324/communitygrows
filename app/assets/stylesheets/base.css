@@ -8,6 +8,10 @@
 
 html, body {}
 
+.red {
+    color: red;
+}
+
 .content {
   margin-top: 51px; /*Size of the navbar*/
 }

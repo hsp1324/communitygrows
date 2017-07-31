@@ -12,18 +12,22 @@
         %tbody
   
         - if @single_transfer == "true"
-          %tr
-            %td= link_to "#{@document.title}", @document.url
-            %td= select_tag @document.title, options_for_select(@all_categories)
-          =button_to create_file_path, :method => :post, class: 'btn btn-info' do
-            %span.glyphicon.glyphicon-transfer
-            Transfer Documents
+          =form_tag transfer_file_repo_path :method => :post do
+            - @doc_attr = [@document.id]
+            - if !@document.transfer
+              .form-group
+                %tr
+                  %td= link_to "#{@document.title}", @document.url
+                  %td= select_tag "document[#{@document.title}]", options_for_select(@all_categories)
+            .form-group
+              = submit_tag 'Submit', :class => "btn btn-success"
         - else
-          - Document.where(committee_type: @committee_type).each do |document|
-            %tr
-              %td= link_to "#{document.title}", document.url
-              %td= select_tag document.title, options_for_select(@all_categories)
-          =button_to committee_index_path, :method => :get, class: 'btn btn-info' do
-            %span.glyphicon.glyphicon-transfer
-            Transfer Documents
-          
+          =form_tag transfer_file_repo_path :method => :post do
+            - Document.where(committee_type: @committee_type, transfer: false).each do |document|
+            - puts "#{document.title} has been transferred: #{document.transfer}"
+            - @doc_attr = [document.id]
+              %tr
+                %td= link_to "#{document.title}", document.url
+                %td= select_tag "document[#{document.title}]", options_for_select(@all_categories)
+            .form-group
+              = submit_tag 'Submit', :class => "btn btn-success"

@@ -1,15 +1,7 @@
 class CommitteeController < ApplicationController
     layout "base"
-    
-    def admin_only(action)
-        if !current_user.admin
-            flash[:message] = "Only admins can #{action}"
-            # return false
-            redirect_to root_path and return
-        else
-            return true
-        end
-    end
+    include AdminHelper
+    include ControllerHelper
     
     def index
         @committees = Committee.all
@@ -22,90 +14,80 @@ class CommitteeController < ApplicationController
         is_admin = admin_only('create committee')
         return if !is_admin
         committee = params[:committee]
-        if committee[:name].to_s == ""
-            flash[:notice] = "Committee name field cannot be blank."
-            redirect_to new_committee_path
-        elsif Committee.has_name?(committee[:name])
-            flash[:notice] = "Committee name provided already exists. Please enter a different name."
-            redirect_to new_committee_path
-        else
-            Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
-            flash[:notice] = "Committee #{committee[:name]} was successfully created!"
-            redirect_to committee_index_path
-        end
+        create_object(Committee, committee, new_committee_path, committee_index_path)
+
+        # if committee[:name].to_s == ""
+        #     flash[:notice] = "Committee name field cannot be blank."
+        #     redirect_to new_committee_path
+        # elsif Committee.has_name?(committee[:name])
+        #     flash[:notice] = "Committee name provided already exists. Please enter a different name."
+        #     redirect_to new_committee_path
+        # else
+        #     Committee.create!(:name => committee[:name], :hidden => true, :inactive => true)
+        #     flash[:notice] = "Committee #{committee[:name]} was successfully created!"
+        #     redirect_to committee_index_path
+        # end
     end
 
     def delete_committee
         is_admin = admin_only('delete committee')
         return if !is_admin
-        @id = params[:id] 
-        @committee = Committee.find(@id)
-        @committee.destroy!
-        flash[:notice] = "Committee with name #{@committee.name} deleted successfully."
+        delete_object(Committee)
         redirect_to committee_index_path
     end       
 
     def edit_committee
         is_admin = admin_only('edit committee')
         return if !is_admin
-        @id = params[:id] 
-        @committee = Committee.find(@id)
-        @committees = Committee.all
+        edit_object(Committee)
     end
 
     def update_committee
         is_admin = admin_only('update committee')
         return if !is_admin
-        @committee = Committee.find(params[:id])
         committee = params[:committee]
-        if committee[:name].to_s == ''
-            flash[:notice] = "Please fill in the committee name field."
-            redirect_to edit_committee_path
-        elsif Committee.has_name?(committee[:name].to_s)
-            flash[:notice] = "Committee name provided already exists. Please enter a different name."
-            redirect_to edit_committee_path
-        else
-            @committee.update_attributes!(:name => committee[:name].to_s)
-            flash[:notice] = "Committee with name [#{@committee.name}] updated successfully and email was successfully sent."
-            redirect_to committee_index_path
-        end
+        update_object(Committee, committee, edit_committee_path, committee_index_path)
 
     end
 
-    def hide_committee
-        is_admin = admin_only('hide committee')
-        return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.hide 
-        flash[:notice] = "#{committee.name} successfully hidden."
-        redirect_to committee_index_path
-    end
+    # def hide_committee
+    #     is_admin = admin_only('hide committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'hide', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def show_committee
-        is_admin = admin_only('show committee')
-        return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.show
-        flash[:notice] = "#{committee.name} successfully shown."
-        redirect_to committee_index_path
-    end
+    # def show_committee
+    #     is_admin = admin_only('show committee')
+    #     return if !is_admin
+    #     act = params[:do_action]
+    #     puts "*"*100
+    #     puts "do_action: #{act}"
+    #     puts "*"*100
+    #     do_action(Committee, 'show', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def inactivate_committee
-        is_admin = admin_only('inactivate committee')
-        return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.inactivate
-        flash[:notice] = "#{committee.name} successfully made inactive."
-        redirect_to committee_index_path
-    end
+    # def inactivate_committee
+    #     is_admin = admin_only('inactivate committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'inactive', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
 
-    def activate_committee
-        is_admin = admin_only('activate committee')
+    # def activate_committee
+    #     is_admin = admin_only('activate committee')
+    #     return if !is_admin
+    #     do_action(Committee, 'active', committee_index_path)
+    #     # redirect_to committee_index_path
+    # end
+    
+    def action_committee
+        my_action = params[:do_action]
+        is_admin = admin_only('#{my_action} committee.')
         return if !is_admin
-        committee = Committee.find(params[:id])
-        committee.activate
-        flash[:notice] = "#{committee.name} successfully made active."
-        redirect_to committee_index_path
+        do_action(Committee, my_action, committee_index_path)
+        # redirect_to category_index_path
     end
     
     #added the two methods below for adding and removing committee members

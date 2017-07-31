@@ -11,5 +11,13 @@
     .form-group
       = label :meeting, :name, 'Meeting Name'
       = text_field :meeting, 'name', class: 'form-control'
+      = label :meeting, :date, 'Meeting Date'
+      = text_field :meeting, 'date', class: 'form-control'
+      = label :meeting, :time, 'Meeting Time'
+      = text_field :meeting, 'time', class: 'form-control'
+      = label :meeting, :location, 'Meeting Location'
+      = text_field :meeting, 'location', class: 'form-control'
+      = label :meeting, :description, 'Meeting Description'
+      = text_field :meeting, 'description', class: 'form-control'
 
     = submit_tag 'Submit', class: 'btn btn-success'

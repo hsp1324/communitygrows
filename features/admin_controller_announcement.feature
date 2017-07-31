@@ -35,7 +35,7 @@ Scenario: should be able to edit a created announcement
   Then I should see "edited title"
 
 # happy path
-@javascript
+# @javascript
 Scenario: should be able to delete a created announcement
   Then I should see "New Announcement"
   When I follow "New Announcement"

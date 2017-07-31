@@ -13,24 +13,24 @@
           %td= link_to "#{category.name}", edit_category_path(category.id)
           - if category.hidden?
             %td
-              = button_to show_category_path(category.id), method: :get, class: 'btn btn-info btn-xs hidden-xs' do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-eye-open
                 Show #{category.name}
-              = button_to show_category_path(category.id), method: :get, class: 'btn btn-info visible-xs' do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "show"}, class: 'btn btn-info visible-xs' do
                 %span.glyphicon.glyphicon-eye-open
           - elsif category.documents.length != 0
             %td
-              = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning btn-xs hidden-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
                 %span.glyphicon.glyphicon-eye-close
                 Hide #{category.name}
-              = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning visible-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning visible-xs', data: { confirm: "There are documents in this category, are you sure you want to hide it?"} do
                 %span.glyphicon.glyphicon-eye-close
           -else 
             %td
-              = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning btn-xs hidden-xs' do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-eye-close
                 Hide #{category.name}
-              = button_to hide_category_path(category.id), method: :get, class: 'btn btn-warning visible-xs' do
+              = button_to action_category_path(category.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning visible-xs' do
                 %span.glyphicon.glyphicon-eye-close
           %td
             = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do

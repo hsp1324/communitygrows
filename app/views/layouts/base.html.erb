@@ -58,6 +58,7 @@
               <li><%= link_to "Admin Dashboard", admin_index_path if current_user.admin %></li>
               <li><%= link_to "Committee Management", committee_index_path if current_user.admin %></li>
               <li><%= link_to "Meeting Management", meeting_index_path if current_user.admin %></li>
+              <li><%= link_to "Calendar Management", calendar_index_path if current_user.admin %></li>
             </ul>
           </li>
         <% end %>

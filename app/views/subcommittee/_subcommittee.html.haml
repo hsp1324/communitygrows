@@ -1,12 +1,16 @@
 #admin
-  %h1 #{@committee_type.capitalize} Subcommittee
+  %h1 #{@committee_type.capitalize} Committee
 
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
+- if @notmember
+  =flash[:alert]
 - if @inactive
-  #flashInactive
-    = flash[:inactive]
+  =flash[:inactive]
+
+
+
 
 %h2 Announcements
 
@@ -27,7 +31,7 @@
           %td= announcement.content
           %td= announcement.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          - if @inactive == false
+          - if @inactive == false and @notmember == false
             %td
               = link_to edit_committee_announcement_path(:announcement_id => announcement.id), :class => "btn btn-info btn-xs hidden-xs" do
                 %span.glyphicon.glyphicon-edit
@@ -41,7 +45,7 @@
                 Delete Announcement
               = link_to delete_committee_announcement_path(:announcement_id => announcement.id), :method => :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger visible-xs" do
                 %span.glyphicon.glyphicon-remove
-- if @inactive == false
+- if @inactive == false and @notmember == false
   = link_to new_committee_announcement_path, class: 'btn btn-success' do
     Add new announcement
 
@@ -63,7 +67,7 @@
           %td= link_to document.title, document.url, :target => "_blank"
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
-          - if @inactive == false
+          - if @inactive == false and @notmember == false
             %td
               = link_to edit_committee_document_path(:id => document.id), class: 'btn btn-info btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-edit
@@ -77,6 +81,6 @@
                 Delete Document
               = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
-- if @inactive == false
+- if @inactive == false and @notmember == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document

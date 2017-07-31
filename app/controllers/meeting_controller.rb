@@ -28,19 +28,47 @@ class MeetingController < ApplicationController
         is_admin = admin_only('create committee')
         return if !is_admin
         meeting = params[:meeting]
-        create_object(Meeting, meeting, new_meeting_path, meeting_index_path)
-        # if meeting[:name].to_s == ""
-        #     flash[:notice] = "Meeting name field cannot be blank."
-        #     redirect_to new_meeting_path
-        # elsif Meeting.has_name?(meeting[:name])
-        #     flash[:notice] = "Meeting name provided already exists. Please enter a different name."
-        #     redirect_to new_meeting_path
-        # else
-        #     meeting = params[:meeting]
-        #     Meeting.create!(:name => meeting[:name])
-        #     flash[:notice] = "Meeting #{meeting[:name]} was successfully created!"
-        #     redirect_to meeting_index_path
-        # end
+
+        if meeting[:name].to_s == ""
+            flash[:notice] = "Meeting name field cannot be blank."
+            redirect_to new_meeting_path and return
+        elsif Meeting.has_name?(meeting[:name])
+            flash[:notice] = "Meeting name provided already exists. Please enter a different name."
+            redirect_to new_meeting_path and return
+        elsif meeting[:description].to_s == ''
+            flash[:notice] = "Please fill in the description field."
+            redirect_to new_meeting_path and return
+        elsif meeting[:location].to_s == ''
+            flash[:notice] = "Please fill in the location field."
+            redirect_to new_meeting_path and return
+        elsif meeting[:time].to_s == ''
+            flash[:notice] = "Please fill in the time field."
+            redirect_to new_meeting_path and return
+        elsif meeting[:date].to_s == ''
+            flash[:notice] = "Please fill in the date field."
+            redirect_to new_meeting_path and return
+        else
+
+            begin
+                Date.strptime(meeting[:date], '%m/%d/%Y')
+            rescue ArgumentError
+                flash[:notice] = "New date must be in MM/DD/YYYY format"
+                redirect_to new_meeting_path and return
+            end
+
+
+            begin
+                Time.strptime(meeting[:time], '%I:%M %p')
+            rescue ArgumentError
+                flash[:notice] = "New time must be in HH:MM AM/PM format"
+                redirect_to new_meeting_path and return
+            end
+
+            meeting = params[:meeting]
+            Meeting.create!(:name => meeting[:name], :date => Date.strptime(meeting[:date], '%m/%d/%Y').strftime('%m/%d/%Y'), :time => Time.strptime(meeting[:time], '%I:%M %p').strftime('%I:%M %p'), :location => meeting[:location], :description => meeting[:description])
+            flash[:notice] = "Meeting #{meeting[:name]} was successfully created!"
+            redirect_to meeting_index_path
+        end
     end
 
     def delete_meeting

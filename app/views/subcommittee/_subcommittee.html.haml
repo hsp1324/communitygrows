@@ -85,6 +85,9 @@
                 Transfer Document
               = link_to transfer_committee_document_path(:id => document.id, :single_transfer => true), class:'btn btn-info visible-xs' do
                 %span.glyphicon.glyphicon-transfer
+          - if document.transfer
+            %td
+              Archived
 - if @inactive == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document

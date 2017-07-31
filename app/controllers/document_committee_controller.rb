@@ -18,7 +18,6 @@ class DocumentCommitteeController < ActionController::Base
             flash[:notice] = "Please enter a valid URL."
             redirect_to new_committee_document_path
         elsif @document_exists
-            puts "Will I Am **************************************************************"
             flash[:notice] = "Document named #{@document_name} already exists."
             redirect_to new_committee_document_path
         else
@@ -110,7 +109,7 @@ class DocumentCommitteeController < ActionController::Base
         if @documents != nil
             @documents.each_pair do |document_name, category_type|
                 next if category_type == "no selection"
-                @doc = Document.find_by(:title => document_name)
+                @doc = Document.find_by(:title => document_name, :committee_type => @committee_type)
                 next if @doc.transfer == true
                 @file_params = {:url => @doc.url, :title => @doc.title}
                 @category = Category.find_by(:name => category_type)

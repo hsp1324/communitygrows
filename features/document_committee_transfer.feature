@@ -59,6 +59,7 @@ Scenario: Transfering document Ruby_where to Document repository under category 
   #Transfer button
   When I press "Submit"
   Then I should see "Documents were successfully transferred to Document Repository"
+  Then I should see "Archived"
   Given I am on the document repository page
   Then I should see "Ruby_where"
   

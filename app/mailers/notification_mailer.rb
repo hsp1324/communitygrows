@@ -18,6 +18,16 @@ class NotificationMailer < ApplicationMailer
   	end
   end
   
+  def emergency_email(user, announcement)
+    @user = user
+    @announcement = announcement
+    if hasNoTitle(@announcement)
+  	  mail(to: @user.email, subject: 'A New announcment from CG')
+  	else
+  	  mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
+    end
+  end
+  
   def announcement_update_email(user, announcement)
   	@user = user
   	@announcement = announcement

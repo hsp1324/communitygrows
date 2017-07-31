@@ -22,4 +22,11 @@ class Committee < ActiveRecord::Base
 		self.update_attributes!(:inactive => false)
 	end
 
+	def self.string_title
+		"Committee"
+	end
+	
+	def self.string_lower
+		return "committee"
+	end
 end

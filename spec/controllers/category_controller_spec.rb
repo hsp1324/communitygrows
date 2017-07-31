@@ -33,14 +33,14 @@ describe CategoryController do
 		it 'should not allow an already used category name field' do
 			expect(Category).to receive(:has_name?).with("Good Category").and_return(true)
 			post :create_category, params: {category: {name: "Good Category"}}
-			expect(flash[:notice]).to eq("The category name provided already exists. Please enter a different name.")
+			expect(flash[:notice]).to eq("Category name provided already exists. Please enter a different name.")
 			expect(response).to redirect_to(new_category_path)
 		end
 
 		it 'creates a category' do
 			expect(Category).to receive(:create!).with(name: "Good Category")
             post :create_category, params: {category: {name: "Good Category"}}
-            expect(flash[:notice]).to eq("The category Good Category was successfully created!")
+            expect(flash[:notice]).to eq("Category Good Category was successfully created!")
         end
 
         it 'redirects non-admin users' do
@@ -78,7 +78,7 @@ describe CategoryController do
 		it 'should not allow an already used category name field' do
 			expect(Category).to receive(:has_name?).with("Crazy Category").and_return true
 			put :update_category, params: {id: 25, category: {name: "Crazy Category"}}
-			expect(flash[:notice]).to eq("The category name provided already exists. Please enter a different name.")
+			expect(flash[:notice]).to eq("Category name provided already exists. Please enter a different name.")
 			expect(response).to redirect_to(edit_category_path)
 		end
 
@@ -116,23 +116,23 @@ describe CategoryController do
 
 	describe 'hide category' do
 		it 'redirects to the category index page' do
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 			expect(response).to redirect_to(category_index_path)
 		end
 
 		it 'shows a flash message when category successfully hidden' do
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 			expect(flash[:notice]).to eq("Crazy Category successfully hidden.")
 		end
 
 		it 'sets the category\'s hidden attribute to true' do
 			expect_any_instance_of(Category).to receive(:hide)
-			get :hide_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'hide'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :hide_category, params: {id: 25}
+            get :action_category, params: {id: 25, do_action: 'hide'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end
@@ -140,23 +140,23 @@ describe CategoryController do
 
 	describe 'show category' do
 		it 'redirects to the category index page' do
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 			expect(response).to redirect_to(category_index_path)
 		end
 
 		it 'shows a flash message when category successfully shown' do
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 			expect(flash[:notice]).to eq("Crazy Category successfully shown.")
 		end
 
 		it 'sets the category\'s hidden attribute to false' do
 			expect_any_instance_of(Category).to receive(:show)
-			get :show_category, params: {id: 25}
+			get :action_category, params: {id: 25, do_action: 'show'}
 		end
 
 		it 'redirects non-admin users' do
             sign_in users(:user)
-            get :show_category, params: {id: 25}
+            get :action_category, params: {id: 25, do_action: 'show'}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end

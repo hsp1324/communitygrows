@@ -14,7 +14,7 @@ require "sprockets/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
+config.assets.precompile += %w(*.js)
 module Communitygrows
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

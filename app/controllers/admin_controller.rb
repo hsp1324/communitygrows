@@ -98,6 +98,7 @@ class AdminController < ActionController::Base
         @emergency = announcement_params[:emergency]
         @type = ""
         @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
+        # checks if it is not an emergency, create a mail record
         if @emergency
             MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
             flash[:notice] = 'Announcement creation successful and email was sent successfully.'
@@ -106,9 +107,9 @@ class AdminController < ActionController::Base
         end
         if Rails.env.production?
             if @emergency
-                send_emergency_announcement_email("", @new_announce)
-            else
                 send_announcement_email("", @new_announce)
+            else
+                send_emergency_announcement_email("", @new_announce)
             end
         end
         

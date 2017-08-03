@@ -57,6 +57,7 @@ Scenario: Transfering document Ruby_where to Document repository under category 
   #Select from drop down menu "The Practice of Yogurt"
   And I select "The Practice of Yogurt" from drop down menu "Ruby_where" on transfer documents page
   #Transfer button
+  When I press "Transfer Documents"
   When I press "Submit"
   Then I should see "Documents were successfully transferred to Document Repository"
   Then I should see "Archived"
@@ -77,6 +78,7 @@ Scenario: Transfering multiple documents to Document Repository via the transfer
   And I select "The Practice of Yogurt" from drop down menu "Ruby_where" on transfer documents page
   And I select "The Practice of Yogurt" from drop down menu "answer_key" on transfer documents page
   #Transfer button
+  When I press "Transfer Documents"
   When I press "Submit"
   Then I should see "Documents were successfully transferred to Document Repository"
   Given I am on the document repository page

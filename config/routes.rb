@@ -71,10 +71,9 @@ Rails.application.routes.draw do
 
   # Category Management
   get 'categories/index' => 'category#index', as: :category_index
-  put 'categories/curd_category' => 'category#curd_category'
-  get 'categories/:id/curd_category' => 'category#curd_category'
-  delete 'categories/:id/curd_category' => 'category#curd_category'
-  put 'categories/curd_category' => 'category#curd_category'
+  put 'categories/:id/crud_category' => 'category#crud_category', as: :crud_update_category
+  delete 'categories/:id/crud_category' => 'category#crud_category', as: :crud_delete_category
+  post 'categories/crud_category' => 'category#crud_category', as: :crud_create_category
   
   get 'categories/new_category' => 'category#new_category', as: :new_category
   post 'categories/create' => 'category#create_category', as: :create_category
@@ -89,6 +88,10 @@ Rails.application.routes.draw do
   # Committee Management
   get 'committee' => 'committee#index', as: :committee_index
   # get 'committee/index' => 'committee#index', as: :committee_index
+  put 'committee/:id/crud_committee' => 'committee#crud_committee', as: :crud_update_committee
+  delete 'committee/:id/crud_committee' => 'committee#crud_committee', as: :crud_delete_committee
+  post 'committee/crud_committee' => 'committee#crud_committee', as: :crud_create_committee
+  
   get 'committee/new_committee' => 'committee#new_committee', as: :new_committee
   post 'committee/create' => 'committee#create_committee', as: :create_committee
   delete 'committee/:id/delete_committee' => 'committee#delete_committee', as: :delete_committee
@@ -122,6 +125,10 @@ Rails.application.routes.draw do
 
   #Meeting Management
   get 'meeting' => 'meeting#index', as: :meeting_index
+  put 'meeting/:id/crud_meeting' => 'meeting#crud_meeting', as: :crud_update_meeting
+  delete 'meeting/:id/crud_meeting' => 'meeting#crud_meeting', as: :crud_delete_meeting
+  post 'meeting/crud_meeting' => 'meeting#crud_meeting', as: :crud_create_meeting
+  
   get 'meeting/new_meeting' => 'meeting#new_meeting', as: :new_meeting
   post 'meeting/create' => 'meeting#create_meeting', as: :create_meeting
   delete 'meeting/:id/delete_meeting' => 'meeting#delete_meeting', as: :delete_meeting

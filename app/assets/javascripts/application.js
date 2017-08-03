@@ -21,7 +21,54 @@
 //= require fullcalendar
 //= require fullcalendar/gcal
 
-$('#calendar').fullCalendar({ 
-    googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
-    events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
+// $('#calendar').fullCalendar({ 
+//     googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
+//     //events: '/calendar.json'
+//     eventSources: [
+//         {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
+//         {googleCalendarId: 'g2citgrrs9rbvjotogcs2btlo4@group.calendar.google.com'},
+//     ]
+// });
+
+//   window.onload = function () {
+//     var hey='hey';
+//     $('#calendar').fullCalendar({ 
+//       googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
+//     //events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
+//     });
+//   }
+
+
+$( document ).ready(function() {
+    console.log("HEYHEY");
+    
+    
+    $.ajax({
+      url: '/calendar.json',
+      type: 'GET',
+      dataType: 'json',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+      },
+      success: function(data){
+        var calendars = [];
+        
+        for (var i=0; i < data.length; i++){
+            console.log(data[i].googleCalendarID);
+            calendars.push({googleCalendarId: data[i].googleCalendarID})
+
+        }
+        console.log(calendars);
+        $('#calendar').fullCalendar({ 
+            googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
+            events: [{
+                title: 'Event1',
+                start: '2017-08-08'
+            }],
+            eventSources: calendars
+        });
+        console.log ("GET IN THERE");
+      },
+      error: function(xhr, status, response) {console.log("Ya dun goofed")}
+    });
 });

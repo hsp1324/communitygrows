@@ -37,9 +37,9 @@
 
 
             %th
-              = button_to delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+              = button_to crud_delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, params: {do_action: "delete"}, class: 'btn btn-danger btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-remove
                 Delete #{committee.name}
-              = button_to delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+              = button_to crud_delete_committee_path(committee.id), :method => :delete, data: { confirm: 'Are you sure?' }, params: {do_action: "delete"}, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
                 

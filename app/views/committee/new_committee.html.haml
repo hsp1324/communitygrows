@@ -7,7 +7,7 @@
     Back
   %br
 
-  = form_tag create_committee_path do
+  = form_tag crud_create_committee_path(do_action: "create") do
     .form-group
       = label :committee, :name, 'Committee Name'
       = text_field :committee, 'name', class: 'form-control'

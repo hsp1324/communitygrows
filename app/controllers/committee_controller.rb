@@ -10,6 +10,23 @@ class CommitteeController < ApplicationController
     def new_committee
     end
     
+    def crud_committee
+        crud_action = params[:do_action]
+        is_admin = admin_only('#{crud_action} committee.')
+        return if !is_admin
+        committee = params[:committee]
+        if crud_action == 'create'
+            create_object(Committee, committee, new_committee_path, committee_index_path)
+        elsif crud_action == 'update'
+            update_object(Committee, committee, edit_committee_path, committee_index_path)
+        elsif crud_action == 'delete'
+            delete_object(Committee)
+            redirect_to committee_index_path
+        else
+            redirect_to committee_index_path
+        end
+    end
+    
     def create_committee
         is_admin = admin_only('create committee')
         return if !is_admin
@@ -87,7 +104,7 @@ class CommitteeController < ApplicationController
         is_admin = admin_only('#{my_action} committee.')
         return if !is_admin
         do_action(Committee, my_action, committee_index_path)
-        # redirect_to category_index_path
+        # redirect_to committee_index_path
     end
     
     #added the two methods below for adding and removing committee members

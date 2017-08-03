@@ -27,10 +27,10 @@
                 = button_to action_category_path(category.id), method: :get, params: {do_action: "hide"}, class: 'btn btn-warning visible-xs' do
                   %span.glyphicon.glyphicon-eye-close
             %th
-              = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+              = button_to crud_delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, params: {do_action: "delete"}, class: 'btn btn-danger btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-remove
                 Delete #{category.name}
-              = button_to delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+              = button_to crud_delete_category_path(category.id), :method => :delete, data: { confirm: 'Are you sure?' }, params: {do_action: "delete"}, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
         %tbody
           %tr

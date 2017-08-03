@@ -44,3 +44,12 @@ Scenario: When I create a subcommittee document, I should see a MailRecord objec
   	And I fill in "url" with "www.cs169.com"
   	And I press "Submit" 
   	Then I should see a MailRecord object with type "document" committee "hoopla"
+
+Scenario: When I create a meeting, I should see a Meeting object for subcommittee document
+	Given I am on the meeting management page
+	When I follow "New Meeting"
+	And I fill in "Meeting Name" with "Important Meeting"
+	And I fill in "Meeting Date" with "2017/08/05"
+	And I fill in "Meeting Location" with "Soda Hall"
+	And I fill in "Meeting Description" with "Code party!!"
+	#Then I should see a MailRecord object with type "document" committee ""

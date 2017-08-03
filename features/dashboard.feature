@@ -10,11 +10,11 @@ Background: user is on the login page
 
 # happy path
 Scenario: see all the tabs
+  And I should see "Dashboard"
   Then I should see "Documents"
-  And I should see "Executive"
-  And I should see "External"
-  And I should see "Internal"
+  And I should see "Committee"
   And I should see "User Profiles"
+  And I should see "Account Details"
 
 # happy path  
 Scenario: see all the panels
@@ -28,20 +28,6 @@ Scenario: document tab works successfully
   When I follow "Documents"
   Then I should see "Document Repository"
 
-# happy path
-Scenario: subcomittee tab works successfully
-  When I follow "Executive"
-  Then I should see "Executive"
-
-# happy path  
-Scenario: subcomittee tab works successfully
-  When I follow "External"
-  Then I should see "External"
-
-# happy path  
-Scenario: subcomittee tab works successfully
-  When I follow "Internal"
-  Then I should see "Internal"
 
 # sad path  
 Scenario: admin tab should not work successfully because you are not admin

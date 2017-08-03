@@ -1,0 +1,33 @@
+%h1 Transfer Documents
+
+.container.well
+  .form-group
+    = label :user, :name, 'Transfer Documents'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %thead
+          %tr
+            %th Document
+            %th Document Repository
+        %tbody
+  
+        - if @single_transfer == "true"
+          =form_tag transfer_file_repo_path :method => :post do
+            - @doc_attr = [@document.id]
+            - if !@document.transfer
+              .form-group
+                %tr
+                  %td= link_to "#{@document.title}", @document.url
+                  %td= select_tag "document[#{@document.title}]", options_for_select(@all_categories)
+            .form-group
+              = submit_tag 'Submit', :class => "btn btn-success"
+        - else
+          =form_tag transfer_file_repo_path :method => :post do
+            - Document.where(committee_type: @committee_type, transfer: false).each do |document|
+            - puts "#{document.title} has been transferred: #{document.transfer}"
+            - @doc_attr = [document.id]
+              %tr
+                %td= link_to "#{document.title}", document.url
+                %td= select_tag "document[#{document.title}]", options_for_select(@all_categories)
+            .form-group
+              = submit_tag 'Submit', :class => "btn btn-success"

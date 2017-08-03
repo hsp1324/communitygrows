@@ -11,6 +11,9 @@ gem 'acts_as_tree'
 gem 'rake'
 
 gem 'figaro'
+
+gem 'rails-assets-fullcalendar', source: 'https://rails-assets.org'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -21,8 +24,10 @@ gem 'coffee-rails', '>= 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 
 #allow for old style, non turbolinks jquery calls
-# gem 'jquery-turbolinks'
-gem 'jquery-ui-rails'
+gem 'jquery-turbolinks'
+gem 'jquery-ui-rails', '6.0.1'
+gem 'momentjs-rails'
+gem 'bootstrap-popover-rails'
 
 gem 'whenever', :require => false
 gem 'rspec-activemodel-mocks'
@@ -31,6 +36,7 @@ gem 'digestifier', '0.2.0'
 #Haml
 gem 'haml'
 # Use jquery as the JavaScript library
+gem 'jquery'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'

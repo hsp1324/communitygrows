@@ -5,7 +5,7 @@ class AnnouncementController < ActionController::Base
     include EmailHelper
 
     def show_announcements
-       @announcements = Announcement.where(committee_type: params[:categories])
+       @announcements = Announcement.all
     end
 
     def new_announcement
@@ -19,9 +19,12 @@ class AnnouncementController < ActionController::Base
             redirect_to new_committee_announcement_path(@committee_type) and return
         end
         @content = params[:content]
-        Announcement.create!(:title => @title, :content => @content, :committee_type => @committee_type)
+        @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @committee_type)
+        
+        MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @committee_type)
+        
         if Rails.env.production?
-            send_announcement_email(@committee_type,@title)
+            send_announcement_email(Committee.find_by(name: @committee_type), @new_announce)
         end
         flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful and email was successfully sent."
         redirect_to subcommittee_index_path(:committee_type => @committee_type)
@@ -38,14 +41,24 @@ class AnnouncementController < ActionController::Base
         @content = params[:content]
         @announcement_id = params[:announcement_id]
         @committee_type = params[:committee_type]
+        
         if @title.nil? || @title.empty?
             flash[:notice] = "Title field cannot be left blank."
             redirect_to edit_committee_announcement_path(@committee_type, @announcement_id) and return
         end
         @target_announcement.update_attributes!(:title => @title, :content => @content, :committee_type => @committee_type)
-        if Rails.env.production?
-            send_announcement_update_email(@committee_type,@title)
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @announcement_id)
+        if @prev_mailrecord
+            @prev_mailrecord.touch
+        else
+            MailRecord.create!(:record_type => "announcement", :record_id => @announcement_id, :committee => @target_announcement.committee_type)
         end
+        
+        if Rails.env.production?
+            send_announcement_update_email(Committee.find_by(name: @committee_type), @target_announcement)
+        end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
         redirect_to subcommittee_index_path(@committee_type)
     end
@@ -54,6 +67,12 @@ class AnnouncementController < ActionController::Base
         @target_announcement = Announcement.find params[:announcement_id]
         @committee_type = params[:committee_type]
         @target_announcement.destroy!
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:announcement_id])
+        if @prev_mailrecord
+            @prev_mailrecord.destroy!
+        end
+        
         flash[:notice] = "Executive Announcement with title [#{@target_announcement.title}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_type)
     end

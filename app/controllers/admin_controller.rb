@@ -1,10 +1,13 @@
 class AdminController < ActionController::Base
     layout "base"
     #before_action :authenticate_user!, :authorize_user
+    include EmailHelper
     
     def authorize_user
         if not User.find(current_user.id).admin
-            redirect_to "/dashboard"
+            flash[:message] = "Access not granted. Please sign in again."
+            redirect_to "/dashboard" and return
+        return true
         end
     end
     
@@ -12,23 +15,22 @@ class AdminController < ActionController::Base
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee, :board_role, :current_company,
         :current_position, :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin, expertise_ids:[])
     end
-
-    def calendar_params
-        params.require(:calendar).permit(:html)
-    end
     
     def announcement_params
-        params.require(:announcement).permit(:title, :content)
+        params.require(:announcement).permit(:title, :content, :emergency)
     end
     
     def index
+        authenticate_user!
+        authorize_user
         @users = User.all
-        @announcement_list = Announcement.where(committee_type: "dashboard").order(created_at: :DESC)
-        if !current_user.admin
-            flash[:message] = "Access not granted. Please sign in again."
-            redirect_to("/users/sign_in")
-        end
-        @events = Event.order(date: :DESC)
+        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
+        # if !current_user.admin
+        #     flash[:message] = "Access not granted. Please sign in again."
+        #     redirect_to("/users/sign_in")
+        # end
+        
+        
     end
     
     def edit_user
@@ -93,20 +95,23 @@ class AdminController < ActionController::Base
         authenticate_user!
         @title = announcement_params[:title]
         @content = announcement_params[:content]
-        @type = "dashboard"
-        Announcement.create!(:title => @title, :content => @content, :committee_type => @type)
+        @emergency = announcement_params[:emergency]
+        @type = ""
+        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
+        if @emergency
+            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
+            flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        else
+            flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
+        end
         if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "daily"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
-                elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
-                else
-                    NotificationMailer.announcement_email(user, Announcement.find_by_title(@title)).deliver
-                end
+            if @emergency
+                send_emergency_announcement_email("", @new_announce)
+            else
+                send_announcement_email("", @new_announce)
             end
         end
-        flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        
         redirect_to('/admin')
     end
     
@@ -122,17 +127,18 @@ class AdminController < ActionController::Base
         authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
-        if Rails.env.production?
-            User.all.each do |user|
-                if user.digest_pref == "daily"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.tomorrow.noon - Time.now).seconds.from_now)
-                elsif user.digest_pref == "weekly"
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver_later!(wait_until: (Time.now.next_week.noon - Time.now).seconds.from_now)
-                else
-                    NotificationMailer.announcement_update_email(user, @target_announcement).deliver
-                end
-            end
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+        if @prev_mailrecord
+            @prev_mailrecord.touch
+        else
+            MailRecord.create!(:record_type => "announcement", :record_id => params[:id], :committee => @target_announcement.committee_type)
         end
+        
+        if Rails.env.production?
+            send_announcement_update_email("", @target_announcement)
+        end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
         redirect_to(admin_index_path)
     end
@@ -142,17 +148,15 @@ class AdminController < ActionController::Base
         authorize_user
         @target_announcement = Announcement.find params[:id]
         @target_announcement.destroy!
+        
+        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
+        if @prev_mailrecord
+            @prev_mailrecord.destroy!
+        end
+        
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
         redirect_to(admin_index_path)
     end
     
-    def update_calendar
-        authenticate_user!
-        authorize_user
-        Calendar.destroy_all
-        @new_calendar = Calendar.create!(calendar_params)
-        flash[:notice] = 'New Calendar Creation successful'
-        redirect_to('/admin')
-    end
 end
 

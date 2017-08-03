@@ -34,11 +34,10 @@ Scenario: should not be able to edit category names to be blank
   Then I should see "Please fill in the category name field."
 
 # happy path
-@javascript
 Scenario: should be able to delete a created category
   When I press "Delete Good Category"
   And I confirm popup
-  Then I should see "Good Category deleted successfully."
+  Then I should see "Category with name Good Category deleted successfully."
 
 # happy path
 Scenario: should be able to hide a category
@@ -57,3 +56,30 @@ Scenario: should be able to show a hidden category
   Then I should see "Good Category"
 
 # no sad path because the design of CRUD is specifically open to the admin's discretion
+
+
+# sad path
+Scenario: should not be able to edit category name to be blank or already existed name
+    Given I am on the category management page
+    Then I should see "Good Category"
+    And I should see "Hide Good Category"
+    When I follow first "Good Category"
+    And I fill in "Category Name" with ""
+    And I press "Submit"
+    Then I should see "Please fill in the category name field."
+    When I fill in "Category Name" with "Good Category"
+    And I press "Submit"
+    Then I should see "Category name provided already exists. Please enter a different name."
+    
+Scenario: should not be able to create category name to be blank or already existed name
+    Given I am on the category management page
+    Then I should see "New Category"
+    When I follow "New Category"
+    And I fill in "Category Name" with ""
+    And I press "Submit"
+    Then I should see "Category name field cannot be blank."
+    When I fill in "Category Name" with "Good Category"
+    And I press "Submit"
+    Then I should see "Category name provided already exists. Please enter a different name."
+    
+    

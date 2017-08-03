@@ -1,14 +1,12 @@
 tester:
-    name: Rspec
+    name: Rspec_admin
     email: tester@rspec.com
     encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
     admin: true
-    internal: true
-    external: true
-    executive: true in
+
 
 user:
-    name: Rspec
+    name: Rspec_user
     email: user@cg.org
     encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
     admin: false

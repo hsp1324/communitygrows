@@ -31,10 +31,12 @@ module NavigationHelpers
       user_profiles_page_path
     when /the (CommunityGrows )?committee management page$/ then
       committee_index_path
+    when /the (CommunityGrows )?calendar management page$/ then
+      calendar_index_path
     when /the (CommunityGrows )?user info page for "([^"]*)"$/ then
       # puts User.find_by_name($1).id
       user_profile_path(User.find_by_name($1).id)
-      
+ 
     when /the edit user page for "([^"]*)"$/ then
       edit_user_path(User.find_by_email($1).id)
     
@@ -55,6 +57,21 @@ module NavigationHelpers
     
     when /^the doc info page for "([^"]*)"$/ then
       info_file_path(Document.find_by_title($1).id)
+    
+    #not sure if in use due to legacy code
+    when /^subcommittee "([^"]*)"$/ then
+      info_file_path(Document.find_by_title($1).id)
+      
+    when /^subcommittee "([^"]*)" page$/ then
+      subcommittee_index_path(committee_type: $1)
+
+    when /the (CommunityGrows )?meeting management page$/ then
+      meeting_index_path
+
+    when /the (CommunityGrows )?meetings page$/ then
+      meeting_list_path
+      
+      
       
       
     # "Add more mappings here.

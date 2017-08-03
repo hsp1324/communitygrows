@@ -1,0 +1,30 @@
+%h1 #{@meeting.name}
+
+.container.well
+  #flashNotice= flash[:notice]
+  =button_to meeting_list_path, :method => :get, class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-arrow-left
+    Back
+  %br
+
+
+  .form-groug
+    = label :meeting, :name, 'Location'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %thead
+          %tr
+            %th #{@meeting.location}
+
+    = label :meeting, :name, 'Description'
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %thead
+          %tr
+            %th #{@meeting.description}
+
+    %table.table.table-bordered.table-striped
+      #announcement_content
+        %tbody
+          %td= link_to 'Meeting Agenda', @meeting.agenda, class: "btn btn-success"
+          %td= link_to 'Join Meeting', @meeting.hangout, class: "btn btn-success"

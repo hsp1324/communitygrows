@@ -1,4 +1,19 @@
+
+
+// :javascript 
+//   window.onload = function () {
+//     var hey='hey';
+//     $('#calendar').fullCalendar({ 
+//       googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
+//     //events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
+//     });
+//   }
 %h1 Board Member Dashboard
+  
+
+- if flash[:alert] == "You do not have access to this committee. Please contact Kelly for access."
+  #flashNotice
+    = flash[:alert]
 .row
   .col-md-6
     #announcements
@@ -12,10 +27,14 @@
           %tbody
             - @announcement_list[0..4].each do |announcement|
               %tr
-                %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-                %td= link_to "#{announcement.title}", comment_path(announcement.id)
+                -if announcement.emergency
+                  %td.red= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                  %td.red= link_to "#{announcement.title}", comment_path(announcement.id)
+                -else
+                  %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
+                  %td= link_to "#{announcement.title}", comment_path(announcement.id)
       = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
-      %h2 Subcommittee Announcements
+      %h2 Committee Announcements
       #announcement_content
         %table.table.table-bordered.table-striped
           %thead
@@ -28,9 +47,32 @@
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                 %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
       - if @announcement_list.count > 5 or @subcomittee_announcements_list.count > 5
-        = link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
+        = link_to "Show All", show_announcements_path, :id => :main, :class => "btn btn-small btn-warning"
+        -#= link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
 
   .col-md-6
-    #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-      %h2
-      %iframe#cal{:scrolling => "no", :name => "cal2", :src=>"https://calendar.google.com/calendar/embed?src=communitygrows.org_03nrt2fo8v86kgpo43356j9fbo%40group.calendar.google.com&amp;showTi=0&amp;showNav=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles", :width=>"100%", :height=>"90%"}
+    %h2
+    #calendar
+    // :javascript
+      
+    //   $( document ).ready(function() {
+        
+    //     console.log("HEYHEY");
+        
+    //     $.ajax({
+    //       url: '/calendar.json',
+    //       type: 'GET',
+    //       dataType: 'json',
+    //       beforeSend: function (xhr) {
+    //         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+    //       },
+    //       success: function(data){
+    //         for (var i=0; i < data.length; i++){
+    //           console.log(data[i].link);
+    //           $('calendar').fullCalendar('addEventSource', (data[i].link));
+    //         }
+    //         console.log ("GET IN THERE");
+    //       },
+    //       error: function(xhr, status, response) {console.log("Ya dun goofed")}
+    //     });
+    //   }); 

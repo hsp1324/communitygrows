@@ -1,7 +1,7 @@
 Feature: Committee Management
   
   As an admin
-  I want to add, remove, edit, In hide, or show categories
+  I want to add, remove, edit, hide or show, active or inactive committees
   So that documents can be sorted more effectively
   
   
@@ -28,10 +28,10 @@ Scenario: Visiting committee management page
     And I should see "hoopla"
     And I should see "crystal gems"
     And I should see "backstreet boys"
-    And I should see "Delete crystal gems"
-    And I should see "Hide Hoopla"
-    And I should see "Deactivate backstreet boys"
     And I should see "New Committee"
+    And I should see "Activate hoopla"
+    And I should see "Delete crystal gems"
+    And I should see "Hide backstreet boys"
     
 
 Scenario: Create new committee
@@ -42,97 +42,125 @@ Scenario: Create new committee
     Then I am on the committee management page
     And I should see "Good Committee"
     And I should see "Delete Good Committee"
-    And I should see "Hide Good Committee"
-    And I should see "Deactivate Good Committee"
+    And I should see "Show Good Committee"
+    And I should see "Activate Good Committee"
     
     Given I am on the CommunityGrows admin_dashboard page
-    Then I should see "Good Committee" in "Committees" tab
-    Then I should see "Add new document"
+    Then I should not see "Good Committee"
     
 
-Scenario: Edit committee    
-    When I follow first "hoopla"
+Scenario: Edit committee   
+    Given I am on the committee management page
+    When I follow second "hoopla"
+    And I should see "Edit"
     And I fill in "Committee Name" with "Great hoopla"
-    And I press "Submit"
+    And I press "Update Name"
     Then I am on the committee management page
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
     And I should see "Hide Great hoopla"
-    And I should see "Deactivate Great hoopla"
+    And I should see "Activate Great hoopla"
     
     Given I am on the CommunityGrows home page
-    Then I should see "Great hoopla" in "Committees" tab
-    When I follow "Great hoopla" in "Committees" tab
-    Then I should see "Great hoopla is inactivate."
-    Then I should see "Add new document"
+    Then I should see "Great hoopla"
+    When I follow "Great hoopla"
+    Then I should see "You do not have access to this committee. Please contact Kelly for access."
+    And I should not see "Add new announcement"
+    And I should not see "Add new document"
     
     
 Scenario: Delete committee  
+    Given I am on the CommunityGrows admin_dashboard page
+    Then I should see "hoopla"
     Given I am on the committee management page
+    And I should see "Delete hoopla"
     When I press "Delete hoopla"
     And I confirm popup
     Then I should see "Committee with name hoopla deleted successfully."
     Given I am on the CommunityGrows admin_dashboard page
-    Then I should not see "hoopla" in "Committees" tab
+    Then I should not see "hoopla"
     
 
 Scenario: Hide and Show committee  
     Given I am on the committee management page
+    And I should see "Hide hoopla"
     When I press "Hide hoopla"
-    And I am on the committee management page
+    # And I am on the committee management page
     Then I should see "hoopla successfully hidden."
     And I should see "hoopla"
     And I should see "Delete hoopla"
     And I should see "Show hoopla"
-    And I should see "Deactivate hoopla"
-    And I should not see "hoopla" in "Committees" tab
+    And I should see "Activate hoopla"
+    Given I am on the CommunityGrows admin_dashboard page
+    And I should not see "hoopla"
     
-    When I press "Show hoopla"
-    And I am on the committee management page
-    Then I should see "hoopla successfully hidden."
-    And I should see "hoopla"
-    And I should see "hoopla" in "Committees" tab
-
-
-Scenario: Inactivate and Deactivate committee  
     Given I am on the committee management page
-    When I press "Deactivate hoopla"
-    Then I should see "hoopla successfully deactivated."
+    And I should see "Show hoopla"
+    When I press "Show hoopla"
+    # And I am on the committee management page
+    Then I should see "hoopla successfully shown."
+    And I should see "Hide hoopla"
+    Given I am on the CommunityGrows admin_dashboard page
+    And I should see "hoopla"
+
+
+Scenario: Activate and Inactivate committee  
+    Given I am on the committee management page
+    And I should see "Activate hoopla"
+    When I press "Activate hoopla"
+    Then I should see "hoopla successfully made active."
     And I am on the committee management page
     And I should see "hoopla"
     And I should see "Delete hoopla"
     And I should see "Hide hoopla"
     And I should see "Inactivate hoopla"
-    And I should see "hoopla" in "Committees" tab
-    When I follow "hoopla" in "Committees" tab
-    Then I should see "hoopla is deactivate."
-    Then I should not see "Add new document"
+    Given I am on the CommunityGrows admin_dashboard page
+    And I should see "hoopla"
+    When I follow first "hoopla"
+    Then I should see "You do not have access to this committee. Please contact Kelly for access."
+    Given I am on the committee management page
+    And I follow second "hoopla"
+    And I should see "Add Admin to hoopla"
+    And I press "Add Admin to hoopla"
+    And I should see "Admin successfully added to hoopla."
+    When I follow first "hoopla"
+    And I should see "Add new announcement"
+    And I should see "Add new document"
     
     Given I am on the committee management page
+    And I should see "Inactivate hoopla"
     When I press "Inactivate hoopla"
-    Then I should see "hoopla successfully inactivated."
-    And I am on the committee management page
-    Then I should see "hoopla" in "Committees" tab
-    When I follow "hoopla" in "Committees" tab
-    Then I should see "hoopla is inactivate."
-    Then I should see "Add new document"
+    Then I should see "hoopla successfully made inactive."
+    Given I am on the CommunityGrows admin_dashboard page
+    Then I should see "hoopla"
+    When I follow "hoopla"
+    Then I should see "hoopla is currently inactive"
+    And I should not see "Add new announcement"
+    And I should not see "Add new document"
     
     
 # sad path
-Scenario: should not be able to edit committee name to be blank
+Scenario: should not be able to edit committee name to be blank or already existed name
     Given I am on the committee management page
     Then I should see "hoopla"
-    When I follow first "hoopla"
-    And I fill in "Category Name" with ""
-    And I press "Submit"
+    And I should see "Hide hoopla"
+    When I follow second "hoopla"
+    And I fill in "Committee Name" with ""
+    And I press "Update Name"
     Then I should see "Please fill in the committee name field."
-    And I am on the committee management page
+    When I fill in "Committee Name" with "hoopla"
+    And I press "Update Name"
+    Then I should see "Committee name provided already exists. Please enter a different name."
     
-Scenario: should not be able to create committee name to be blank
+Scenario: should not be able to create committee name to be blank or already existed name
     Given I am on the committee management page
     Then I should see "New Committee"
     When I follow "New Committee"
     And I fill in "Committee Name" with ""
     And I press "Submit"
-    Then I should see "Please fill in the committee name field."
-    And I am on the committee management page
+    Then I should see "Committee name field cannot be blank."
+    When I fill in "Committee Name" with "hoopla"
+    And I press "Submit"
+    Then I should see "Committee name provided already exists. Please enter a different name."
+    
+    

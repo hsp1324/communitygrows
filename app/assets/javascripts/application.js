@@ -11,9 +11,17 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap.min
 //= require categories
 //= require markasread
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/gcal
 
+$('#calendar').fullCalendar({ 
+    googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
+    events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
+});

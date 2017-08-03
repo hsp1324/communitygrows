@@ -42,7 +42,7 @@ Scenario: user fails to fill in required fields
   
 Scenario: User info updated
   Given I fill in "About Me" with "Hi my name is Timmy and I like to play tennis!"
-  And I check "user_internal"
+  # And I check "user_internal"
   Then I press "Update Info"
   And I should be on the account details page for "zach@gmail.com"
   And I should see "Hi my name is Timmy and I like to play tennis!"

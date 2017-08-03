@@ -1,0 +1,2 @@
+class MailRecord < ApplicationRecord
+end

@@ -1,5 +1,5 @@
 # This migration comes from digestifier (originally 6)
-class AddDigestToReceipts < ActiveRecord::Migration
+class AddDigestToReceipts < ActiveRecord::Migration[5.0]
   def up
     add_column :digestifier_receipts, :digest, :string
     execute "UPDATE digestifier_receipts SET digest = 'digest'"

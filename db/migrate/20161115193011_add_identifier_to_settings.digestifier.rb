@@ -1,5 +1,5 @@
 # This migration comes from digestifier (originally 4)
-class AddIdentifierToSettings < ActiveRecord::Migration
+class AddIdentifierToSettings < ActiveRecord::Migration[5.0]
   def up
     add_column :digestifier_settings, :identifier, :string
     Digestifier::Setting.reset_column_information

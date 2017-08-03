@@ -1,5 +1,5 @@
 # This migration comes from digestifier (originally 2)
-class CreateSettings < ActiveRecord::Migration
+class CreateSettings < ActiveRecord::Migration[5.0]
   def change
     create_table :digestifier_settings do |t|
       t.string  :recipient_type, null: false

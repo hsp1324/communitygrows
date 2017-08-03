@@ -108,8 +108,10 @@ class DocumentCommitteeController < ActionController::Base
         @documents = params[:document]
         if @documents != nil
             @documents.each_pair do |document_name, category_type|
+                #if no selection, then skip
                 next if category_type == "no selection"
                 @doc = Document.find_by(:title => document_name, :committee_type => @committee_type)
+                #if document has been transferred, then skip
                 next if @doc.transfer == true
                 @file_params = {:url => @doc.url, :title => @doc.title}
                 @category = Category.find_by(:name => category_type)

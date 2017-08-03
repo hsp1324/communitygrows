@@ -48,7 +48,3 @@ Feature: Marking Documents as Read/Unread
   #   When I follow "schedule"
   #   Given I click "Reset Read Reciepts"
   #   Then I should not see "Read"
-    
-    
-    
-    

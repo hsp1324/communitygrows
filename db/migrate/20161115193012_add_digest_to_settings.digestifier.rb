@@ -1,5 +1,5 @@
 # This migration comes from digestifier (originally 5)
-class AddDigestToSettings < ActiveRecord::Migration
+class AddDigestToSettings < ActiveRecord::Migration[5.0]
   def up
     add_column :digestifier_settings, :digest, :string
     execute "UPDATE digestifier_settings SET digest = 'digest'"

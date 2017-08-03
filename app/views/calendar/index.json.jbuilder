@@ -1,3 +1,3 @@
 json.array!(@calendars) do |calendar|
-    json.link calendar.link
+    json.googleCalendarID calendar.link
 end

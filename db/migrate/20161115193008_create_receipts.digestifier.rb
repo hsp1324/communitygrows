@@ -1,5 +1,5 @@
 # This migration comes from digestifier (originally 1)
-class CreateReceipts < ActiveRecord::Migration
+class CreateReceipts < ActiveRecord::Migration[5.0]
   def change
     create_table :digestifier_receipts do |t|
       t.string   :recipient_type, null: false

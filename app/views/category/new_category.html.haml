@@ -7,7 +7,7 @@
     Back
   %br
 
-  = form_tag create_category_path do
+  = form_tag crud_create_category_path(do_action: "create")  do
     .form-group
       = label :category, :name, 'Category Name'
       = text_field :category, 'name', class: 'form-control'

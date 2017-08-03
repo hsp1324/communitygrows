@@ -16,7 +16,7 @@
       -#.form-group
       -#= submit_tag 'Update Name', :class => "btn btn-success"
 
-    = form_tag update_committee_path(@id, @committee), :method => :put do
+    = form_tag crud_update_committee_path(@id, @committee, do_action: "update"), :method => :put do
       .form-group
         = label :committee, :name, 'Committee Name'
         = text_field :committee, 'name', :value => @committee.name, class: 'form-control'

@@ -40,11 +40,12 @@ ActiveRecord::Schema.define(version: 20170730201817) do
     t.integer "parent_id"
     t.string "title"
     t.text "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "announcement_id"
     t.index ["announcement_id"], name: "index_comments_on_announcement_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -147,7 +148,7 @@ ActiveRecord::Schema.define(version: 20170730201817) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin"
-    t.datetime "last_sign_in_at", default: "2017-07-31 17:49:52", null: false
+    t.datetime "last_sign_in_at", default: "2017-08-03 04:28:15", null: false
     t.string "name"
     t.string "board_role"
     t.string "committee"

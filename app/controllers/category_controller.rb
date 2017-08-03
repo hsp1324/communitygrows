@@ -24,7 +24,7 @@ class CategoryController < ActionController::Base
         return if !is_admin
     end
     
-    def curd_category
+    def crud_category
         is_admin = admin_only('create categories.')
         return if !is_admin
         category = params[:category]
@@ -103,6 +103,7 @@ class CategoryController < ActionController::Base
     #     do_action(Category, 'show', category_index_path)
     #     # redirect_to category_index_path
     # end
+    
     
     def action_category
         my_action = params[:do_action]

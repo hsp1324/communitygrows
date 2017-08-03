@@ -71,10 +71,9 @@ Rails.application.routes.draw do
 
   # Category Management
   get 'categories/index' => 'category#index', as: :category_index
-  put 'categories/curd_category' => 'category#curd_category'
-  get 'categories/:id/curd_category' => 'category#curd_category'
-  delete 'categories/:id/curd_category' => 'category#curd_category'
-  put 'categories/curd_category' => 'category#curd_category'
+  put 'categories/:id/crud_category' => 'category#crud_category', as: :crud_update_category
+  delete 'categories/:id/crud_category' => 'category#crud_category', as: :crud_delete_category
+  post 'categories/crud_category' => 'category#crud_category', as: :crud_create_category
   
   get 'categories/new_category' => 'category#new_category', as: :new_category
   post 'categories/create' => 'category#create_category', as: :create_category

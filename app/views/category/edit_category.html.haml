@@ -7,7 +7,7 @@
     Back
   %br
 
-  = form_tag update_category_path(@id, @category), :method => :put do
+  = form_tag crud_update_category_path(@id, @category, do_action: "update"), :method => :put do
     .form-group
       = label :category, :name, 'Category Name'
       = text_field :category, 'name', :value => @category.name, class: 'form-control'

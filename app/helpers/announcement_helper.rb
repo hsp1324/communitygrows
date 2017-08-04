@@ -1,5 +1,5 @@
 module AnnouncementHelper
-    def create_announcement_helper(is_admin)
+    def create_announcement_helper
         @title = announcement_params[:title]
         @content = announcement_params[:content]
         @emergency = announcement_params[:emergency]
@@ -19,11 +19,11 @@ module AnnouncementHelper
                 send_emergency_announcement_email("", @new_announce)
             end
         end
-        if is_admin
-            redirect_to('/admin') and return
-        else
+        if @from == "dashboard"
             redirect_to('/dashboard') and return
-        end
+        else
+            redirect_to('/admin') and return
+        end 
     end
     
     def announcement_params

@@ -20,7 +20,7 @@ class UserController < ActionController::Base
     
     #create user main announcement
     def create_announcement
-        create_announcement_helper(false)
+        create_announcement_helper
         return
     end
     

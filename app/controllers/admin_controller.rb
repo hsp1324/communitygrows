@@ -97,7 +97,8 @@ class AdminController < ActionController::Base
     
     #creating main announcement as admin
     def create_announcement
-        create_announcement_helper(true)
+        @from = params[:from]
+        create_announcement_helper
         return
     end
     

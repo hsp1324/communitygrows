@@ -12,7 +12,7 @@
       Back
   %br
   %br
-  = form_tag create_announcement_path(@announcement), method: :put do
+  = form_tag create_announcement_path(:from => @from), method: :put do
     .form-group
       = label :announcement, :title, "Title: "
       = text_area :announcement, 'title', cols: 40, rows: 3, placeholder: "Your title here", class: 'form-control'

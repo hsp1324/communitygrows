@@ -3,8 +3,7 @@ module AnnouncementHelper
         @title = announcement_params[:title]
         @content = announcement_params[:content]
         @emergency = announcement_params[:emergency]
-        @type = ""
-        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
+        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency)
         # checks if it is not an emergency, create a mail record
         if @emergency
             MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)

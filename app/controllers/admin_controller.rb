@@ -25,7 +25,7 @@ class AdminController < ActionController::Base
         authenticate_user!
         authorize_user
         @users = User.all
-        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
+        @announcement_list = Announcement.where(committee_id: nil).order(created_at: :DESC)
         # if !current_user.admin
         #     flash[:message] = "Access not granted. Please sign in again."
         #     redirect_to("/users/sign_in")

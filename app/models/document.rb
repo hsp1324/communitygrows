@@ -2,8 +2,7 @@ class Document < ActiveRecord::Base
     has_many :read_sessions
     has_many :users, through: :read_sessions
 	belongs_to :category
-	#belongs to committee
-	
+    belongs_to :committee	
 	
     # def self.update_document_order(category_id, document_ids)
     #     if document_ids

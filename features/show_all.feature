@@ -54,7 +54,7 @@ Scenario: Most Recent Subcommittee Announcements / Show All
 	# Given the "sample_user" user in "hoopla" committee
 	
 	Given I follow "hoopla"
-	And I should see "Subcommittee"
+	And I should see "Hoopla Committee"
 	And I should see "Add new announcement"
 	When I follow "Add new announcement"
 	When I fill in "Title" with "Test #3"

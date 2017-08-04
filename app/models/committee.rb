@@ -1,8 +1,9 @@
 class Committee < ActiveRecord::Base
 	has_many :participations
 	has_many :users, through: :participations
-	#has many announcements
-	#has many documents
+	has_many :documents
+	has_many :announcements
+	
 	def self.has_name?(name)
 		return self.where(name: "#{name}").length != 0
 	end

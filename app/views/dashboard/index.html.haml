@@ -37,7 +37,7 @@
             - @subcomittee_announcements_list[0..4].each do |announcement|
               %tr
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-                %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
+                %td= link_to "#{announcement.title} [#{announcement.committee.name}]", comment_path(announcement.id)
       - if @announcement_list.count > 5 or @subcomittee_announcements_list.count > 5
         = link_to "Show All", show_announcements_path, :id => :main, :class => "btn btn-small btn-warning"
         -#= link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"

@@ -1,4 +1,4 @@
-class CreateDocuments < ActiveRecord::Migration[5.0]
+class CreateDocuments < ActiveRecord::Migration[4.2]
   def change
     create_table :documents do |t|
       t.string :url

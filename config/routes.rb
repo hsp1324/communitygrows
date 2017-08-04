@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   get 'account_details' => 'user#index', as: :user_credentials
   put 'account_details' => 'user#update_user_credentials', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
+  get 'new_user_main_announcement' => 'user#new_announcement', as: :new_user_announcement
+  post 'user_committee_announcement' => 'user#create_announcement', as: :create_user_announcement
   # Subcommittee
   get 'subcommittee_index/:committee_id/' => 'subcommittee#index', as: :subcommittee_index
   

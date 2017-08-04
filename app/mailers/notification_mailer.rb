@@ -22,9 +22,9 @@ class NotificationMailer < ApplicationMailer
     @user = user
     @announcement = announcement
     if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'A New announcment from CG')
+  	  mail(to: @user.email, subject: 'An Emergency announcment from CG')
   	else
-  	  mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
+  	  mail(to: @user.email, subject: 'An Emergency announcment from CG: ' + @announcement.title)
     end
   end
   
@@ -60,6 +60,7 @@ class NotificationMailer < ApplicationMailer
 
   def daily_digest_email(user, subject, content)
     @content = content
+    puts user.email
     mail(to: user.email, subject: subject)
   end
 end

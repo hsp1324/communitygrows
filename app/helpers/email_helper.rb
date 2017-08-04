@@ -9,9 +9,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    puts "HI1"
                     if Participation.find_by(committee_id: committee.id, user_id: user.id)
-                        puts "HI2"
                         NotificationMailer.announcement_email(user, announcement).deliver
                     end
                 end
@@ -140,8 +138,10 @@ module EmailHelper
                 end
                 
                 puts(@content)
+                puts user.name
+                puts user.email
                 
-                #NotificationMailer.digest_email(user, @subject, @content)
+                NotificationMailer.daily_digest_email(user, @subject, @content)
             end
         end
     end

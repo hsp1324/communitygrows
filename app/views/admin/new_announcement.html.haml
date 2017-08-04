@@ -2,9 +2,14 @@
 %h1 New Dashboard Announcement
 
 .container.well
-  = link_to admin_index_path, class: 'btn btn-info' do
-    %span.glyphicon.glyphicon-arrow-left
-    Back
+  - if @from == 'dashboard'
+    = link_to dashboard_index_path, class: 'btn btn-info' do
+      %span.glyphicon.glyphicon-arrow-left
+      Back
+  - else
+    = link_to admin_index_path, class: 'btn btn-info' do
+      %span.glyphicon.glyphicon-arrow-left
+      Back
   %br
   %br
   = form_tag create_announcement_path(@announcement), method: :put do

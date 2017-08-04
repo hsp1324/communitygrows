@@ -89,19 +89,10 @@ class AdminController < ActionController::Base
         redirect_to admin_index_path
     end
     
+    #show new_announcement page for admin before creating
     def new_announcement
-        80.times{print("*inside of admin_controller creating new committee announcement")}
-        puts
-        80.times{print("*")}
-        puts
-        80.times{print("*")}
-        puts
-        80.times{print("*")}
-        puts
-        80.times{print("*")}
-        puts
-        80.times{print("*")}
-        puts params.keys()
+        @from = params[:from]
+        puts("I am from #{@from}")
     end
     
     #creating main announcement as admin

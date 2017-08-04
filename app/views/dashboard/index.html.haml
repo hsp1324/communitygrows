@@ -23,10 +23,10 @@
                   %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                   %td= link_to "#{announcement.title}", comment_path(announcement.id)
       - if @is_admin
-        = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
+        = link_to "Add", new_announcement_path(:from => 'dashboard'), :id => :main, :class => "btn btn-small btn-warning"
       - else
         = link_to "Add", new_user_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
-      %h2 Committee Announcements
+      %h2 Committee Announcementss
       #announcement_content
         %table.table.table-bordered.table-striped
           %thead

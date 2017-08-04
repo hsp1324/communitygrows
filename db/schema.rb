@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170803232333) do
+ActiveRecord::Schema.define(version: 20170804090957) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20170803232333) do
     t.integer "custom_order"
     t.boolean "transfer", default: false
     t.integer "committee_id"
+    t.boolean "hidden", default: false
+    t.string "transferred_from"
     t.index ["committee_id"], name: "index_documents_on_committee_id"
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end

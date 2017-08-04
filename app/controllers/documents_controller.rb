@@ -50,7 +50,9 @@ class DocumentsController < ActionController::Base
     end
     
     def update_file
+        #params[:format] -> id of document. uniq identification
         @target_file = Document.find params[:format]
+        #params[:format] -> "file"=>{"title"=>"purps", "url"=>"http://hello.com", "category_id"=>"6"}
         @file = params[:file]
         if @file[:title].to_s == "" or @file[:url].to_s == ""
             flash[:notice] = "Populate all fields before submission."
@@ -62,9 +64,16 @@ class DocumentsController < ActionController::Base
             if !(@file[:url]=~/http(s)?:/)
                 @file[:url]="http://"+@file[:url]
             end
+            #update associated file inside of committee
+            @transferred_from = @target_file.transferred_from
+            @com_doc = Committee.find_by(name: @transferred_from).documents.find_by(title: @target_file.title, url: @target_file.url)
+            @com_doc.update_attributes!(:title => @file[:title], :url => @file[:url])
+            
+            #update current copy in document repository
             category = Category.find(@file[:category_id])
             @target_file.update_attributes!(file_params)
             category.documents << @target_file
+            
             
             @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @target_file.id)
             if @prev_mailrecord

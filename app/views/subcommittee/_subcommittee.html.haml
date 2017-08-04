@@ -78,10 +78,10 @@
                 %span.glyphicon.glyphicon-edit
 
             %td
-              = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs hidden-xs' do
+              = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Warning: Please make sure the document has been transferred and archived to document repository!' }, class: 'btn btn-danger btn-xs hidden-xs' do
                 %span.glyphicon.glyphicon-remove
                 Delete Document
-              = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger visible-xs' do
+              = link_to delete_committee_document_path(:document_id => document.id), :method => :delete, data: { confirm: 'Warning: Please make sure the document has been transferred and archived to document repository!' }, class: 'btn btn-danger visible-xs' do
                 %span.glyphicon.glyphicon-remove
                 
           - if !document.transfer
@@ -98,5 +98,5 @@
 - if @inactive == false and @notmember == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document
-  = link_to transfer_committee_document_path(:single_transfer => false, :committee_type => @committee_type), class: 'btn btn-success' do
+  = link_to transfer_committee_document_path(:single_transfer => false), class: 'btn btn-success' do
     Transfer All Documents

@@ -97,7 +97,6 @@ class DocumentCommitteeController < ActionController::Base
     
     def transfer_document
         @single_transfer = params[:single_transfer]
-        # @all_categories = params[:all_categories]
         if @single_transfer == "true"
             @document_id = params[:id]
             @document = Document.find @document_id
@@ -113,6 +112,7 @@ class DocumentCommitteeController < ActionController::Base
         @title = params[:title]
         @committee_id = params[:committee_id]
         @committee = Committee.find(@committee_id)
+        puts("which is my name? #{@committee.name}")
         @documents = params[:document]
         if @documents != nil
             @documents.each_pair do |document_name, category_type|
@@ -120,7 +120,7 @@ class DocumentCommitteeController < ActionController::Base
                 next if category_type == "no selection"
                 @doc = Document.find_by(:title => document_name, :committee_id => @committee_id)
                 next if @doc.transfer == true
-                @file_params = {:url => @doc.url, :title => @doc.title}
+                @file_params = {:url => @doc.url, :title => @doc.title, :transferred_from => @committee.name}
                 @category = Category.find_by(:name => category_type)
                 @category.documents.create(@file_params)
                 @doc.update_attribute :transfer, true

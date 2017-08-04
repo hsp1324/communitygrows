@@ -162,5 +162,17 @@ Scenario: should not be able to create committee name to be blank or already exi
     When I fill in "Committee Name" with "hoopla"
     And I press "Submit"
     Then I should see "Committee name provided already exists. Please enter a different name."
+
+Scenario: Users should be able to add a committee description, and the description should be reflected on the committees page
+    Given I am on the committee management page
+    When I follow second "hoopla"
+    And I should see "Edit"
+    And I fill in "Committee Description" with "Great dinos"
+    And I press "Update Name"
+
+    Given I am on the subcommittee "hoopla" page
+    Then I should see "Description"
+    And I should see "Great dinos"
+
     
     

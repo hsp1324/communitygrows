@@ -8,7 +8,10 @@
   %tbody
     -@announcements.each do |a|
       %tr
-        %td= link_to "#{a.title} [#{a.committee_type}]", comment_path(a.id)
+        - if a.committee.nil?
+          %td= link_to "#{a.title} [Main Announcement]", comment_path(a.id)
+        - if !a.committee.nil?
+          %td= link_to "#{a.title} [#{a.committee.name}]", comment_path(a.id)
         %td= a.content
         %td= a.created_at.strftime("%m/%d/%Y %l:%M %p")
         %td= a.updated_at.strftime("%m/%d/%Y %l:%M %p")

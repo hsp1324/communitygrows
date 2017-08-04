@@ -1,11 +1,11 @@
-%h1 New #{params[:committee_type]} document
+%h1 New #{@committee_name} document
 
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
     = flash[:notice]
 
 .container.well
-  = link_to subcommittee_index_path(params[:committee_type]), :class => "btn btn-info" do
+  = link_to subcommittee_index_path(params[:committee_id]), :class => "btn btn-info" do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br

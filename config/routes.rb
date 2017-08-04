@@ -37,27 +37,29 @@ Rails.application.routes.draw do
   get 'account_details' => 'user#index', as: :user_credentials
   put 'account_details' => 'user#update_user_credentials', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
+  get 'new_user_main_announcement' => 'user#new_announcement', as: :new_user_announcement
+  post 'user_committee_announcement' => 'user#create_announcement', as: :create_user_announcement
   # Subcommittee
-  get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index
+  get 'subcommittee_index/:committee_id/' => 'subcommittee#index', as: :subcommittee_index
   
   # Subcommittee Announcement
-  get 'subcommittee_index/:committee_type/new_announcement' => 'announcement#new_announcement', as: :new_committee_announcement
-  post 'subcommittee_index/:committee_type/create_announcement' => 'announcement#create_announcement', as: :create_committee_announcement
-  delete 'subcommittee_index/:committee_type/:announcement_id/delete_announcement' => 'announcement#delete_announcement', as: :delete_committee_announcement
-  get 'subcommittee_index/:committee_type/edit_announcement/:announcement_id' => 'announcement#edit_announcement', as: :edit_committee_announcement
-  put 'subcommittee_index/:committee_type/update_announcement/:announcement_id' => 'announcement#update_announcement', as: :update_committee_announcement
+  get 'subcommittee_index/:committee_id/new_announcement' => 'announcement#new_announcement', as: :new_committee_announcement
+  post 'subcommittee_index/:committee_id/create_announcement' => 'announcement#create_announcement', as: :create_committee_announcement
+  delete 'subcommittee_index/:committee_id/:announcement_id/delete_announcement' => 'announcement#delete_announcement', as: :delete_committee_announcement
+  get 'subcommittee_index/:committee_id/edit_announcement/:announcement_id' => 'announcement#edit_announcement', as: :edit_committee_announcement
+  put 'subcommittee_index/:committee_id/update_announcement/:announcement_id' => 'announcement#update_announcement', as: :update_committee_announcement
  
   get '/show_announcements' => 'announcement#show_announcements', as: :show_announcements 
   post '/search_announcements' => 'announcement#search_announcements'
   
-  get 'subcommittee_index/:committee_type/new_document' => 'document_committee#new_document', as: :new_committee_document
-  post 'subcommittee_index/:committee_type/create_document' => 'document_committee#create_document', as: :create_committee_document 
-  delete 'subcommittee_index/:committee_type/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
-  get 'subcommittee_index/:committee_type/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
-  put 'subcommittee_index/:committee_type/update_document' => 'document_committee#update_document', as: :update_committee_document
+  get 'subcommittee_index/:committee_id/new_document' => 'document_committee#new_document', as: :new_committee_document
+  post 'subcommittee_index/:committee_id/create_document' => 'document_committee#create_document', as: :create_committee_document 
+  delete 'subcommittee_index/:committee_id/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
+  get 'subcommittee_index/:committee_id/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
+  put 'subcommittee_index/:committee_id/update_document' => 'document_committee#update_document', as: :update_committee_document
   #new route created for transfer document
-  get 'subcommittee_index/:committee_type/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document
-  post 'subcommittee_index/:committee_type/transfer_file_to_repository' => 'document_committee#transfer_file_to_repository', as: :transfer_file_repo
+  get 'subcommittee_index/:committee_id/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document
+  post 'subcommittee_index/:committee_id/transfer_file_to_repository' => 'document_committee#transfer_file_to_repository', as: :transfer_file_repo
   
   get 'documents/new_file' => 'documents#new_file', as: :new_file
   post 'documents/create' => 'documents#create_file', as: :create_file
@@ -71,10 +73,9 @@ Rails.application.routes.draw do
 
   # Category Management
   get 'categories/index' => 'category#index', as: :category_index
-  put 'categories/curd_category' => 'category#curd_category'
-  get 'categories/:id/curd_category' => 'category#curd_category'
-  delete 'categories/:id/curd_category' => 'category#curd_category'
-  put 'categories/curd_category' => 'category#curd_category'
+  put 'categories/:id/crud_category' => 'category#crud_category', as: :crud_update_category
+  delete 'categories/:id/crud_category' => 'category#crud_category', as: :crud_delete_category
+  post 'categories/crud_category' => 'category#crud_category', as: :crud_create_category
   
   get 'categories/new_category' => 'category#new_category', as: :new_category
   post 'categories/create' => 'category#create_category', as: :create_category
@@ -89,6 +90,10 @@ Rails.application.routes.draw do
   # Committee Management
   get 'committee' => 'committee#index', as: :committee_index
   # get 'committee/index' => 'committee#index', as: :committee_index
+  put 'committee/:id/crud_committee' => 'committee#crud_committee', as: :crud_update_committee
+  delete 'committee/:id/crud_committee' => 'committee#crud_committee', as: :crud_delete_committee
+  post 'committee/crud_committee' => 'committee#crud_committee', as: :crud_create_committee
+  
   get 'committee/new_committee' => 'committee#new_committee', as: :new_committee
   post 'committee/create' => 'committee#create_committee', as: :create_committee
   delete 'committee/:id/delete_committee' => 'committee#delete_committee', as: :delete_committee
@@ -122,6 +127,10 @@ Rails.application.routes.draw do
 
   #Meeting Management
   get 'meeting' => 'meeting#index', as: :meeting_index
+  put 'meeting/:id/crud_meeting' => 'meeting#crud_meeting', as: :crud_update_meeting
+  delete 'meeting/:id/crud_meeting' => 'meeting#crud_meeting', as: :crud_delete_meeting
+  post 'meeting/crud_meeting' => 'meeting#crud_meeting', as: :crud_create_meeting
+  
   get 'meeting/new_meeting' => 'meeting#new_meeting', as: :new_meeting
   post 'meeting/create' => 'meeting#create_meeting', as: :create_meeting
   delete 'meeting/:id/delete_meeting' => 'meeting#delete_meeting', as: :delete_meeting

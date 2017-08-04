@@ -30,6 +30,7 @@ Scenario: Create new calendar
     When I follow "New Calendar"
     And I fill in "Calendar Name" with "Fundraiser"
     And I fill in "Link" with "www.google.com"
+    Then "red" should be selected for "Color"
     And I press "Submit"
     Then I am on the calendar management page
     And I should see "Fundraiser"

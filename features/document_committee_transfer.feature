@@ -85,7 +85,27 @@ Scenario: Transfering multiple documents to Document Repository via the transfer
   Then I should see "Ruby_where"
   Then I should see "Dinos_green"
   Then I should see "answer_key"
+
+Scenario: Clicking on a document in a committee page should redirect to document information page
   
-  
-  
-  
+  Given I am on subcommittee "hoopla" page
+  When I follow "Ruby_where"
+  Then I should see "'Ruby_where' Information"
+
+Scenario: Making changes to a document from the document repository should be reflected in the same document when navigating to document info page via committee page
+
+  Given I am on subcommittee "hoopla" page
+  When I follow second "Transfer Document"
+  And I select "The Practice of Yogurt" from drop down menu "Ruby_where" on transfer documents page
+  When I press "Transfer Documents"
+  When I press "Submit"
+  Given I am on the document repository page
+  When I follow "Ruby_where"
+  When I check "Mark As Read"
+  When I press "Click to Edit Document"
+  And I fill in "Title" with "a"
+  And I press "Save changes"
+  Given I am on subcommittee "hoopla" page
+  When I follow "a"
+  Then I should see "Read"
+  Then I should see "a"

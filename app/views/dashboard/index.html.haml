@@ -1,15 +1,4 @@
-
-
-// :javascript 
-//   window.onload = function () {
-//     var hey='hey';
-//     $('#calendar').fullCalendar({ 
-//       googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
-//     //events: {googleCalendarId: '2gafbembi5bqqflftfva2o7rv8@group.calendar.google.com'},
-//     });
-//   }
 %h1 Board Member Dashboard
-  
 
 - if flash[:alert] == "You do not have access to this committee. Please contact Kelly for access."
   #flashNotice
@@ -33,8 +22,11 @@
                 -else
                   %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
                   %td= link_to "#{announcement.title}", comment_path(announcement.id)
-      = link_to "Add", new_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
-      %h2 Committee Announcements
+      - if @is_admin
+        = link_to "Add", new_announcement_path(:from => 'dashboard'), :id => :main, :class => "btn btn-small btn-warning"
+      - else
+        = link_to "Add", new_user_announcement_path, :id => :main, :class => "btn btn-small btn-warning"
+      %h2 Committee Announcementss
       #announcement_content
         %table.table.table-bordered.table-striped
           %thead
@@ -45,7 +37,7 @@
             - @subcomittee_announcements_list[0..4].each do |announcement|
               %tr
                 %td= announcement.updated_at.strftime("%m/%d/%Y %l:%M %p")
-                %td= link_to "#{announcement.title} [#{announcement.committee_type}]", comment_path(announcement.id)
+                %td= link_to "#{announcement.title} [#{announcement.committee.name}]", comment_path(announcement.id)
       - if @announcement_list.count > 5 or @subcomittee_announcements_list.count > 5
         = link_to "Show All", show_announcements_path, :id => :main, :class => "btn btn-small btn-warning"
         -#= link_to "Show All", show_announcements_path(:categories => [:dashboard, :internal, :executive, :external]), :id => :main, :class => "btn btn-small btn-warning"
@@ -53,26 +45,3 @@
   .col-md-6
     %h2
     #calendar
-    // :javascript
-      
-    //   $( document ).ready(function() {
-        
-    //     console.log("HEYHEY");
-        
-    //     $.ajax({
-    //       url: '/calendar.json',
-    //       type: 'GET',
-    //       dataType: 'json',
-    //       beforeSend: function (xhr) {
-    //         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-    //       },
-    //       success: function(data){
-    //         for (var i=0; i < data.length; i++){
-    //           console.log(data[i].link);
-    //           $('calendar').fullCalendar('addEventSource', (data[i].link));
-    //         }
-    //         console.log ("GET IN THERE");
-    //       },
-    //       error: function(xhr, status, response) {console.log("Ya dun goofed")}
-    //     });
-    //   }); 

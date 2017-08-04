@@ -20,12 +20,29 @@ class MeetingController < ApplicationController
         @meeting = Meeting.find(params[:id])
     end
 
+    def crud_meeting
+        crud_action = params[:do_action]
+        is_admin = admin_only('#{crud_action} meetings.')
+        return if !is_admin
+        meeting = params[:meeting]
+        if crud_action == 'create'
+            create_object(Meeting, meeting, new_meeting_path, meeting_index_path)
+        elsif crud_action == 'update'
+            update_object(Meeting, meeting, edit_meeting_path, meeting_index_path)
+        elsif crud_action == 'delete'
+            delete_object(Meeting)
+            redirect_to meeting_index_path
+        else
+            redirect_to meeting_index_path
+        end
+    end
+
 
     def create_meeting
         params[:meeting].each do |fields|
             puts "#meeting field: #{fields}"
         end 
-        is_admin = admin_only('create committee')
+        is_admin = admin_only('create meetings')
         return if !is_admin
         meeting = params[:meeting]
 

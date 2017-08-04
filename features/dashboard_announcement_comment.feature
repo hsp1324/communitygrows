@@ -6,15 +6,20 @@ Feature: successfully comment on an announcement on the main dashboard
   So that the conversation between different users can be established
 
 Background: user is on the main dashboard page and announcement is made
-  
+  Given the following committees exist:
+    | name            | inactive | hidden    |
+    | hoopla          | true     | false     |
+    | crystal gems    | true     | false     |
+    | backstreet boys | true     | false     |
+
   Given the following announcements exist:
-    | title      | content          | created_at           | committee_type   |
-    | aaaaaaa    | announceone      | 2016-03-17 17:44:13  | dashboard        |
-    | bbbbbbb    | announcetwo      | 2016-03-14 15:32:00  | dashboard        |
-    | ccccccc    | announcethree    | 2016-03-18 22:12:11  | dashboard        |
-    | ddddddd    | announceonex     | 2016-03-19 17:44:13  | executive        |
-    | eeeeeee    | announcetwoy     | 2016-03-20 15:32:00  | internal         |
-    | fffffff    | announcethreez   | 2016-03-21 22:12:11  | external         |
+    | title      | content          | created_at           | committee_id |
+    | aaaaaaa    | announceone      | 2016-03-17 17:44:13  | 1            |
+    | bbbbbbb    | announcetwo      | 2016-03-14 15:32:00  | 1            |
+    | ccccccc    | announcethree    | 2016-03-18 22:12:11  | 1            |
+    | ddddddd    | announceonex     | 2016-03-19 17:44:13  | 1            |
+    | eeeeeee    | announcetwoy     | 2016-03-20 15:32:00  | 1            |
+    | fffffff    | announcethreez   | 2016-03-21 22:12:11  | 1            |
   Given a logged in user
   And I am on the CommunityGrows dashboard page
   
@@ -26,13 +31,13 @@ Scenario: User can see admin announcements, only the lastest 5 annuncement can b
 
 # happy path  
 Scenario: User can see committee announcements
-  Then I should see "ddddddd [executive]"
-  And I should see "eeeeeee [internal]"
-  And I should see "fffffff [external]"
+  Then I should see "ddddddd [hoopla]"
+  And I should see "eeeeeee [hoopla]"
+  And I should see "fffffff [hoopla]"
 
 # happy path
 Scenario: User clicks on announcement to view comments for given announcement
-  When I follow "ddddddd [executive]"
+  When I follow "ddddddd [hoopla]"
   Then I should be on the comment page for "ddddddd"
   And I should see "Add new comment"
   Then I follow "Add new comment"
@@ -45,7 +50,7 @@ Scenario: User clicks on announcement to view comments for given announcement
   
 #sad path
 Scenario: User should not be able to create a comment with empty content
-  When I follow "ddddddd [executive]"
+  When I follow "ddddddd [hoopla]"
   Then I should be on the comment page for "ddddddd"
   And I should see "Add new comment"
   Then I follow "Add new comment"

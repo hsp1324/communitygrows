@@ -1,7 +1,8 @@
 class AdminController < ActionController::Base
     layout "base"
-    #before_action :authenticate_user!, :authorize_user
+    before_action :authenticate_user!, :authorize_user
     include EmailHelper
+    include AnnouncementHelper
     
     def authorize_user
         if not User.find(current_user.id).admin
@@ -24,7 +25,7 @@ class AdminController < ActionController::Base
         authenticate_user!
         authorize_user
         @users = User.all
-        @announcement_list = Announcement.where(committee_type: "").order(created_at: :DESC)
+        @announcement_list = Announcement.where(committee_id: nil).order(created_at: :DESC)
         # if !current_user.admin
         #     flash[:message] = "Access not granted. Please sign in again."
         #     redirect_to("/users/sign_in")
@@ -61,6 +62,7 @@ class AdminController < ActionController::Base
         authorize_user
         #try and catch
         begin
+            puts("we are creating a new user!!!!!!!!!!!!!!!!")
             @user = User.create(user_params)
             @user.save!
         rescue Exception => e
@@ -87,32 +89,16 @@ class AdminController < ActionController::Base
         redirect_to admin_index_path
     end
     
+    #show new_announcement page for admin before creating
     def new_announcement
-        authenticate_user!
+        @from = params[:from]
     end
     
+    #creating main announcement as admin
     def create_announcement
-        authenticate_user!
-        @title = announcement_params[:title]
-        @content = announcement_params[:content]
-        @emergency = announcement_params[:emergency]
-        @type = ""
-        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
-        if @emergency
-            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
-            flash[:notice] = 'Announcement creation successful and email was sent successfully.'
-        else
-            flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
-        end
-        if Rails.env.production?
-            if @emergency
-                send_emergency_announcement_email("", @new_announce)
-            else
-                send_announcement_email("", @new_announce)
-            end
-        end
-        
-        redirect_to('/admin')
+        @from = params[:from]
+        create_announcement_helper
+        return
     end
     
     def edit_announcement

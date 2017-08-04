@@ -5,17 +5,21 @@ module AnnouncementHelper
         @emergency = announcement_params[:emergency]
         @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency)
         # checks if it is not an emergency, create a mail record
-        if @emergency
-            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
+        puts "TEST TEST TEST TEST TEST TEST TES TEST TEST EST EST"
+        puts @emergency
+        puts "TEST TEST TEST TEST TEST TEST TES TEST TEST EST EST"
+        if @emergency == 0
+            @new_announce.create_mail_record(:description => "create")
             flash[:notice] = 'Announcement creation successful and email was sent successfully.'
         else
             flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
         end
+        
         if Rails.env.production?
-            if @emergency
-                send_announcement_email("", @new_announce)
+            if @emergency == 0
+                send_announcement_email(@new_announce)
             else
-                send_emergency_announcement_email("", @new_announce)
+                send_emergency_announcement_email(@new_announce)
             end
         end
         puts "I am currently at #{@from}"

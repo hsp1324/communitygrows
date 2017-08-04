@@ -114,15 +114,14 @@ class AdminController < ActionController::Base
         @target_announcement = Announcement.find params[:id]
         @target_announcement.update_attributes!(announcement_params)
         
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-        if @prev_mailrecord
-            @prev_mailrecord.touch
+        if @target_announcement.mail_record
+            @target_announcement.mail_record.update_attribute(:description, "update")
         else
-            MailRecord.create!(:record_type => "announcement", :record_id => params[:id], :committee => @target_announcement.committee_type)
+            @target_announcement.create_mail_record(:description => "update")
         end
         
         if Rails.env.production?
-            send_announcement_update_email("", @target_announcement)
+            send_announcement_update_email(@target_announcement)
         end
         
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was sent successfully"
@@ -133,14 +132,11 @@ class AdminController < ActionController::Base
         authenticate_user!
         authorize_user
         @target_announcement = Announcement.find params[:id]
-        @target_announcement.destroy!
+        @name = @target_announcement.title
         
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-        if @prev_mailrecord
-            @prev_mailrecord.destroy!
-        end
+        @target_announcement.destroy
         
-        flash[:notice] = "Announcement with title [#{@target_announcement.title}] deleted successfully"
+        flash[:notice] = "Announcement with title [#{@name}] deleted successfully"
         redirect_to(admin_index_path)
     end
     

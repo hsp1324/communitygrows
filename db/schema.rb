@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170803232333) do
+ActiveRecord::Schema.define(version: 20170804093331) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
@@ -41,11 +41,12 @@ ActiveRecord::Schema.define(version: 20170803232333) do
     t.integer "parent_id"
     t.string "title"
     t.text "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "announcement_id"
     t.index ["announcement_id"], name: "index_comments_on_announcement_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -97,11 +98,22 @@ ActiveRecord::Schema.define(version: 20170803232333) do
   end
 
   create_table "mail_records", force: :cascade do |t|
-    t.string "record_type"
-    t.integer "record_id"
     t.string "committee", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "committee_id"
+    t.integer "category_id"
+    t.integer "user_id"
+    t.integer "announcement_id"
+    t.integer "document_id"
+    t.integer "meeting_id"
+    t.string "description"
+    t.index ["announcement_id"], name: "index_mail_records_on_announcement_id"
+    t.index ["category_id"], name: "index_mail_records_on_category_id"
+    t.index ["committee_id"], name: "index_mail_records_on_committee_id"
+    t.index ["document_id"], name: "index_mail_records_on_document_id"
+    t.index ["meeting_id"], name: "index_mail_records_on_meeting_id"
+    t.index ["user_id"], name: "index_mail_records_on_user_id"
   end
 
   create_table "meetings", force: :cascade do |t|
@@ -125,6 +137,8 @@ ActiveRecord::Schema.define(version: 20170803232333) do
   create_table "read_sessions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "document_id"
+    t.index ["document_id"], name: "index_read_sessions_on_document_id"
+    t.index ["user_id"], name: "index_read_sessions_on_user_id"
   end
 
   create_table "user_skills", force: :cascade do |t|
@@ -147,7 +161,7 @@ ActiveRecord::Schema.define(version: 20170803232333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin"
-    t.datetime "last_sign_in_at", default: "2017-07-31 03:14:38", null: false
+    t.datetime "last_sign_in_at", default: "2017-08-04 16:17:15", null: false
     t.string "name"
     t.string "board_role"
     t.string "committee"

@@ -1,4 +1,4 @@
 class Announcement < ActiveRecord::Base
     has_many :comments
-    #belong to committee
+    belongs_to :committee
 end

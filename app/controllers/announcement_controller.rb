@@ -9,25 +9,27 @@ class AnnouncementController < ActionController::Base
     end
 
     def new_announcement
+        @committee_name = Committee.find(params[:committee_id]).name
     end
         
     def create_announcement
         @title = params[:title]
-        @committee_type = params[:committee_type]
+        @committee_id = params[:committee_id]
+        @committee = Committee.find(@committee_id)
         if @title.nil? || @title.empty?
             flash[:notice] = "Title field cannot be left blank."
             redirect_to new_committee_announcement_path(@committee_type) and return
         end
         @content = params[:content]
-        @new_announce = Announcement.create(:title => @title, :content => @content, :committee_type => @committee_type)
+        @new_announce = @committee.announcements.create(:title => @title, :content => @content)
         
         MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @committee_type)
         
         if Rails.env.production?
             send_announcement_email(Committee.find_by(name: @committee_type), @new_announce)
         end
-        flash[:notice] = "#{@committee_type.capitalize} Announcement creation successful and email was successfully sent."
-        redirect_to subcommittee_index_path(:committee_type => @committee_type)
+        flash[:notice] = "#{@committee.name} Announcement creation successful and email was successfully sent."
+        redirect_to subcommittee_index_path(:committee_id => @committee_id)
     end
         
     def edit_announcement
@@ -40,13 +42,14 @@ class AnnouncementController < ActionController::Base
         @title = params[:title]
         @content = params[:content]
         @announcement_id = params[:announcement_id]
-        @committee_type = params[:committee_type]
+        @committee_id = params[:committee_id]
+        @committee = Committee.find(@committee_id)
         
         if @title.nil? || @title.empty?
             flash[:notice] = "Title field cannot be left blank."
-            redirect_to edit_committee_announcement_path(@committee_type, @announcement_id) and return
+            redirect_to edit_committee_announcement_path(@committee_id, @announcement_id) and return
         end
-        @target_announcement.update_attributes!(:title => @title, :content => @content, :committee_type => @committee_type)
+        @target_announcement.update_attributes!(:title => @title, :content => @content)
         
         @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @announcement_id)
         if @prev_mailrecord
@@ -56,25 +59,26 @@ class AnnouncementController < ActionController::Base
         end
         
         if Rails.env.production?
-            send_announcement_update_email(Committee.find_by(name: @committee_type), @target_announcement)
+            send_announcement_update_email(Committee.find_by(name: @committee_name), @target_announcement)
         end
         
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
-        redirect_to subcommittee_index_path(@committee_type)
+        redirect_to subcommittee_index_path(@committee_id)
     end
     
     def delete_announcement
         @target_announcement = Announcement.find params[:announcement_id]
-        @committee_type = params[:committee_type]
+        @committee_id = params[:committee_id]
         @target_announcement.destroy!
+        @committee = Committee.find(@committee_id)
         
         @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:announcement_id])
         if @prev_mailrecord
             @prev_mailrecord.destroy!
         end
         
-        flash[:notice] = "Executive Announcement with title [#{@target_announcement.title}] deleted successfully"
-        redirect_to subcommittee_index_path(@committee_type)
+        flash[:notice] = "#{@committee.name} Announcement with title [#{@target_announcement.title}] deleted successfully"
+        redirect_to subcommittee_index_path(@committee_id)
     end
     
     def search_announcements

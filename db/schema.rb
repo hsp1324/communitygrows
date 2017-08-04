@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170730201817) do
+ActiveRecord::Schema.define(version: 20170803232333) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "committee_type"
     t.boolean "emergency"
+    t.integer "committee_id"
+    t.index ["committee_id"], name: "index_announcements_on_committee_id"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -40,12 +41,11 @@ ActiveRecord::Schema.define(version: 20170730201817) do
     t.integer "parent_id"
     t.string "title"
     t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer "user_id"
     t.integer "announcement_id"
     t.index ["announcement_id"], name: "index_comments_on_announcement_id"
-    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -83,10 +83,11 @@ ActiveRecord::Schema.define(version: 20170730201817) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "committee_type"
     t.integer "category_id"
     t.integer "custom_order"
     t.boolean "transfer", default: false
+    t.integer "committee_id"
+    t.index ["committee_id"], name: "index_documents_on_committee_id"
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
 
@@ -148,7 +149,7 @@ ActiveRecord::Schema.define(version: 20170730201817) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin"
-    t.datetime "last_sign_in_at", default: "2017-08-03 04:28:15", null: false
+    t.datetime "last_sign_in_at", default: "2017-07-31 17:49:52", null: false
     t.string "name"
     t.string "board_role"
     t.string "committee"

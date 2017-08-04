@@ -38,26 +38,26 @@ Rails.application.routes.draw do
   put 'account_details' => 'user#update_user_credentials', as: :update_user_credentials
   post 'account_details/emails/:user_id/' => 'user#updateEmailPreferences', as: :update_user_email_preference
   # Subcommittee
-  get 'subcommittee_index/:committee_type/' => 'subcommittee#index', as: :subcommittee_index
+  get 'subcommittee_index/:committee_id/' => 'subcommittee#index', as: :subcommittee_index
   
   # Subcommittee Announcement
-  get 'subcommittee_index/:committee_type/new_announcement' => 'announcement#new_announcement', as: :new_committee_announcement
-  post 'subcommittee_index/:committee_type/create_announcement' => 'announcement#create_announcement', as: :create_committee_announcement
-  delete 'subcommittee_index/:committee_type/:announcement_id/delete_announcement' => 'announcement#delete_announcement', as: :delete_committee_announcement
-  get 'subcommittee_index/:committee_type/edit_announcement/:announcement_id' => 'announcement#edit_announcement', as: :edit_committee_announcement
-  put 'subcommittee_index/:committee_type/update_announcement/:announcement_id' => 'announcement#update_announcement', as: :update_committee_announcement
+  get 'subcommittee_index/:committee_id/new_announcement' => 'announcement#new_announcement', as: :new_committee_announcement
+  post 'subcommittee_index/:committee_id/create_announcement' => 'announcement#create_announcement', as: :create_committee_announcement
+  delete 'subcommittee_index/:committee_id/:announcement_id/delete_announcement' => 'announcement#delete_announcement', as: :delete_committee_announcement
+  get 'subcommittee_index/:committee_id/edit_announcement/:announcement_id' => 'announcement#edit_announcement', as: :edit_committee_announcement
+  put 'subcommittee_index/:committee_id/update_announcement/:announcement_id' => 'announcement#update_announcement', as: :update_committee_announcement
  
   get '/show_announcements' => 'announcement#show_announcements', as: :show_announcements 
   post '/search_announcements' => 'announcement#search_announcements'
   
-  get 'subcommittee_index/:committee_type/new_document' => 'document_committee#new_document', as: :new_committee_document
-  post 'subcommittee_index/:committee_type/create_document' => 'document_committee#create_document', as: :create_committee_document 
-  delete 'subcommittee_index/:committee_type/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
-  get 'subcommittee_index/:committee_type/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
-  put 'subcommittee_index/:committee_type/update_document' => 'document_committee#update_document', as: :update_committee_document
+  get 'subcommittee_index/:committee_id/new_document' => 'document_committee#new_document', as: :new_committee_document
+  post 'subcommittee_index/:committee_id/create_document' => 'document_committee#create_document', as: :create_committee_document 
+  delete 'subcommittee_index/:committee_id/:document_id/delete_document' => 'document_committee#delete_document', as: :delete_committee_document
+  get 'subcommittee_index/:committee_id/edit_document' => 'document_committee#edit_document', as: :edit_committee_document 
+  put 'subcommittee_index/:committee_id/update_document' => 'document_committee#update_document', as: :update_committee_document
   #new route created for transfer document
-  get 'subcommittee_index/:committee_type/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document
-  post 'subcommittee_index/:committee_type/transfer_file_to_repository' => 'document_committee#transfer_file_to_repository', as: :transfer_file_repo
+  get 'subcommittee_index/:committee_id/transfer_document' => 'document_committee#transfer_document', as: :transfer_committee_document
+  post 'subcommittee_index/:committee_id/transfer_file_to_repository' => 'document_committee#transfer_file_to_repository', as: :transfer_file_repo
   
   get 'documents/new_file' => 'documents#new_file', as: :new_file
   post 'documents/create' => 'documents#create_file', as: :create_file

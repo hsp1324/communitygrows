@@ -65,7 +65,8 @@
     %tbody
       - @document_list.each do |document|
         %tr
-          %td= link_to document.title, document.url, :target => "_blank"
+          -#%td= link_to document.title, document.url, :target => "_blank"
+          %td= link_to document.title, info_file_path(:format => document.id)
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
 

@@ -17,6 +17,7 @@ class DocumentsController < ActionController::Base
     end
     
     def info_file
+        puts("do I even come here?")
         @id = params[:format] 
         @file = Document.find @id
         @categories = Category.all
@@ -64,16 +65,18 @@ class DocumentsController < ActionController::Base
             if !(@file[:url]=~/http(s)?:/)
                 @file[:url]="http://"+@file[:url]
             end
-            #update associated file inside of committee
+            #checks if document was originally created in repo or in committee
             @transferred_from = @target_file.transferred_from
-            @com_doc = Committee.find_by(name: @transferred_from).documents.find_by(title: @target_file.title, url: @target_file.url)
-            @com_doc.update_attributes!(:title => @file[:title], :url => @file[:url])
-            
+            @com = Committee.find_by(name: @transferred_from)
+            #updates committee document if one exists
+            if @com
+                @com_doc = Committee.find_by(name: @transferred_from).documents.find_by(title: @target_file.title, url: @target_file.url)
+                @com_doc.update_attributes!(:title => @file[:title], :url => @file[:url])
+            end
             #update current copy in document repository
             category = Category.find(@file[:category_id])
             @target_file.update_attributes!(file_params)
             category.documents << @target_file
-            
             
             @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @target_file.id)
             if @prev_mailrecord

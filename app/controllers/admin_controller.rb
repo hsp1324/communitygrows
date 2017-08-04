@@ -92,7 +92,6 @@ class AdminController < ActionController::Base
     #show new_announcement page for admin before creating
     def new_announcement
         @from = params[:from]
-        puts("I am from #{@from}")
     end
     
     #creating main announcement as admin

@@ -19,6 +19,7 @@ module AnnouncementHelper
                 send_emergency_announcement_email("", @new_announce)
             end
         end
+        puts "I am currently at #{@from}"
         if @from == "dashboard"
             redirect_to('/dashboard') and return
         else

@@ -56,25 +56,19 @@ Scenario: Edit meeting
     Then I should see "hoopla"
     When I follow "hoopla"
     And I fill in "Meeting Name" with "Great hoopla"
-    And I press "Update Name"
 
-    And I fill in "Meeting Date" with "07/22/2017"
-    And I press "Update Date"
+    And I fill in "Meeting Date" with "07/22/2018"
 
-    And I fill in "Meeting Time" with "4:44 PM"
-    And I press "Update Time"
+    And I fill in "Meeting Time" with "4:45 PM"
 
-    And I fill in "Meeting Location" with "123 Rainbow RD"
-    And I press "Update Location"
+    And I fill in "Meeting Location" with "124 Rainbow RD"
 
     And I fill in "Meeting Description" with "the quick brown fox jumps"
-    And I press "Update Description"
 
     And I fill in "Meeting Agenda" with "www.google.com"
-    And I press "Update Agenda"
 
     And I fill in "Meeting Hangout Link" with "www.google.com"
-    And I press "Update Hangout"
+    And I press "Update Meeting"
 
     Given I am on the meeting management page
     And I should see "Great hoopla"
@@ -84,11 +78,11 @@ Scenario: Edit meeting
     Then I should see "Meetings"
     When I follow "Meetings"
     Then I should see "Great hoopla"
-    And I should see "07/22/2017"
-    And I should see "4:44 PM"
+    And I should see "07/22/2018"
+    And I should see "4:45 PM"
     When I follow "Great hoopla"
     Then I should see "the quick brown fox jumps"
-    And I should see "123 Rainbow RD"
+    And I should see "124 Rainbow RD"
     And I should see "Agenda"
     And I should see "Join Meeting"
 

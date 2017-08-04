@@ -1,4 +1,5 @@
 class Meeting < ActiveRecord::Base
+	has_one :mail_record, dependent: :destroy
 	
 	def self.has_name?(name)
 		return self.where(name: "#{name}").length != 0

@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   
   has_many :participations
   has_many :committees, through: :participations
+  has_many :mail_records, dependent: :destroy
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

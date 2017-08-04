@@ -1,6 +1,16 @@
 module EmailHelper
-    def send_announcement_email(committee, announcement)
-        if committee == ""
+    def send_member_email(committee, new_user)
+        User.all.each do |user|
+            if user.committee.id == committee.id
+                if user.digest_pref == "real_time"
+                    NotificationMailer.member_email(user, new_user).deliver
+                end
+            end
+        end
+    end
+    
+    def send_announcement_email(announcement)
+        if announcement.committee == nil
             User.all.each do |user|
                 if user.digest_pref == "real_time"
                     NotificationMailer.announcement_email(user, announcement).deliver
@@ -9,7 +19,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee.id, user_id: user.id)
+                    if user.committee.id == announcement.committee.id
                         NotificationMailer.announcement_email(user, announcement).deliver
                     end
                 end
@@ -23,8 +33,8 @@ module EmailHelper
         end
     end
     
-    def send_announcement_update_email(committee, announcement)
-        if committee == ""
+    def send_announcement_update_email(announcement)
+        if announcement.committee == nil?
             User.all.each do |user|
                 if user.digest_pref == "real_time"
                     NotificationMailer.announcement_update_email(user, announcement).deliver
@@ -33,7 +43,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee, user_id: user.id)
+                    if user.committee.id == announcement.committee.id
                         NotificationMailer.announcement_update_email(user, announcement).deliver
                     end
                 end
@@ -41,8 +51,8 @@ module EmailHelper
         end
     end
 
-    def send_document_email(committee, document)
-        if committee == ""
+    def send_document_email(document)
+        if document.committee == nil
             User.all.each do |user|
                 if user.digest_pref == "real_time"
                     NotificationMailer.document_email(user, document).deliver
@@ -51,7 +61,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee.id, user_id: user.id)
+                    if user.committee.id == document.committee.id
                         NotificationMailer.document_email(user, document).deliver
                     end
                 end
@@ -59,8 +69,8 @@ module EmailHelper
         end
     end
 
-    def send_document_update_email(committee, document)
-        if committee == ""
+    def send_document_update_email(document)
+        if document.committee == nil
             User.all.each do |user|
                 if user.digest_pref == "real_time"
                     NotificationMailer.document_update_email(user, document).deliver
@@ -69,53 +79,84 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if Participation.find_by(committee_id: committee, user_id: user.id)
+                    if user.committee.id == document.committee.id
                         NotificationMailer.document_update_email(user, document).deliver
                     end
                 end
             end
         end
     end
-
-    def compile_announcements_and_documents(title, committee, records)
+    
+    def send_document_transfer_email(document)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                NotificationMailer.document_transfer_email(user, document).deliver
+            end
+        end
+    end
+    
+    def send_meeting_email(meeting)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                NotificationMailer.meeting_email(user, meeting).deliver
+            end
+        end
+    end
+    
+    def send_meeting_update_email(meeting)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                NotificationMailer.meeting_update_email(user, meeting).deliver
+            end
+        end
+    end
+    
+    def compile_announcements_and_documents(title, records)
         @records = records
-        @committee = committee
         @title = title
         
         @text = ''
         
         @stuff = false
-        @tmptext = "<p><strong><font size='+2'>" + @title + " Announcements:<font size='+1'></strong></p>"
-        
-        @records.where(record_type: 'announcement', committee: @committee).each do |record|
+        @tmptext = "<p><strong><font size='+2'>" + @title + " Announcements:<font size='+1'></strong><br>"
+
+        @records.where.not(announcement_id: nil).each do |record|
             @stuff = true
-            @tmptext += "<p><strong>&emsp; "
-            @tmptext += Announcement.find(record.record_id).title
-            @tmptext += "</strong></p>"
+            @tmptext += "<strong>&emsp; "
+            @tmptext += record.announcement.title
+            @tmptext += "</strong><br>"
             
-            @tmptext += "<p>&emsp;&emsp; "
-            @tmptext += Announcement.find(record.record_id).content
-            @tmptext += "</p>"
+            @tmptext += "&emsp;&emsp; "
+            @tmptext += record.announcement.content
+            @tmptext += "<br>"
         end
         
         if @stuff
             @text += @tmptext
         end
-        
+    
         @stuff = false
-        @tmptext = "<p><strong><font size='+2'>" + @title + " Documents:<font size='+1'></strong></p>"
+    
+        #Document
+        @tmptext = "<strong><font size='+2'>" + @title + " Documents:<font size='+1'></strong><br>"
         
-        @records.where(record_type: 'document', committee: @committee).each do |record|
+        @records.where.not(document_id: nil).each do |record|
             @stuff = true
-            @tmptext += '<p>&emsp;&emsp; <a href = "'
-            @tmptext += Document.find(record.record_id).url
+            @tmptext += '&emsp;&emsp; <a href = "'
+            @tmptext += record.document.url
             @tmptext += '">'
-            @tmptext += Document.find(record.record_id).title
-            @tmptext += '</a></p>'
+            @tmptext += record.document.title
+            @tmptext += '</a>'
+            if record.description != 'transfer'
+                @tmptext = @tmptext + ' was ' + record.description + 'd.'
+            else
+                @tmptext += ' was transferred.'
+            end
+            @tmptext += '<br>'
         end
         
         if @stuff
-            @text += @tmptext
+            @text += @tmptext + '</p>'
         end
         return @text
     end
@@ -124,15 +165,83 @@ module EmailHelper
         @records = records
         @subject = time_period + " Digest for " + Time.now.strftime("%m/%d")
         
-        @main_text = self.compile_announcements_and_documents("Main", "", @records)
+        @main_text = ""
         
+        #compile meetings section of digest
+        @tmp_text = "<p><strong><font size='+2'>Meetings:</strong><font size='+1'><br>"
+        @stuff = false
+        @records.where.not(meeting_id: nil).each do |record|
+            @stuff = true
+            @tmp_text += "<strong>&emsp; "
+            @tmp_text = @tmp_text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end
+            @tmp_text += "</strong><br>"
+            
+            @tmp_text += "&emsp;&emsp; "
+            @tmp_text = @tmp_text + record.meeting.time + record.meeting.date + " at " + record.meeting.location
+            @tmp_text += "<br>"
+            
+            @tmp_text += "&emsp;&emsp; "
+            @tmp_text += record.meeting.description
+            @tmp_text += "<br>"
+        end
+        
+        if @stuff
+            @main_text += @tmp_text + "</p>"
+        end
+        
+        #compile main announcements
+        @stuff = false
+        @tmptext = "<p><strong><font size='+2'>Main Announcements:<font size='+1'></strong><br>"
+
+        @records.where(committee_id: nil).where.not(announcement_id: nil).each do |record|
+            @stuff = true
+            @tmptext += "<strong>&emsp; "
+            @tmptext += record.announcement.title
+            @tmptext += "</strong><br>"
+            
+            @tmptext += "&emsp;&emsp; "
+            @tmptext += record.announcement.content
+            @tmptext += "<br>"
+        end
+        
+        if @stuff
+            @main_text += @tmptext
+        end
+    
+        #compile category documents
+        @stuff = false
+        @tmptext = "<strong><font size='+2'>Category Documents:<font size='+1'></strong><br>"
+        
+        @records.where.not(category_id: nil).each do |record|
+            @stuff = true
+            @tmptext += '&emsp;&emsp; <a href = "'
+            @tmptext += record.document.url
+            @tmptext += '">'
+            @tmptext += record.document.title
+            @tmptext += '</a>'
+            if record.description != 'transfer'
+                @tmptext = @tmptext + ' was ' + record.description + 'd in ' + record.category.name + "." 
+            else
+                @tmptext = @tmptext + ' was transferred from ' + record.committee.name + ' to ' + record.category.name + "."
+            end
+            @tmptext += '<br>'
+        end
+        
+        if @stuff
+            @main_text += @tmptext
+        end
+        
+        @records = records
+
+        #compile committee related announcements, documents and member details
         User.all.each do |user|
-            if user.digest_pref == "daily"
+            if user.digest_pref == time_period
                 @content = @main_text
                 
                 Committee.all.each do |committee|
-                    if Participation.find_by(committee_id: committee.id, user_id: user.id)
-                        @committee_text = self.compile_announcements_and_documents(committee.name, committee.name, @records)
+                    #if Participation.find_by(user_id: user.id, committee_id: committee.id)
+                    if user.committees.include? committee
+                        @committee_text = self.compile_announcements_and_documents(committee.name, @records.where(committee_id: committee.id))
                         @content += @committee_text
                     end
                 end

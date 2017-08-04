@@ -1,6 +1,7 @@
 class Document < ActiveRecord::Base
     has_many :read_sessions
     has_many :users, through: :read_sessions
+    has_one :mail_record, dependent: :destroy
 	belongs_to :category
     belongs_to :committee	
 	

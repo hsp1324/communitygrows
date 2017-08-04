@@ -1,6 +1,7 @@
 class Category < ActiveRecord::Base
 	has_many :documents, -> { order 'custom_order asc' }
-
+	has_many :mail_records
+	
 	def initalize(attributes=nil)
 	    attr_with_defaults = {:hidden => false}.merge(attributes)
 	    super(attr_with_defaults)

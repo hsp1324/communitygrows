@@ -2,6 +2,7 @@ class CommitteeController < ApplicationController
     layout "base"
     include AdminHelper
     include ControllerHelper
+    include EmailHelper
     
     def index
         @committees = Committee.all
@@ -116,7 +117,9 @@ class CommitteeController < ApplicationController
         # remove user from committee with activerecord model query
         # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!
         
-        Participation.find_by(committee_id: committee.id, user_id: user.id).destroy!
+        #Participation.find_by(committee_id: committee.id, user_id: user.id).destroy
+        committee.users.delete(user.id)
+        
         flash[:notice] = "#{user.name} successfully removed from #{committee.name}."
         redirect_to edit_committee_path and return
     end
@@ -127,7 +130,15 @@ class CommitteeController < ApplicationController
         committee = Committee.find(params[:id])
         user = User.find(params[:user_id])
         #add user to committee with activerecord model query
-        Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
+        #Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
+        committee.users<<(user)
+        
+        user.mail_records<<(MailRecord.create(:description => "added", :committee => committee))
+        
+        if Rails.env.production?
+            send_member_email(committee, user)
+        end
+            
         flash[:notice] = "#{user.name} successfully added to #{committee.name}."
         redirect_to edit_committee_path and return
     end

@@ -33,11 +33,12 @@ class DocumentCommitteeController < ActionController::Base
             @new_doc = @committee.documents.create(:title => @title, :url => @url)
             flash[:notice] = 'Document List creation successful and email was successfully sent.'
             
-            MailRecord.create!(:record_type => "document", :record_id => @new_doc.id, :committee => @committee_type)
+            @new_doc.create_mail_record(:description => "create", :committee => @committee)
             
             if Rails.env.production?
-                send_document_email(@committee, @new_doc)
+                send_document_email(@new_doc)
             end
+            
             redirect_to subcommittee_index_path(@committee_id)
         end
     end
@@ -67,31 +68,34 @@ class DocumentCommitteeController < ActionController::Base
             @target_document = Document.find params[:document][:id]
             @target_document.update_attributes!(:title => @title, :url => @url)
             
-            @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-            if @prev_mailrecord
-                @prev_mailrecord.touch
+            if @target_document.mail_record
+                @target_document.mail_record.update_attribute(:description, "update")
             else
-                MailRecord.create!(:record_type => "document", :record_id => params[:id], :committee => @committee_type)
+                @target_document.create_mail_record(:description => "update", :committee => "commitee")
             end
             
             if Rails.env.production?
-                send_document_update_email(@committee, @target_document)
+                send_document_update_email(@target_document)
             end
+            
             flash[:notice] = "#{@committee.name} Document List with title [#{@target_document.title}] updated successfully and email was successfully sent."
             redirect_to subcommittee_index_path(@committee_id)
         end
     end
+    
     def delete_document
         @committee_id = params[:committee_id]
         @committee = Committee.find(@committee_id)
         @target_document = Document.find params[:document_id]
-        @target_document.destroy!
+        @name = @target_document.title
         
-        @prev_mailrecord =MailRecord.find_by(record_type: 'announcement', record_id: params[:id])
-        if @prev_mailrecord
-            @prev_mailrecord.destroy!
+        if @target_document.category
+            @committee.documents.delete(params[:document_id])
+        else
+            @target_document.destroy
         end
-        flash[:notice] = "#{@committee.name} Document List with title [#{@target_document.title}] deleted successfully"
+        
+        flash[:notice] = "#{@committee.name} Document List with title [#{@name}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_id)
     end
     
@@ -120,10 +124,21 @@ class DocumentCommitteeController < ActionController::Base
                 next if category_type == "no selection"
                 @doc = Document.find_by(:title => document_name, :committee_id => @committee_id)
                 next if @doc.transfer == true
-                @file_params = {:url => @doc.url, :title => @doc.title}
+                
                 @category = Category.find_by(:name => category_type)
-                @category.documents.create(@file_params)
+                @doc.update_attribute(:category, @category)
                 @doc.update_attribute :transfer, true
+                
+                if @doc.mail_record
+                    @doc.mail_record.update_attributes(:description => "transfer", :category => @category)
+                else
+                    @doc.create_mail_record(:description => "transfer", :committee => @committee, :category => @category)
+                end
+                
+                if Rails.env.production?
+                    send_document_transfer_email(@doc)
+                end
+                
                 flash[:notice] = "Documents were successfully transferred to Document Repository"
             end
         end

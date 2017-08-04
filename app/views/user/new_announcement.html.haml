@@ -1,13 +1,13 @@
--# This page is a view for when admin creates new announcement
+-# This page is a view for when user creates new announcement
 %h1 New Dashboard Announcement
 
 .container.well
-  = link_to admin_index_path, class: 'btn btn-info' do
+  = link_to dashboard_index_path, class: 'btn btn-info' do
     %span.glyphicon.glyphicon-arrow-left
     Back
   %br
   %br
-  = form_tag create_announcement_path(@announcement), method: :put do
+  = form_tag create_user_announcement_path, method: :post do
     .form-group
       = label :announcement, :title, "Title: "
       = text_area :announcement, 'title', cols: 40, rows: 3, placeholder: "Your title here", class: 'form-control'
@@ -18,4 +18,3 @@
       = label :announcement, "Emergency: ", style: "#{'display:none' if User.find(current_user.id).admin != true}"
       = check_box :announcement, :emergency, style: "#{'display:none' if User.find(current_user.id).admin != true}"
     = submit_tag 'Submit', class: 'btn btn-success'
-

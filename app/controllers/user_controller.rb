@@ -2,6 +2,7 @@ class UserController < ActionController::Base
     layout "base"
     before_action :authenticate_user!
     include EmailHelper
+    include AnnouncementHelper
     
     def user_params
         params.require(:user).permit(:email, :password, :password_confirmation, :name, :board_role, :current_company, :current_position,
@@ -17,7 +18,10 @@ class UserController < ActionController::Base
     def new_announcement
     end
     
+    #create user main announcement
     def create_announcement
+        create_announcement_helper(false)
+        return
     end
     
     def update_user_credentials

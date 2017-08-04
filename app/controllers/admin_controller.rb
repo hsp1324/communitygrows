@@ -1,7 +1,8 @@
 class AdminController < ActionController::Base
     layout "base"
-    #before_action :authenticate_user!, :authorize_user
+    before_action :authenticate_user!, :authorize_user
     include EmailHelper
+    include AnnouncementHelper
     
     def authorize_user
         if not User.find(current_user.id).admin
@@ -61,6 +62,7 @@ class AdminController < ActionController::Base
         authorize_user
         #try and catch
         begin
+            puts("we are creating a new user!!!!!!!!!!!!!!!!")
             @user = User.create(user_params)
             @user.save!
         rescue Exception => e
@@ -88,32 +90,24 @@ class AdminController < ActionController::Base
     end
     
     def new_announcement
-        authenticate_user!
+        80.times{print("*inside of admin_controller creating new committee announcement")}
+        puts
+        80.times{print("*")}
+        puts
+        80.times{print("*")}
+        puts
+        80.times{print("*")}
+        puts
+        80.times{print("*")}
+        puts
+        80.times{print("*")}
+        puts params.keys()
     end
     
+    #creating main announcement as admin
     def create_announcement
-        authenticate_user!
-        @title = announcement_params[:title]
-        @content = announcement_params[:content]
-        @emergency = announcement_params[:emergency]
-        @type = ""
-        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
-        # checks if it is not an emergency, create a mail record
-        if @emergency
-            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
-            flash[:notice] = 'Announcement creation successful and email was sent successfully.'
-        else
-            flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
-        end
-        if Rails.env.production?
-            if @emergency
-                send_announcement_email("", @new_announce)
-            else
-                send_emergency_announcement_email("", @new_announce)
-            end
-        end
-        
-        redirect_to('/admin')
+        create_announcement_helper(true)
+        return
     end
     
     def edit_announcement

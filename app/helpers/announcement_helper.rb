@@ -1,0 +1,32 @@
+module AnnouncementHelper
+    def create_announcement_helper(is_admin)
+        @title = announcement_params[:title]
+        @content = announcement_params[:content]
+        @emergency = announcement_params[:emergency]
+        @type = ""
+        @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency, :committee_type => @type)
+        # checks if it is not an emergency, create a mail record
+        if @emergency
+            MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @type)
+            flash[:notice] = 'Announcement creation successful and email was sent successfully.'
+        else
+            flash[:notice] = 'Emergency announcement creation successful and email was sent successfully.'
+        end
+        if Rails.env.production?
+            if @emergency
+                send_announcement_email("", @new_announce)
+            else
+                send_emergency_announcement_email("", @new_announce)
+            end
+        end
+        if is_admin
+            redirect_to('/admin') and return
+        else
+            redirect_to('/dashboard') and return
+        end
+    end
+    
+    def announcement_params
+        params.require(:announcement).permit(:title, :content, :emergency)
+    end
+end

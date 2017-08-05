@@ -101,7 +101,7 @@ class DocumentCommitteeController < ActionController::Base
     
     def transfer_document
         @single_transfer = params[:single_transfer]
-        # @all_categories = params[:all_categories]
+        @committee_id = params[:committee_id]
         if @single_transfer == "true"
             @document_id = params[:id]
             @document = Document.find @document_id

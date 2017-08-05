@@ -109,18 +109,21 @@ class CommitteeController < ApplicationController
     end
     
     #added the two methods below for adding and removing committee members
-    def remove_member
+    def update_members
         is_admin = admin_only('remove committee members.')
         return if !is_admin
         committee = Committee.find(params[:id])
-        user = User.find(params[:user_id])
+        committee.users.delete_all 
+        #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
+        params[:check].each_pair do |user_id, checked|
+            member = User.find(user_id)
+            committee.users<<(member)
+        end
         # remove user from committee with activerecord model query
         # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!
         
-        #Participation.find_by(committee_id: committee.id, user_id: user.id).destroy
-        committee.users.delete(user.id)
-        
-        flash[:notice] = "#{user.name} successfully removed from #{committee.name}."
+        #Participation.find_by(committee_id: committee.id, user_id: user.id).destroy        
+        flash[:notice] = "Successfully updated members in #{committee.name}."
         redirect_to edit_committee_path and return
     end
 

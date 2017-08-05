@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe MeetingController do 
 	fixtures :users
+	fixtures :meetings
     before(:each) do
         sign_in users(:tester)
         @meeting = Meeting.create!({name: "Nice"})
@@ -41,7 +42,7 @@ describe MeetingController do
 		end
 		
 		it 'creates a meeting' do
-			expect(Meeting).to receive(:create!).with(name: "Good Meeting", date: "06/12/1991", time: "04:04 AM", location: "Campbell", description: "Work on the website")
+			expect(Meeting).to receive(:create).with(name: "Good Meeting", date: "06/12/1991", time: "04:04 AM", location: "Campbell", description: "Work on the website")
             post :create_meeting, params: {meeting: {name: "Good Meeting", date: "06/12/1991", time: "04:04 AM", location: "Campbell", description: "Work on the website"}}
             expect(flash[:notice]).to eq("Meeting Good Meeting was successfully created!")
         end

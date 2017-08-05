@@ -8,11 +8,11 @@ class NotificationMailer < ApplicationMailer
     return false
   end
   
-  def member_email(user, new_user)
+  def member_email(committee, user, new_user)
     @user = user
     @new_user = new_user
-    @committee = user.committee.name
-    mail(to: @user.email, subject: @newuser.name + " has joined your committee")
+    @committee = committee
+    mail(to: @user.email, subject: @new_user.name + " has joined your committee")
   end
   
   def announcement_email(user, announcement)
@@ -58,7 +58,7 @@ class NotificationMailer < ApplicationMailer
   def document_update_email(user,document)
   	@user = user
   	@document = document
-  	if hasNoTitle(@announcement)
+  	if hasNoTitle(@document)
   	  mail(to: @user.email, subject: 'A CG document has been updated')
   	else
   	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
@@ -67,11 +67,11 @@ class NotificationMailer < ApplicationMailer
   
   def document_transfer_email(user, document)
     @user = user
-    @document = document
-    if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'A CG document has been transferred')
+  	@document = document
+  	if hasNoTitle(@document)
+  	  mail(to: @user.email, subject: 'A CG document has been updated')
   	else
-  	  mail(to: @user.email, subject: 'A CG document has been transferred: ' + @document.title)
+  	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
   	end
   end
   

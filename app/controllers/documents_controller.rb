@@ -73,7 +73,7 @@ class DocumentsController < ActionController::Base
             end
             
             if Rails.env.production?
-                send_document_email_update(@file)
+                send_document_update_email(@target_file)
             end
             
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."
@@ -86,6 +86,7 @@ class DocumentsController < ActionController::Base
         @name = @file.title
         
         if @file.committee
+            @file.update_attribute(:transfer, false)
             @category = @file.category
             @category.documents.delete(@file)
         else

@@ -12,8 +12,7 @@ describe UserController do
             expect(response).to render_template(:index)
         end
     end
-    
-    
+
     describe "CommunityGrows website" do
         it 'user should make a new announcement' do
             curr = User.create!(:name => "Rspec_user", :email => "usser@cg.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => false)
@@ -23,7 +22,6 @@ describe UserController do
             click_button "Log in"
             expect(page).to have_content("Dashboard")
             
-            # "announcement"=>{"title"=>"123123", "content"=>"123123", "emergency"=>"0"}
             
             post :create_announcement, params: {announcement: {title: "testing user announcement", content: "testing user content", emergency: 0}}
             expect(response).to redirect_to(admin_index_path)
@@ -36,6 +34,7 @@ describe UserController do
             # click_button "Submit"
             # expect(page).to have_content("testing user announcement")
             # expect(page).to have_content("testing user content")
+
     end
     
   end    
@@ -61,16 +60,11 @@ describe UserController do
     end
     describe 'updateEmailPreferences' do
         it 'Should update email preferences' do
-            user_params = {name: "Rspec", :email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks",:internal=>"true"}
+            user_params = {name: "Rspec", :email => "tester@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks"}
             post :update_user_credentials, params: {user_id: users(:tester).id, :user => user_params}
             expect(response).to redirect_to(update_user_credentials_path)   
         end
-        it 'Should not update email preferences' do
-            user_params = {name: "Rspec", email: "tester@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", internal: "false", external: "false", executive: "false"}
-            post :update_user_credentials, params: {user_id: users(:tester).id, user: user_params}
-            expect(response).to redirect_to(update_user_credentials_path)
-            expect(flash[:notice]).to include(/Please select at least your committee to receive emails from./)      
-        end
+
     end
 end
 

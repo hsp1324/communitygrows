@@ -62,7 +62,6 @@ class AdminController < ActionController::Base
         authorize_user
         #try and catch
         begin
-            puts("we are creating a new user!!!!!!!!!!!!!!!!")
             @user = User.create(user_params)
             @user.save!
         rescue Exception => e

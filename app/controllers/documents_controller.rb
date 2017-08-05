@@ -73,7 +73,7 @@ class DocumentsController < ActionController::Base
             end
             
             if Rails.env.production?
-                send_document_email_update(@file)
+                send_document_update_email(@target_file)
             end
             
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."

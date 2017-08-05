@@ -3,10 +3,12 @@ require 'rails_helper'
 
 describe DocumentsController do
     fixtures :users
+    fixtures :committees
     before(:each) do
+        @sun_committee = Committee.find_by(name: "sun")
         sign_in users(:tester)
         Category.create!({id: 1, name: 'Good Category'})
-        post :create_file, params: {file: {title: 'RepoTest', url: 'https://www.google.com/', committee_type: 'boardoverview', category_id: 1}}
+        post :create_file, params: {file: {title: 'RepoTest', url: 'https://www.google.com/', committee_id: 297062136, category_id: 1}}
         @doc = Document.find_by_title('RepoTest')
     end
     
@@ -17,21 +19,21 @@ describe DocumentsController do
         end
         
         it 'can create a new document' do
-            post :create_file, params: {file: {title: 'something', url: 'something.com', committee_type: 'boardoverview', category_id: 1}}
+            post :create_file, params: {file: {title: 'something', url: 'something.com', committee_id: 297062136, category_id: 1}}
             expect(Document.find_by_title('RepoTest').title).to eql('RepoTest')
         end
         
         it 'checks for valid doc inputs' do
-            post :create_file, params: {file: {title: 'something', committee_type: :internal}}
+            post :create_file, params: {file: {title: 'something', committee_id: :internal}}
             expect(flash[:notice]).to eq('Populate all fields before submission.')
         
-            post :create_file, params: {file: {title: 'something', url: 'something', committee_type: 'boardoverview', category_id: 1}}
+            post :create_file, params: {file: {title: 'something', url: 'something', committee_id: 297062136, category_id: 1}}
             expect(flash[:notice]).to eq('Please enter a valid URL.')
         end
         
         it 'production env sends email' do
             allow(Rails.env).to receive(:production?).and_return true
-            post :create_file, params: {file: {title: 'something', url: 'something.com', committee_type: 'boardoverview', category_id: 1}}
+            post :create_file, params: {file: {title: 'something', url: 'something.com', committee_id: 297062136, category_id: 1}}
         end
     end
     
@@ -49,25 +51,25 @@ describe DocumentsController do
         
         it 'edits a document' do
             # put :info_file, params: {format: @doc.id}
-            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd.com', committee_type: 'boardoverview', category_id: 1}}
+            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd.com', committee_id: 297062136, category_id: 1}}
             expect(page).to redirect_to(:documents)
             expect(Document.find(@doc.id).title).to eql('ccc')
         end
         
         it 'checks for populated fields' do
-            put :update_file, params: {format: @doc.id, file: {title: 'ccc', committee_type: 'boardoverview', category_id: 1}}
+            put :update_file, params: {format: @doc.id, file: {title: 'ccc', committee_id: 297062136, category_id: 1}}
             expect(flash[:notice]).to eq('Populate all fields before submission.') 
         end
         
         it 'checks validity of URL' do
-            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd', committee_type: 'boardoverview', category_id: 1}}
+            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd', committee_id: 297062136, category_id: 1}}
             expect(flash[:notice]).to eq('Please enter a valid URL.') 
         end
         
         it 'production env sends email' do
             allow(Rails.env).to receive(:production?).and_return true
             allow(NotificationMailer).to receive_message_chain(:document_update_email, :deliver).and_return(true)
-            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd.com', committee_type: 'boardoverview', category_id: 1}}
+            put :update_file, params: {format: @doc.id, file: {title: 'ccc', url: 'ddddd.com', committee_id: 297062136, category_id: 1}}
         end
     end
     

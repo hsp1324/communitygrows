@@ -82,6 +82,9 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs'
   gem 'headless'
+  # jay add selenium-webdriver for js testing
+  # gem 'selenium-webdriver'
+  # gem 'chromedriver-helper'
 end
 
 group :production do

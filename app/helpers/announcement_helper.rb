@@ -5,9 +5,6 @@ module AnnouncementHelper
         @emergency = announcement_params[:emergency]
         @new_announce = Announcement.create(:title => @title, :content => @content, :emergency => @emergency)
         # checks if it is not an emergency, create a mail record
-        puts "TEST TEST TEST TEST TEST TEST TES TEST TEST EST EST"
-        puts @emergency
-        puts "TEST TEST TEST TEST TEST TEST TES TEST TEST EST EST"
         if @emergency == 0
             @new_announce.create_mail_record(:description => "create")
             flash[:notice] = 'Announcement creation successful and email was sent successfully.'
@@ -22,7 +19,6 @@ module AnnouncementHelper
                 send_emergency_announcement_email(@new_announce)
             end
         end
-        puts "I am currently at #{@from}"
         if @from == "dashboard"
             redirect_to('/dashboard') and return
         else

@@ -18,7 +18,7 @@ class AnnouncementController < ActionController::Base
         @committee = Committee.find(@committee_id)
         if @title.nil? || @title.empty?
             flash[:notice] = "Title field cannot be left blank."
-            redirect_to new_committee_announcement_path(@committee_type) and return
+            redirect_to new_committee_announcement_path and return
         end
         @content = params[:content]
         @new_announce = @committee.announcements.create(:title => @title, :content => @content)

@@ -10,7 +10,7 @@
     Back
   %br
   %br
-  = form_tag create_committee_announcement_path :method => :put do
+  = form_tag create_committee_announcement_path :method => :post do
     .form-group
       = label_tag :title, "Title: "
       = text_area_tag 'title', nil, size: "60x5", placeholder: "Your title here", class: 'form-control'

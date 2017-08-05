@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804093331) do
+ActiveRecord::Schema.define(version: 20170804175435) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170804093331) do
     t.string "name"
     t.boolean "hidden"
     t.boolean "inactive"
+    t.string "description"
   end
 
   create_table "digestifier_receipts", force: :cascade do |t|

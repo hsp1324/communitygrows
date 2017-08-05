@@ -55,7 +55,6 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.boolean "hidden"
     t.boolean "inactive"
     t.string "description"
-    t.comm
   end
 
   create_table "digestifier_receipts", force: :cascade do |t|

@@ -39,10 +39,10 @@ class DocumentsController < ActionController::Base
             category = Category.find(@file[:category_id])
             @file = category.documents.create(file_params)
             
-            MailRecord.create!(:record_type => "document", :record_id => @file.id, :committee => '')
+            @file.create_mail_record(:description => "create", :category => category)
             
             if Rails.env.production?
-                send_document_email("", @file)
+                send_document_email(@file)
             end
             flash[:notice] = "#{@file.title} was successfully created and email was succesfully sent."
             redirect_to documents_path 
@@ -66,30 +66,33 @@ class DocumentsController < ActionController::Base
             @target_file.update_attributes!(file_params)
             category.documents << @target_file
             
-            @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @target_file.id)
-            if @prev_mailrecord
-                @prev_mailrecord.touch
+            if @target_file.mail_record
+                @target_file.mail_record.update_attribute(:description, "update")
             else
-                MailRecord.create!(:record_type => "document", :record_id => @target_file.id, :committee => '')
+                @target_file.create_mail_record(:description => "update", :category => category)
             end
             
             if Rails.env.production?
-                send_document_email_update("", @file)
+                send_document_email_update(@file)
             end
+            
             flash[:notice] = "Document with title [#{@target_file.title}] updated successfully and email was successfully sent."
             redirect_to(documents_path)
         end
     end
     
     def delete_file
-        @file_to_delete = Document.find params[:format]
-        @file_to_delete.destroy!
+        @file = Document.find params[:format]
+        @name = @file.title
         
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @file_to_delete.id)
-        if @prev_mailrecord
-            @prev_mailrecord.destroy!
+        if @file.committee
+            @category = @file.category
+            @category.documents.delete(@file)
+        else
+            @file.destroy
         end
-        flash[:notice] = "Document with title [#{@file_to_delete.title}] deleted successfully."
+        
+        flash[:notice] = "Document with title [#{@name}] deleted successfully."
         redirect_to documents_path
     end
     

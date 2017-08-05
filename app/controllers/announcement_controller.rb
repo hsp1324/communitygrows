@@ -23,10 +23,10 @@ class AnnouncementController < ActionController::Base
         @content = params[:content]
         @new_announce = @committee.announcements.create(:title => @title, :content => @content)
         
-        MailRecord.create!(:record_type => "announcement", :record_id => @new_announce.id, :committee => @committee_type)
+        @new_announce.create_mail_record(:description => "create", :committee => @committee)
         
         if Rails.env.production?
-            send_announcement_email(Committee.find_by(name: @committee_type), @new_announce)
+            send_announcement_email(@new_announce)
         end
         flash[:notice] = "#{@committee.name} Announcement creation successful and email was successfully sent."
         redirect_to subcommittee_index_path(:committee_id => @committee_id)
@@ -51,15 +51,14 @@ class AnnouncementController < ActionController::Base
         end
         @target_announcement.update_attributes!(:title => @title, :content => @content)
         
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: @announcement_id)
-        if @prev_mailrecord
-            @prev_mailrecord.touch
+        if @target_announcement.mail_record
+            @target_announcement.mail_record.update_attribute(:description, "update")
         else
-            MailRecord.create!(:record_type => "announcement", :record_id => @announcement_id, :committee => @target_announcement.committee_type)
+            @target_announcement.create_mail_record(:description => "update", :committee => @committee)
         end
         
         if Rails.env.production?
-            send_announcement_update_email(Committee.find_by(name: @committee_name), @target_announcement)
+            send_announcement_update_email(@target_announcement)
         end
         
         flash[:notice] = "Announcement with title [#{@target_announcement.title}] updated successfully and email was successfully sent"
@@ -69,15 +68,12 @@ class AnnouncementController < ActionController::Base
     def delete_announcement
         @target_announcement = Announcement.find params[:announcement_id]
         @committee_id = params[:committee_id]
-        @target_announcement.destroy!
         @committee = Committee.find(@committee_id)
+        @name = @target_announcement.title
         
-        @prev_mailrecord = MailRecord.find_by(record_type: 'announcement', record_id: params[:announcement_id])
-        if @prev_mailrecord
-            @prev_mailrecord.destroy!
-        end
+        @target_announcement.destroy
         
-        flash[:notice] = "#{@committee.name} Announcement with title [#{@target_announcement.title}] deleted successfully"
+        flash[:notice] = "#{@committee.name} Announcement with title [#{@name}] deleted successfully"
         redirect_to subcommittee_index_path(@committee_id)
     end
     

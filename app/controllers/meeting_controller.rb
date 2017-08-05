@@ -4,6 +4,7 @@ class MeetingController < ApplicationController
     require 'date'
     include AdminHelper
     include ControllerHelper
+    include EmailHelper
     
     def index
         @meetings = Meeting.all
@@ -82,7 +83,14 @@ class MeetingController < ApplicationController
             end
 
             meeting = params[:meeting]
-            Meeting.create!(:name => meeting[:name], :date => Date.strptime(meeting[:date], '%m/%d/%Y').strftime('%m/%d/%Y'), :time => Time.strptime(meeting[:time], '%I:%M %p').strftime('%I:%M %p'), :location => meeting[:location], :description => meeting[:description])
+            @new_meeting = Meeting.create(:name => meeting[:name], :date => Date.strptime(meeting[:date], '%m/%d/%Y').strftime('%m/%d/%Y'), :time => Time.strptime(meeting[:time], '%I:%M %p').strftime('%I:%M %p'), :location => meeting[:location], :description => meeting[:description])
+            
+            @new_meeting.create_mail_record(:description => "create")
+            
+            if Rails.env.production?
+                send_meeting_email(@new_meeting)
+            end
+            
             flash[:notice] = "Meeting #{meeting[:name]} was successfully created!"
             redirect_to meeting_index_path
         end
@@ -104,14 +112,15 @@ class MeetingController < ApplicationController
     def update_meeting
         is_admin = admin_only('update meetings')
         return if !is_admin
-        meeting = params[:meeting]
+        meeting_params = params[:meeting]
+        @meeting = Meeting.find(params[:id])
+        
         flash[:notice] = "Successfully Updated:"
         flash[:errors] = "Unsucessfull Updates:"
-        if meeting[:name].to_s() == ''
+        if meeting_params[:name].to_s() == ''
             flash[:errors] = flash[:errors] + " name [Please Fill in name], "
-        elsif !Meeting.has_name?(meeting[:name])
-            @meeting = Meeting.find(params[:id])
-            @meeting.update_attributes!(:name => meeting[:name])
+        elsif !Meeting.has_name?(meeting_params[:name])
+            @meeting.update_attributes!(:name => meeting_params[:name])
             flash[:notice] = flash[:notice] + " name, "
         end
         update_meeting_date()
@@ -120,6 +129,17 @@ class MeetingController < ApplicationController
         update_meeting_description()
         update_meeting_agenda()
         update_meeting_hangout()
+        
+        if @meeting.mail_record
+            @meeting.mail_record.update_attribute(:description, "update")
+        else
+            @meeting.create_mail_record(:description => "update")
+        end
+        
+        if Rails.env.production?
+            send_meeting_update_email(@meeting)
+        end
+        
         redirect_to edit_meeting_path and return
     end
 

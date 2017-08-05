@@ -1,7 +1,7 @@
 module EmailHelper
     def send_member_email(committee, new_user)
         User.all.each do |user|
-            if user.committee.id == committee.id
+            if user.committees.include? committee
                 if user.digest_pref == "real_time"
                     NotificationMailer.member_email(user, new_user).deliver
                 end
@@ -19,7 +19,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == announcement.committee.id
+                    if user.committees.include? announcement.committee
                         NotificationMailer.announcement_email(user, announcement).deliver
                     end
                 end
@@ -43,7 +43,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == announcement.committee.id
+                    if user.committees.include? announcement.committee
                         NotificationMailer.announcement_update_email(user, announcement).deliver
                     end
                 end
@@ -61,7 +61,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == document.committee.id
+                    if user.committee.include? document.committee
                         NotificationMailer.document_email(user, document).deliver
                     end
                 end
@@ -79,7 +79,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == document.committee.id
+                    if user.committee.include? document.committee
                         NotificationMailer.document_update_email(user, document).deliver
                     end
                 end

@@ -230,8 +230,6 @@ module EmailHelper
         if @stuff
             @main_text += @tmptext
         end
-        
-        @records = records
 
         #compile committee related announcements, documents and member details
         User.all.each do |user|
@@ -239,6 +237,7 @@ module EmailHelper
                 @content = @main_text
                 
                 Committee.all.each do |committee|
+                    @records = records
                     #if Participation.find_by(user_id: user.id, committee_id: committee.id)
                     if user.committees.include? committee
                         @committee_text = self.compile_announcements_and_documents(committee.name, @records.where(committee_id: committee.id))

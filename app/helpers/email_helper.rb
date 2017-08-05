@@ -249,7 +249,7 @@ module EmailHelper
                 puts user.name
                 puts user.email
                 
-                NotificationMailer.daily_digest_email(user, @subject, @content)
+                NotificationMailer.daily_digest_email(user, @subject, @content).deliver
             end
         end
     end

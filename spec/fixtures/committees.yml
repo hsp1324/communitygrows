@@ -1,0 +1,5 @@
+sun:
+    name: sun
+    hidden: false
+    inactive: false
+    description: Sun is awesome

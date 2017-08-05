@@ -41,7 +41,6 @@ class MeetingController < ApplicationController
 
     def create_meeting
         params[:meeting].each do |fields|
-            puts "#meeting field: #{fields}"
         end 
         is_admin = admin_only('create meetings')
         return if !is_admin

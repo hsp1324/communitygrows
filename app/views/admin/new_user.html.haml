@@ -6,7 +6,11 @@
       %p#flashNotice
         = msg
 
-  = form_tag create_user_path do
+  = form_tag create_user_path, :multipart => true do
+    .form-group
+      = label :user, :name, "Picture: "
+      %br
+      = file_field_tag 'picture'
     .form-group
       = label :user, :name, "Name: "
       = text_field :user, 'name', class: 'form-control'

@@ -6,7 +6,7 @@ class UserController < ActionController::Base
     
     def user_params
         params.require(:user).permit(:email, :password, :password_confirmation, :name, :board_role, :current_company, :current_position,
-        :about_me, :why_join, :internal, :external, :executive, :digest_pref, :ethnicity, :gender, expertise_ids:[])
+        :about_me, :pic, :why_join, :internal, :external, :executive, :digest_pref, :ethnicity, :gender, expertise_ids:[])
     end
     
     def index
@@ -26,6 +26,13 @@ class UserController < ActionController::Base
     
     def update_user_credentials
         @user = current_user
+        if params[:picture]
+            uploader = PictureUploader.new
+            uploader.store!(params[:picture])
+            path_name = "/uploads/" + params[:picture].original_filename
+            params[:picture] = path_name
+            @user.update_attributes(:picture => path_name)
+        end
         if @user.update_attributes(user_params)
             bypass_sign_in(@user)
             flash[:notice] = []

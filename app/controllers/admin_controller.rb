@@ -50,6 +50,13 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to edit_user_path(@user.id)
         else
+            if params[:picture]
+                uploader = PictureUploader.new
+                uploader.store!(params[:picture])
+                path_name = "/uploads/" + params[:picture].original_filename
+                params[:picture] = path_name
+                @user.update_attributes(:picture => path_name)
+            end
             flash[:notice] = "#{@user.email} was successfully updated."
             redirect_to admin_index_path
         end
@@ -68,6 +75,13 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to new_user_path
         else
+            if params[:picture]
+                uploader = PictureUploader.new
+                uploader.store!(params[:picture])
+                path_name = "/uploads/" + params[:picture].original_filename
+                params[:picture] = path_name
+                @user.update_attributes(:picture => path_name)
+            end
             flash[:notice] = "#{@user.email} was successfully created."
             redirect_to admin_index_path 
         end

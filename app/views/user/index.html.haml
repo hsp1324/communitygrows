@@ -14,7 +14,12 @@
   %br
   %br
 
-  = form_tag update_user_credentials_path, method: :put do
+  = form_tag update_user_credentials_path, :multipart => true, method: :put do
+    .form-group
+      = label :user, :name, "Picture: "
+      %br
+      %img{:src => @user.picture, :height => 232, :width => 217}
+      = file_field_tag 'picture', placeholder: @user.picture
     .form-group
       = label :user, :name, "Name: "
       = text_field :user, 'name', placeholder: @user.name, class: 'form-control'

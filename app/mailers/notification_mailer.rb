@@ -11,7 +11,7 @@ class NotificationMailer < ApplicationMailer
   def member_email(user, new_user)
     @user = user
     @new_user = new_user
-    @committee = user.committee.name
+    @committee = user.committee.title
     mail(to: @user.email, subject: @newuser.name + " has joined your committee")
   end
   

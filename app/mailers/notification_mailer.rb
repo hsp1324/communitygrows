@@ -58,7 +58,7 @@ class NotificationMailer < ApplicationMailer
   def document_update_email(user,document)
   	@user = user
   	@document = document
-  	if hasNoTitle(@announcement)
+  	if hasNoTitle(@document)
   	  mail(to: @user.email, subject: 'A CG document has been updated')
   	else
   	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
@@ -67,11 +67,11 @@ class NotificationMailer < ApplicationMailer
   
   def document_transfer_email(user, document)
     @user = user
-    @document = document
-    if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'A CG document has been transferred')
+  	@document = document
+  	if hasNoTitle(@document)
+  	  mail(to: @user.email, subject: 'A CG document has been updated')
   	else
-  	  mail(to: @user.email, subject: 'A CG document has been transferred: ' + @document.title)
+  	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
   	end
   end
   

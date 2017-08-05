@@ -61,7 +61,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.include? document.committee
+                    if user.committees.include? document.committee
                         NotificationMailer.document_email(user, document).deliver
                     end
                 end
@@ -79,7 +79,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.include? document.committee
+                    if user.committees.include? document.committee
                         NotificationMailer.document_update_email(user, document).deliver
                     end
                 end

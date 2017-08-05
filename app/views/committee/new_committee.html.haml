@@ -11,5 +11,9 @@
     .form-group
       = label :committee, :name, 'Committee Name'
       = text_field :committee, 'name', class: 'form-control'
+      %br
+      = label :committee, :description, 'Committee Description'
+      = text_field :committee, 'description', class: 'form-control'
+
 
     = submit_tag 'Submit', class: 'btn btn-success'

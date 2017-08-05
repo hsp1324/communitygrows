@@ -1,9 +1,9 @@
 module EmailHelper
     def send_member_email(committee, new_user)
         User.all.each do |user|
-            if user.committee.id == committee.id
+            if user.committees.include? committee
                 if user.digest_pref == "real_time"
-                    NotificationMailer.member_email(user, new_user).deliver
+                    NotificationMailer.member_email(committee, user, new_user).deliver
                 end
             end
         end
@@ -19,7 +19,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == announcement.committee.id
+                    if user.committees.include? announcement.committee
                         NotificationMailer.announcement_email(user, announcement).deliver
                     end
                 end
@@ -43,7 +43,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == announcement.committee.id
+                    if user.committees.include? announcement.committee
                         NotificationMailer.announcement_update_email(user, announcement).deliver
                     end
                 end
@@ -61,7 +61,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == document.committee.id
+                    if user.committees.include? document.committee
                         NotificationMailer.document_email(user, document).deliver
                     end
                 end
@@ -79,7 +79,7 @@ module EmailHelper
         else
             User.all.each do |user|
                 if user.digest_pref == "real_time"
-                    if user.committee.id == document.committee.id
+                    if user.committees.include? document.committee
                         NotificationMailer.document_update_email(user, document).deliver
                     end
                 end
@@ -230,8 +230,6 @@ module EmailHelper
         if @stuff
             @main_text += @tmptext
         end
-        
-        @records = records
 
         #compile committee related announcements, documents and member details
         User.all.each do |user|
@@ -239,6 +237,7 @@ module EmailHelper
                 @content = @main_text
                 
                 Committee.all.each do |committee|
+                    @records = records
                     #if Participation.find_by(user_id: user.id, committee_id: committee.id)
                     if user.committees.include? committee
                         @committee_text = self.compile_announcements_and_documents(committee.name, @records.where(committee_id: committee.id))
@@ -250,7 +249,7 @@ module EmailHelper
                 puts user.name
                 puts user.email
                 
-                NotificationMailer.daily_digest_email(user, @subject, @content)
+                NotificationMailer.daily_digest_email(user, @subject, @content).deliver
             end
         end
     end

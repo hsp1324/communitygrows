@@ -8,9 +8,21 @@
 
 User.delete_all
 curr = User.create!(:name => "Admin John", :email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
-:admin => true)
-curr1 = User.create!(:name => "User Jane", :email => "user@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
-:admin => false)
+:admin => true, :digest_pref => "weekly")
+curr1 = User.create!(:name => "Mail Bot", :email => "mail.community.grows@gmail.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => false, :digest_pref => "real_time")
+curr2 = User.create!(:name => "Shawn", :email => "shawnpliu@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
+curr3 = User.create!(:name => "Noah", :email => "noah.lopez@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
+curr4 = User.create!(:name => "Wen", :email => "cyen7115@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
+curr5 = User.create!(:name => "Will", :email => "wjpark@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
+curr6 = User.create!(:name => "Sun", :email => "hsp1324@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
+curr7 = User.create!(:name => "Jay", :email => "sdjinn111@berkeley.edu", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+:admin => true, :digest_pref => "daily")
 
 Committee.delete_all
 committee1 = Committee.create!(:name => "Sun committee", :inactive => true, :hidden => false)

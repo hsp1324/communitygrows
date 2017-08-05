@@ -86,6 +86,7 @@ class DocumentsController < ActionController::Base
         @name = @file.title
         
         if @file.committee
+            @file.update_attribute(:transfer, false)
             @category = @file.category
             @category.documents.delete(@file)
         else

@@ -8,11 +8,11 @@ class NotificationMailer < ApplicationMailer
     return false
   end
   
-  def member_email(user, new_user)
+  def member_email(committee, user, new_user)
     @user = user
     @new_user = new_user
-    @committee = user.committee.title
-    mail(to: @user.email, subject: @newuser.name + " has joined your committee")
+    @committee = committee.title
+    mail(to: @user.email, subject: @new_user.name + " has joined your committee")
   end
   
   def announcement_email(user, announcement)

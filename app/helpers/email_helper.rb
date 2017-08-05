@@ -3,7 +3,7 @@ module EmailHelper
         User.all.each do |user|
             if user.committees.include? committee
                 if user.digest_pref == "real_time"
-                    NotificationMailer.member_email(user, new_user).deliver
+                    NotificationMailer.member_email(committee, user, new_user).deliver
                 end
             end
         end

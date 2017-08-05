@@ -127,23 +127,23 @@ class CommitteeController < ApplicationController
         redirect_to edit_committee_path and return
     end
 
-    def add_member
-        is_admin = admin_only('add committee members.')
-        return if !is_admin
-        committee = Committee.find(params[:id])
-        user = User.find(params[:user_id])
-        #add user to committee with activerecord model query
-        #Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
-        committee.users<<(user)
+    # def add_member
+    #     is_admin = admin_only('add committee members.')
+    #     return if !is_admin
+    #     committee = Committee.find(params[:id])
+    #     user = User.find(params[:user_id])
+    #     #add user to committee with activerecord model query
+    #     #Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
+    #     committee.users<<(user)
         
-        user.mail_records<<(MailRecord.create(:description => "added", :committee => committee))
+    #     user.mail_records<<(MailRecord.create(:description => "added", :committee => committee))
         
-        if Rails.env.production?
-            send_member_email(committee, user)
-        end
+    #     if Rails.env.production?
+    #         send_member_email(committee, user)
+    #     end
             
-        flash[:notice] = "#{user.name} successfully added to #{committee.name}."
-        redirect_to edit_committee_path and return
-    end
+    #     flash[:notice] = "#{user.name} successfully added to #{committee.name}."
+    #     redirect_to edit_committee_path and return
+    # end
     
 end

@@ -218,28 +218,28 @@ describe CommitteeController do
 	
 	
 	
-	describe 'Add committee member' do
+	# describe 'Add committee member' do
 
-		it 'shows a flash message when member is successfully added to committee' do
-			put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-			expect(flash[:notice]).to eq("Rspec_admin successfully added to Nice.")
-			put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-			expect(flash[:notice]).to eq("Rspec_admin successfully removed from Nice.")
-		end
+	# 	it 'shows a flash message when member is successfully added to committee' do
+	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+	# 		expect(flash[:notice]).to eq("Rspec_admin successfully added to Nice.")
+	# 		put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+	# 		expect(flash[:notice]).to eq("Rspec_admin successfully removed from Nice.")
+	# 	end
 		
-		it 'Only admins can add and delete committee members.' do
-			sign_in users(:user)
-			@test_user = User.find_by(name: "Rspec_user")
-			put :add_member, params: {id: @test_committee.id, user_id: @test_user.id}
-			expect(flash[:message]).to eq("Only admins can add committee members.")
-			sign_in users(:tester)
-			put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-			sign_in users(:user)
-			put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-			expect(flash[:message]).to eq("Only admins can remove committee members.")
-		end
+	# 	it 'Only admins can add and delete committee members.' do
+	# 		sign_in users(:user)
+	# 		@test_user = User.find_by(name: "Rspec_user")
+	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_user.id}
+	# 		expect(flash[:message]).to eq("Only admins can add committee members.")
+	# 		sign_in users(:tester)
+	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+	# 		sign_in users(:user)
+	# 		put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
+	# 		expect(flash[:message]).to eq("Only admins can remove committee members.")
+	# 	end
 
-	end
+	# end
 	
 end
 

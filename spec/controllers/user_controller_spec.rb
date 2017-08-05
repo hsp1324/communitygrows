@@ -4,7 +4,7 @@ require 'spec_helper'
 describe UserController do
     fixtures :users
     before(:each) do
-        sign_in users(:tester)
+        sign_in users(:user)
     end
     describe 'index' do
         it 'renders index page' do
@@ -22,16 +22,20 @@ describe UserController do
             fill_in :user_password, :with => curr.password
             click_button "Log in"
             expect(page).to have_content("Dashboard")
-    
-          
-            click_link "Add"
-            expect(page).to have_content("Title")
-            expect(page).to have_content("Content")
-            fill_in "Title", :with => 'abcd'
-            fill_in "Content", :with => 'bcd'
-            click_button "Submit"
-            expect(page).to have_content("abcd")
-            expect(page).to have_content("bcd")
+            
+            # "announcement"=>{"title"=>"123123", "content"=>"123123", "emergency"=>"0"}
+            
+            post :create_announcement, params: {announcement: {title: "testing user announcement", content: "testing user content", emergency: 0}}
+            expect(response).to redirect_to(admin_index_path)
+            # expect(page).to have_content(:dashboard)
+            # click_link "Add"
+            # expect(page).to have_content("Title")
+            # expect(page).to have_content("Content")
+            # fill_in "Title", :with => 'abcd'
+            # fill_in "Content", :with => 'bcd'
+            # click_button "Submit"
+            # expect(page).to have_content("testing user announcement")
+            # expect(page).to have_content("testing user content")
     end
     
   end    

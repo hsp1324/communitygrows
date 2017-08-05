@@ -15,7 +15,7 @@ module ControllerHelper
             redirect_to fail_redirect_path
         else
             if type == Committee
-                Committee.create!(:name => object[:name],  :hidden => true, :inactive => true)
+                Committee.create!(:name => object[:name],  :description => object[:description], :hidden => true, :inactive => true)
             elsif type == Category
                 Category.create!(:name => object[:name])
             elsif type == Meeting
@@ -53,6 +53,11 @@ module ControllerHelper
             end
         else
             if type.has_name?(object[:name].to_s)
+                if type == Committee && @found_object.description != object[:description]
+                    @found_object.update_attributes!(:description => object[:description])
+                    flash[:notice] = "#{type.string_title} with name [#{@found_object.name}] updated successfully and email was successfully sent."
+                    redirect_to success_redirect_path and return
+                end
                 flash[:notice] = "#{type.string_title} name provided already exists. Please enter a different name."
                 redirect_to fail_redirect_path and return
             end

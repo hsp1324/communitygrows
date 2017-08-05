@@ -20,8 +20,11 @@
       .form-group
         = label :committee, :name, 'Committee Name'
         = text_field :committee, 'name', :value => @committee.name, class: 'form-control'
+        %br
+        = label :committee, :name, 'Committee Description'
+        = text_field :committee, 'description', :value => @committee.description, class: 'form-control'
 
-      = submit_tag 'Update Name', class: 'btn btn-success'
+      = submit_tag 'Update Committee', class: 'btn btn-success'
 
   .form-group
     = label :user, :name, 'Add/Remove Users'

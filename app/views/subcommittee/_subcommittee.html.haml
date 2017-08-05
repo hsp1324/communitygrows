@@ -1,5 +1,5 @@
 #admin
-  %h1 #{@committee_type.capitalize} Committee
+  %h1 #{@committee_name.capitalize} Committee
 
 - if flash[:notice] and flash[:notice]!="Signed in successfully."
   #flashNotice
@@ -72,7 +72,8 @@
     %tbody
       - @document_list.each do |document|
         %tr
-          %td= link_to document.title, document.url, :target => "_blank"
+          %td
+            = link_to document.title, info_file_path(document.id, {:from => "committee"})
           %td= document.created_at.strftime("%m/%d/%Y %l:%M %p")
           %td= document.updated_at.strftime("%m/%d/%Y %l:%M %p")
 
@@ -105,5 +106,5 @@
 - if @inactive == false and @notmember == false
   = link_to new_committee_document_path, class: 'btn btn-success' do
     Add new document
-  = link_to transfer_committee_document_path(:single_transfer => false, :committee_type => @committee_type), class: 'btn btn-success' do
+  = link_to transfer_committee_document_path(:single_transfer => false, :committee_name => @committee_name), class: 'btn btn-success' do
     Transfer All Documents

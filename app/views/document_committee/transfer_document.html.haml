@@ -23,7 +23,7 @@
               = submit_tag 'Submit', :class => "btn btn-success"
         - else
           =form_tag transfer_file_repo_path :method => :post do
-            - Document.where(committee_type: @committee_type, transfer: false).each do |document|
+            - Committee.find(@committee_id).documents.where(transfer: false).each do |document|
             - puts "#{document.title} has been transferred: #{document.transfer}"
             - @doc_attr = [document.id]
               %tr

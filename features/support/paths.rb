@@ -63,7 +63,8 @@ module NavigationHelpers
       info_file_path(Document.find_by_title($1).id)
       
     when /^subcommittee "([^"]*)" page$/ then
-      subcommittee_index_path(committee_type: $1)
+      @id = Committee.find_by(name: $1.strip).id
+      subcommittee_index_path(committee_id: @id)
 
     when /the (CommunityGrows )?meeting management page$/ then
       meeting_index_path

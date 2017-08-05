@@ -28,7 +28,13 @@ Given /^admin "([^\"]*)" is in the following committees: "([^\"]*)"$/ do |admin_
         step "admin #{admin_name} is in committee #{committee.strip}"
     end
 end
-
+#By Wen. Assign documents to committees 
+Given(/^committee "([^"]*)" has documents: "([^"]*)"$/) do |com_name, documents|
+    @committee = Committee.find_by(name: com_name)
+    documents.split(",").each do |doc|
+        @committee.documents << Document.find_by(title: doc.strip)
+    end
+end
 #By Wen. Drop down menu for file transfer selection
 And /^(?:|I )should see document "([^\"]*)"$/ do |document_name|
     pending
@@ -38,6 +44,7 @@ And /^(?:|I )should see the following documents: "([^\"]*)"$/ do |documents|
     pending
 end 
 
+#Use specifically only for transfer document page. 
 And /^(?:|I )select "([^\"]*)" from drop down menu "([^\"]*)" on transfer documents page/ do |category_name, document_name|
     document_name = 'document_' + document_name.strip.gsub(" ", "_")
     select category_name, from: document_name

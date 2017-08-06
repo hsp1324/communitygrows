@@ -37,6 +37,7 @@ class CategoryController < ActionController::Base
             delete_object(Category)
             redirect_to category_index_path
         else
+            flash[:errors] = "Invalid CRUD Action: #{crud_action}"
             redirect_to category_index_path
         end
     end

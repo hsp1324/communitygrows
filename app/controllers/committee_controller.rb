@@ -43,7 +43,7 @@ class CommitteeController < ApplicationController
                 if old_record == nil
                     old_committee.mail_records<<(MailRecord.create(:description => "description"))
                 else
-                    oldrecord.touch
+                    old_record.touch
                 end
             end
             
@@ -53,7 +53,7 @@ class CommitteeController < ApplicationController
                 elsif name_change
                     send_committee_name_update_email(old_committee, old_name, committee[:name])
                 elsif description_change
-                    send_committee_description_update_email(old_commiteee, committee[:description])
+                    send_committee_description_update_email(old_committee, committee[:description])
                 end
             end
             

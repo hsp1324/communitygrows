@@ -140,7 +140,7 @@ module EmailHelper
         User.all.each do |user|
             if user.digest_pref == "real_time"
                 if user.committees.include? committee
-                    NotificationMailer.committee_all_description_email(user, committee.name, description).deliver
+                    NotificationMailer.committee_description_update_email(user, committee.name, description).deliver
                 end
             end
         end

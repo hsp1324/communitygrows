@@ -216,10 +216,7 @@ describe CommitteeController do
 	end
 	
 	
-	
-	
 	describe 'Add committee member' do
-
 		it 'shows a flash message when all members are successfully added to committee' do
 			test_user = User.find_by(name: "Rspec_user")
 			test_admin = User.find_by(name: "Rspec_admin")
@@ -234,9 +231,7 @@ describe CommitteeController do
 			test_admin = User.find_by(name: "Rspec_admin")
 			put :update_members, params: {id: @test_committee.id, check: {"227792459": 0, "1011897928": 0}}
 			expect(flash[:notice]).to eq("Successfully updated members in #{@test_committee.name}.")
-
 		end
-
 	end
 	
 end

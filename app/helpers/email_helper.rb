@@ -1,9 +1,14 @@
 module EmailHelper
-    def send_member_email(committee, new_user)
+    def send_member_email(committee, user_list)
+        new_users = ""
+        user_list.each do |id|
+            new_users = new_users + User.find(id).name + "<br>"
+        end
+        
         User.all.each do |user|
             if user.committees.include? committee
                 if user.digest_pref == "real_time"
-                    NotificationMailer.member_email(committee, user, new_user).deliver
+                    NotificationMailer.member_email(committee, user, new_users).deliver
                 end
             end
         end
@@ -111,14 +116,74 @@ module EmailHelper
         end
     end
     
+    def send_committee_update_email(committee, old_name, name, description)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if user.committees.include? committee
+                    NotificationMalier.committee_all_update_email(user, old_name, name, description).deliver
+                end
+            end
+        end
+    end
+    
+    def send_committee_name_update_email(committee, old_name, name)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if user.committees.include? committee
+                    NotificationMalier.committee_name_update_email(user, old_name, name).deliver
+                end
+            end
+        end
+    end
+    
+    def send_committee_description_update_email(committee, description)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if user.committees.include? committee
+                    NotificationMalier.committee_all_description_email(user, committee.name, description).deliver
+                end
+            end
+        end
+    end
+    
     def compile_announcements_and_documents(title, records)
         @records = records
         @title = title
+        @text = '<p>'
         
-        @text = ''
+        name_change = @records.find_by("description LIKE ?", 'name%')
+        if name_change
+            old_name = name_change.description.split(" ")[1]
+            @text += "<strong><style='font-size:14px'>The "
+            @text += old_name
+            @text += " Committee had its name changed to "
+            @text += name_change.committee.name
+            @text += ".<style='font-size:12px'></strong><br>"
+        end
+        
+        description_change = @records.find_by(description: "description")
+        if description_change
+            @text += "<strong><style='font-size:14px'>The "
+            @text += description_change.committee.name
+            @text += " Committee had its description changed to:<style='font-size:12px'></strong><br>&emsp; "
+            @text += name_change.committee.description
+            @text += ".<br>"
+        end
         
         @stuff = false
-        @tmptext = "<p><strong><font size='+2'>" + @title + " Announcements:<font size='+1'></strong><br>"
+        @tmptext = "<strong><style='font-size:14px'> The following members have joined " + title + " Committee:<style='font-size:12px'></strong><br>"
+        @records.where.not(user_id: nil).each do |record|
+            @stuff = true
+            @tmptext += "&emsp; "
+            @tmptext += record.user.name
+            @tmptext += "<br>"
+        end
+        if @stuff
+            @text += @tmptext
+        end
+        
+        @stuff = false
+        @tmptext = "<strong><style='font-size:14px'>" + @title + " Announcements:<style='font-size:12px'></strong><br>"
 
         @records.where.not(announcement_id: nil).each do |record|
             @stuff = true
@@ -138,7 +203,7 @@ module EmailHelper
         @stuff = false
     
         #Document
-        @tmptext = "<strong><font size='+2'>" + @title + " Documents:<font size='+1'></strong><br>"
+        @tmptext = "<strong><style='font-size:14px'>" + @title + " Documents:<style='font-size:12px'></strong><br>"
         
         @records.where.not(document_id: nil).each do |record|
             @stuff = true
@@ -156,9 +221,14 @@ module EmailHelper
         end
         
         if @stuff
-            @text += @tmptext + '</p>'
+            @text += @tmptext
         end
-        return @text
+        
+        if @text == "<p>"
+            return ""
+        else
+            return @text + "</p>"
+        end
     end
     
     def generate(records, time_period)
@@ -168,7 +238,7 @@ module EmailHelper
         @main_text = ""
         
         #compile meetings section of digest
-        @tmp_text = "<p><strong><font size='+2'>Meetings:</strong><font size='+1'><br>"
+        @tmp_text = "<p><strong><style='font-size:14px'>Meetings:</strong><style='font-size:12px'><br>"
         @stuff = false
         @records.where.not(meeting_id: nil).each do |record|
             @stuff = true
@@ -191,7 +261,7 @@ module EmailHelper
         
         #compile main announcements
         @stuff = false
-        @tmptext = "<p><strong><font size='+2'>Main Announcements:<font size='+1'></strong><br>"
+        @tmptext = "<p><strong><style='font-size:14px'>Main Announcements:<style='font-size:12px'></strong><br>"
 
         @records.where(committee_id: nil).where.not(announcement_id: nil).each do |record|
             @stuff = true
@@ -205,12 +275,12 @@ module EmailHelper
         end
         
         if @stuff
-            @main_text += @tmptext
+            @main_text = @main_text + @tmptext + "</p>"
         end
     
         #compile category documents
         @stuff = false
-        @tmptext = "<strong><font size='+2'>Category Documents:<font size='+1'></strong><br>"
+        @tmptext = "<strong><style='font-size:14px'>Category Documents:<style='font-size:12px'></strong><br>"
         
         @records.where.not(category_id: nil).each do |record|
             @stuff = true
@@ -228,7 +298,7 @@ module EmailHelper
         end
         
         if @stuff
-            @main_text += @tmptext
+            @main_text = @main_text + @tmptext + "</p>"
         end
 
         #compile committee related announcements, documents and member details
@@ -249,7 +319,7 @@ module EmailHelper
                 puts user.name
                 puts user.email
                 
-                NotificationMailer.daily_digest_email(user, @subject, @content).deliver
+                NotificationMailer.digest_email(user, @subject, @content).deliver
             end
         end
     end

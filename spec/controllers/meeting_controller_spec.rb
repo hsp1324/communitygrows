@@ -29,6 +29,7 @@ describe MeetingController do
 			post :create_meeting, params: {meeting: {name: "Good Meeting", date: "06/12/1991", time: "04:04 AM", location: "Campbell", description: "Work on the website"}}
 			expect(response).to redirect_to(meeting_index_path)
 		end
+		
 		it 'should not allow a blank name field' do
 			post :create_meeting, params: {meeting: {name: "", date: "06/12/1991", time: "04:04 AM", location: "Campbell", description: "Work on the website"}}
 			expect(flash[:notice]).to eq("Meeting name field cannot be blank.")
@@ -53,7 +54,6 @@ describe MeetingController do
 			expect(response).to redirect_to(new_meeting_path)
 		end
 		
-		
 		it 'should not allow an already used meeting name field' do
 			expect(Meeting).to receive(:has_name?).with("Good Meeting").and_return(true)
 			post :create_meeting, params: {meeting: {name: "Good Meeting"}}
@@ -61,6 +61,18 @@ describe MeetingController do
 			expect(response).to redirect_to(new_meeting_path)
 		end
 		
+		it 'should not allow to create meeting with invalid date field' do
+			post :create_meeting, params: {meeting: {name: "Good Meeting", date: "invalid", time: "04:04 AM", location: "Campbell", description: "Work on the website"}}
+			expect(flash[:notice]).to eq("New date must be in MM/DD/YYYY format")
+			expect(response).to redirect_to(new_meeting_path)
+		end
+		
+		# don't know why this is not working
+		# it 'should not allow to create meeting with invalid time field' do
+		# 	post :create_meeting, params: {meeting: {name: "Good Meeting", date: "06/12/1991", time: "invalid", location: "Campbell", description: "Work on the website"}}
+		# 	expect(flash[:notiec]).to eq("New time must be in HH:MM AM/PM format")
+		# 	expect(response).to redirect_to(new_meeting_path)
+		# end
 
         it 'redirects non-admin users' do
             sign_in users(:user)

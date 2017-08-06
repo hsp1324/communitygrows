@@ -4,7 +4,7 @@ require "rails_helper"
 describe AdminController do
     fixtures :users
     before(:each) do
-
+    
     end
     describe 'new_user' do
         it 'renders new user page' do
@@ -58,6 +58,13 @@ describe AdminController do
             user_params = {name: "rspec", email: "admin@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", admin: true}
             put :update_user, params: {id: users(:tester).id, user: user_params}
             expect(response).to redirect_to(:admin_index)
+        end
+        
+        it 'should upload picture' do
+            sign_in users(:tester)
+            user_params = {name: "", email: "tester@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks"}
+            put :update_user, params: {id: users(:tester).id, user: user_params, picture: fixture_file_upload('images/goku.jpg', 'image/jpg')}
+            expect(response).to redirect_to(:edit_user)
         end
     end
     

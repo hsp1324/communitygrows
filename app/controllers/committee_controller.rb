@@ -39,7 +39,7 @@ class CommitteeController < ApplicationController
             
             if old_committee.description != committee[:description]
                 description_change = true
-                old_record = MailRecord.find_by("description", "description")
+                old_record = MailRecord.find_by(description: "description")
                 if old_record == nil
                     old_committee.mail_records<<(MailRecord.create(:description => "description"))
                 else

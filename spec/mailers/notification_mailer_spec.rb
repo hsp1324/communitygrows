@@ -3,10 +3,24 @@ require "spec_helper"
 require 'rspec/active_model/mocks'
 
 RSpec.describe NotificationMailer, type: :mailer do
+  fixtures :users
+  fixtures :meetings
+  fixtures :committees
+  fixtures :announcements
+  before(:each) do
+    # sign_in users(:tester)
+    @test_admin = User.find_by(name: "Rspec_admin")
+    @test_user = User.find_by(name: "Rspec_user")
+    @test_committee = Committee.find_by(name: "sun")
+    @test_meeting = Meeting.find_by(name: "Big Boy Meeting")
+    @test_announcement = Announcement.find_by(title: "test")
+  end
+  
   describe 'new event' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     # let(:event) { mock_model Event, title: 'Boxing', location: 'Berkeley', date: Time.now, description: 'Fun event' }
-    # let(:mail) { NotificationMailer.new_event_email(user,event)}
+    let(:mail) { NotificationMailer.member_email(@test_committee, @test_admin, @test_user)}
+    let(:mail) { NotificationMailer.announcement_email(@test_admin, @test_announcement)}
 
     # it 'renders the subject' do
     #   expect(mail.subject).to eql('A new CG event has been created')

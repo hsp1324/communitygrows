@@ -115,9 +115,11 @@ class CommitteeController < ApplicationController
         committee = Committee.find(params[:id])
         committee.users.delete_all 
         #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
-        params[:check].each_pair do |user_id, checked|
-            member = User.find(user_id)
-            committee.users<<(member)
+        if !params[:check].nil?
+            params[:check].each_pair do |user_id, checked|
+                member = User.find(user_id)
+                committee.users<<(member)
+            end
         end
         # remove user from committee with activerecord model query
         # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!

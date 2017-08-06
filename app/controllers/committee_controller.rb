@@ -59,11 +59,11 @@ class CommitteeController < ApplicationController
             
             update_object(Committee, committee, edit_committee_path, committee_index_path)
         elsif crud_action == 'delete'
-            committee = committee.find(params[:id])
+            committee = Committee.find(params[:id])
             committee.announcements.destroy_all
             committee.documents.where(category_id: nil).destroy_all
             committee.mail_records.where(category_id: nil).destroy_all
-            
+
             delete_object(Committee)
             redirect_to committee_index_path
         else

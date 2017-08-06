@@ -71,7 +71,7 @@ class DocumentCommitteeController < ActionController::Base
             if @target_document.mail_record
                 @target_document.mail_record.update_attribute(:description, "update")
             else
-                @target_document.create_mail_record(:description => "update", :committee => "commitee")
+                @target_document.create_mail_record(:description => "update", :committee => @committee)
             end
             
             if Rails.env.production?

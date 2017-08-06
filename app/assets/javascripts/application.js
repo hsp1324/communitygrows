@@ -39,7 +39,7 @@
 //   }
 
 
-$( document ).ready(function() {
+$(document).on('ready', function() {
     console.log("HEYHEY");
     
     

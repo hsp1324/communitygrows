@@ -4,7 +4,7 @@ require "rails_helper"
 describe AdminController do
     fixtures :users
     before(:each) do
-
+    
     end
     describe 'new_user' do
         it 'renders new user page' do
@@ -14,8 +14,9 @@ describe AdminController do
         end
         it 'redirects to index page on success' do
             sign_in users(:tester)
-            user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
+            user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true, picture: fixture_file_upload('images/goku.jpg', 'image/jpg')}
             post :create_user, params: {user: user_params}
+            expect(flash[:notice]).to eq("admin@rspec.com was successfully created.")
             expect(response).to redirect_to(:admin_index)
         end
         
@@ -57,6 +58,13 @@ describe AdminController do
             sign_in users(:tester)
             user_params = {name: "rspec", email: "admin@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", admin: true}
             put :update_user, params: {id: users(:tester).id, user: user_params}
+            expect(response).to redirect_to(:admin_index)
+        end
+        
+        it 'should upload picture' do
+            sign_in users(:tester)
+            user_params = {name: "sun", email: "tester@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks"}
+            put :update_user, params: {id: users(:tester).id, user: user_params, picture: fixture_file_upload('images/goku.jpg', 'image/jpg')}
             expect(response).to redirect_to(:admin_index)
         end
     end

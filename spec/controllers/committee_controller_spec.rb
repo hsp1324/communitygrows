@@ -216,30 +216,23 @@ describe CommitteeController do
 	end
 	
 	
-	
-	
-	# describe 'Add committee member' do
-
-	# 	it 'shows a flash message when member is successfully added to committee' do
-	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-	# 		expect(flash[:notice]).to eq("Rspec_admin successfully added to Nice.")
-	# 		put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-	# 		expect(flash[:notice]).to eq("Rspec_admin successfully removed from Nice.")
-	# 	end
+	describe 'Add committee member' do
+		it 'shows a flash message when all members are successfully added to committee' do
+			test_user = User.find_by(name: "Rspec_user")
+			test_admin = User.find_by(name: "Rspec_admin")
+			# puts test_user.id: 227792459
+			# puts test_admin.id: 1011897928
+			put :update_members, params: {id: @test_committee.id, check: {"227792459": 1, "1011897928": 1}}
+			expect(flash[:notice]).to eq("Successfully updated members in #{@test_committee.name}.")
+		end
 		
-	# 	it 'Only admins can add and delete committee members.' do
-	# 		sign_in users(:user)
-	# 		@test_user = User.find_by(name: "Rspec_user")
-	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_user.id}
-	# 		expect(flash[:message]).to eq("Only admins can add committee members.")
-	# 		sign_in users(:tester)
-	# 		put :add_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-	# 		sign_in users(:user)
-	# 		put :remove_member, params: {id: @test_committee.id, user_id: @test_admin.id}
-	# 		expect(flash[:message]).to eq("Only admins can remove committee members.")
-	# 	end
-
-	# end
+		it 'remove all the members in committee' do
+			test_user = User.find_by(name: "Rspec_user")
+			test_admin = User.find_by(name: "Rspec_admin")
+			put :update_members, params: {id: @test_committee.id, check: {"227792459": 0, "1011897928": 0}}
+			expect(flash[:notice]).to eq("Successfully updated members in #{@test_committee.name}.")
+		end
+	end
 	
 end
 

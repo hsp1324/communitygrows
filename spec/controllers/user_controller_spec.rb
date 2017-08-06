@@ -57,6 +57,11 @@ describe UserController do
             put :update_user_credentials, params: {user_id: users(:tester).id, user: user_params}
             expect(response).to redirect_to(update_user_credentials_path)
         end
+        it 'should upload picture' do
+            user_params = {name: "", email: "tester@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks"}
+            put :update_user_credentials, params: {user_id: users(:tester).id, user: user_params, picture: fixture_file_upload('images/goku.jpg', 'image/jpg')}
+            expect(response).to redirect_to(update_user_credentials_path)
+        end
     end
     describe 'updateEmailPreferences' do
         it 'Should update email preferences' do

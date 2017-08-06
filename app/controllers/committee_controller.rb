@@ -160,8 +160,10 @@ class CommitteeController < ApplicationController
         
         #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
         form_data = []
-        params[:check].each_pair do |user_id, checked|
-            form_data<<(user_id)
+        if !params[:check].nil?
+            params[:check].each_pair do |user_id, checked|
+                form_data<<(user_id)
+            end
         end
         
         

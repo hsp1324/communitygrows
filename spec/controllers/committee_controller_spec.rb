@@ -58,7 +58,7 @@ describe CommitteeController do
 	end
 	
 	
-	describe 'create committee using crud' do
+	describe 'CRUD create committee' do
 		it 'redirects to the committee index page' do
 			post :crud_committee, params: {committee: {name: "Good Committee"}, do_action: "create"}
 			expect(response).to redirect_to(committee_index_path)
@@ -132,6 +132,38 @@ describe CommitteeController do
             sign_out users(:user)
         end
 	end
+	
+	
+	describe 'CRUD update committee' do
+		it 'redirects to the committee index page' do
+			put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}, do_action: "update"}
+			expect(response).to redirect_to(committee_index_path)
+		end
+
+		it 'should not allow a blank name field' do
+			put :crud_committee, params: {id: @test_committee.id, committee: {name: ""}, do_action: "update"}
+			expect(flash[:notice]).to eq("Please fill in the committee name field.")
+			expect(response).to redirect_to(edit_committee_path)
+		end
+		it 'should not allow an already used committee name field' do
+			expect(Committee).to receive(:has_name?).with("Nice").and_return true
+			put :crud_committee, params: {id: @test_committee.id, committee: {name: "Nice"}, do_action: "update"}
+			expect(flash[:notice]).to eq("Committee name provided already exists. Please enter a different name.")
+			expect(response).to redirect_to(edit_committee_path)
+		end
+
+		it 'updates the committee' do
+            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}}
+            expect(response).to redirect_to(committee_index_path)
+        end
+
+        it 'redirects non-admin users' do
+            sign_in users(:user)
+            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}}
+            expect(response).to redirect_to root_path
+            sign_out users(:user)
+        end
+	end
 
 	describe 'delete committee' do
 		it 'redirects to the committee index page' do
@@ -147,6 +179,25 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             delete :delete_committee, params: {id: @test_committee.id}
+            expect(response).to redirect_to root_path
+            sign_out users(:user)
+        end
+	end
+	
+	describe 'CRUD delete committee' do
+		it 'redirects to the committee index page' do
+			delete :crud_committee, params: {id: @test_committee.id, do_action: "delete"}
+			expect(response).to redirect_to(committee_index_path)
+		end
+
+		it "shows a flash delete message when committee successfully deleted" do
+            delete :crud_committee, params: {id: @test_committee.id, do_action: "delete"}
+            expect(flash[:notice]).to eq("Committee with name Nice deleted successfully.")
+        end
+
+        it 'redirects non-admin users' do
+            sign_in users(:user)
+            delete :crud_committee, params: {id: @test_committee.id, do_action: "delete"}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end

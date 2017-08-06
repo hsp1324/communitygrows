@@ -62,6 +62,7 @@ class AdminController < ActionController::Base
                     old_record = @user.mail_records.find_by(committee_id: committee.id)
                     if old_record
                         @user.mail_records.delete(old_record)
+                        old_record.destroy
                     end
                     @user.committees.delete(committee)
                 end

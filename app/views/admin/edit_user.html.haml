@@ -34,9 +34,9 @@
     .form-group
       = label :user, :board_role, "Board Role: "
       = text_field :user, 'board_role', placeholder: @user.board_role, class: 'form-control'
-    .form-group
-      = label :user, :committee, 'Committee: '
-      = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
+    -#.form-group
+      -#= label :user, :committee, 'Committee: '
+      -#= select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
     .form-group
       = label :user, :email, "Email: "
       = email_field :user, 'email', placeholder: @user.email, class: 'form-control'
@@ -58,7 +58,15 @@
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
-    
+
+    %h3 Committees
+    %div{:style => "min-height:150px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "list-style-type:none;"}
+        = collection_check_boxes :user, :expertise_ids, Committee.all, :id, :name do |b|
+          %li 
+            = b.check_box
+            = b.label
+
     %h3 Areas of Expertise
     %div{:style => "height:400px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
       %ul{:style => "list-style-type:none;"}

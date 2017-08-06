@@ -108,6 +108,9 @@ class AdminController < ActionController::Base
                 committee = Committee.find(committee_id)
                 @user.committees<<(committee)
                 @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+                if Rails.env.production?
+                    send_member_email(committee, [@user.id])
+                end
             end
             
             if params[:picture]

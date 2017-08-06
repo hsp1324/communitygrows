@@ -46,26 +46,9 @@ class MeetingController < ApplicationController
         return if !is_admin
         meeting = params[:meeting]
 
-        if meeting[:name].to_s == ""
-            flash[:notice] = "Meeting name field cannot be blank."
-            redirect_to new_meeting_path and return
-        elsif Meeting.has_name?(meeting[:name])
-            flash[:notice] = "Meeting name provided already exists. Please enter a different name."
-            redirect_to new_meeting_path and return
-        elsif meeting[:description].to_s == ''
-            flash[:notice] = "Please fill in the description field."
-            redirect_to new_meeting_path and return
-        elsif meeting[:location].to_s == ''
-            flash[:notice] = "Please fill in the location field."
-            redirect_to new_meeting_path and return
-        elsif meeting[:time].to_s == ''
-            flash[:notice] = "Please fill in the time field."
-            redirect_to new_meeting_path and return
-        elsif meeting[:date].to_s == ''
-            flash[:notice] = "Please fill in the date field."
+        if is_blank
             redirect_to new_meeting_path and return
         else
-
             date_valid = check_valid_format(Date, meeting[:date], "MM/DD/YYYY", '%m/%d/%Y', "date")
             time_valid = check_valid_format(Time, meeting[:time], "HH:MM AM/PM", '%I:%M %p', "time")
             if !(date_valid and time_valid)
@@ -92,6 +75,29 @@ class MeetingController < ApplicationController
         rescue ArgumentError
             flash[:notice] = "New #{time_date_str} must be in #{valid_format} format"
             return false
+        end
+    end
+    
+    def is_blank
+        meeting = params[:meeting]
+        if meeting[:name].to_s == ""
+            flash[:notice] = "Meeting name field cannot be blank."
+            return true
+        elsif Meeting.has_name?(meeting[:name])
+            flash[:notice] = "Meeting name provided already exists. Please enter a different name."
+            return true
+        elsif meeting[:description].to_s == ''
+            flash[:notice] = "Please fill in the description field."
+            return true
+        elsif meeting[:location].to_s == ''
+            flash[:notice] = "Please fill in the location field."
+            return true
+        elsif meeting[:time].to_s == ''
+            flash[:notice] = "Please fill in the time field."
+            return true
+        elsif meeting[:date].to_s == ''
+            flash[:notice] = "Please fill in the date field."
+            return true
         end
     end
 
@@ -124,8 +130,8 @@ class MeetingController < ApplicationController
         end
         # update_meeting_date()
         # update_meeting_time()
-        update_meeting_time_date(:date, "date", @meeting.date, "MM/DD/YYYY", '%m/%d/%Y', Date)
-        update_meeting_time_date(:time, "time", @meeting.time, "HH:MM AM/PM", '%I:%M %p', Time)
+        update_meeting_time_date("date")
+        update_meeting_time_date("time")
         update_meeting_hangout_agenda_location_description(:location, "location", @meeting.location)
         update_meeting_hangout_agenda_location_description(:description, "description", @meeting.description)
         update_meeting_hangout_agenda_location_description(:agenda, "agenda", @meeting.agenda)
@@ -147,7 +153,20 @@ class MeetingController < ApplicationController
     end
 
    
-    def update_meeting_time_date(object, object_str, meeting_object, valid_format, valid_input, time_date)
+    def update_meeting_time_date(object_str)
+        if object_str == 'date'
+            object = :date
+            meeting_object = @meeting.date
+            valid_format = "MM/DD/YYYY"
+            valid_input = '%m/%d/%Y'
+            time_date = Date
+        else
+            object = :time
+            meeting_object = @meeting.time
+            valid_format = "HH:MM AM/PM"
+            valid_input = '%I:%M %p'
+            time_date = Time 
+        end
         is_admin = admin_only('update meeting #{object_str}')
         return if !is_admin
         meeting = params[:meeting]

@@ -1,11 +1,14 @@
 require 'spec_helper'
 require 'rails_helper'
+require 'email_helper'
 
 describe CommitteeController do 
 	fixtures :users
+	fixtures :meetings
+	fixtures :committees
+	fixtures :announcements
     before(:each) do
         sign_in users(:tester)
-        # Rails.env.stub(:development?, nil).and_return(true)
         @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
 		@test_admin = User.find_by(name: "Rspec_admin")
 		@test_committee = Committee.find_by(name: "Nice")
@@ -221,6 +224,7 @@ describe CommitteeController do
 		it 'shows a flash message when all members are successfully added to committee' do
 			test_user = User.find_by(name: "Rspec_user")
 			test_admin = User.find_by(name: "Rspec_admin")
+			allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
 			# puts test_user.id: 227792459
 			# puts test_admin.id: 1011897928
 			put :update_members, params: {id: @test_committee.id, check: {"227792459": 1, "1011897928": 1}}

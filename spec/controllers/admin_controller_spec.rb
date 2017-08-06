@@ -14,8 +14,8 @@ describe AdminController do
         end
         it 'redirects to index page on success' do
             sign_in users(:tester)
-            user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true, picture: fixture_file_upload('images/goku.jpg', 'image/jpg')}
-            post :create_user, params: {user: user_params}
+            user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
+            post :create_user, params: {user: user_params, :picture => fixture_file_upload('images/goku.jpg', 'image/jpg')}
             expect(flash[:notice]).to eq("admin@rspec.com was successfully created.")
             expect(response).to redirect_to(:admin_index)
         end

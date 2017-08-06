@@ -8,8 +8,8 @@ class AdminController < ActionController::Base
         if not User.find(current_user.id).admin
             flash[:message] = "Access not granted. Please sign in again."
             redirect_to "/dashboard" and return
-        return true
         end
+        return true
     end
     
     def user_params

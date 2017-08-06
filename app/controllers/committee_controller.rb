@@ -19,8 +19,51 @@ class CommitteeController < ApplicationController
         if crud_action == 'create'
             create_object(Committee, committee, new_committee_path, committee_index_path)
         elsif crud_action == 'update'
+            old_committee = Committee.find(params[:id])
+            
+            name_change = false
+            description_change = false
+            
+            if old_committee.name != committee[:name]
+                name_change = true
+                old_name = old_committee.name
+                old_record = MailRecord.find_by("description LIKE ?", 'name%')
+                description = "name " + old_committee.name
+                if old_record == nil
+                    old_committee.mail_records<<(MailRecord.create(:description => description))
+                else
+                    old_record.update_attribute(:description, description)
+                end
+                
+            end
+            
+            if old_committee.description != committee[:description]
+                description_change = true
+                old_record = MailRecord.find_by("description", "description")
+                if old_record == nil
+                    old_committee.mail_records<<(MailRecord.create(:description => "description"))
+                else
+                    oldrecord.touch
+                end
+            end
+            
+            if Rails.env.production?
+                if name_change and description_change
+                    EmailHelper.send_committee_update_email(old_committee, old_name, committee[:name], committee[:description])
+                elsif name_change
+                    EmailHelper.send_committee_name_update_email(old_committee, old_name, committee[:name])
+                elsif description_change
+                    EmailHelper.send_committee_description_update_email(old_commiteee, committee[:description])
+                end
+            end
+            
             update_object(Committee, committee, edit_committee_path, committee_index_path)
         elsif crud_action == 'delete'
+            committee = committee.find(params[:id])
+            committee.announcements.destroy_all
+            committee.documents.where(category_id: nil).destroy_all
+            committee.mail_records.where(category_id: nil).destroy_all
+            
             delete_object(Committee)
             redirect_to committee_index_path
         else
@@ -113,12 +156,38 @@ class CommitteeController < ApplicationController
         is_admin = admin_only('remove committee members.')
         return if !is_admin
         committee = Committee.find(params[:id])
-        committee.users.delete_all 
+        
+        
         #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
+        form_data = []
         params[:check].each_pair do |user_id, checked|
-            member = User.find(user_id)
+            form_data<<(user_id)
+        end
+        
+        
+        committee.users.each do |user|
+            if form_data.include? user.id
+                form_data.delete(user.id)
+            else
+                old_record = user.mail_records.find_by(committee_id: committee.id)
+                if old_record
+                    old_record.destroy
+                end
+                user.committees.delete(committee)
+            end
+        end
+        
+        if Rails.env.production?
+            EmailHelper.send_member_email(committee, form_data)
+        end
+        
+        form_data.each do |id|
+            member = User.find(id) 
+            committee.users<<(member)
+            member.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
             committee.users<<(member)
         end
+        
         # remove user from committee with activerecord model query
         # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!
         

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804175435) do
+ActiveRecord::Schema.define(version: 20170805142414) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
@@ -41,11 +41,12 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.integer "parent_id"
     t.string "title"
     t.text "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "announcement_id"
     t.index ["announcement_id"], name: "index_comments_on_announcement_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -88,8 +89,6 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.integer "custom_order"
     t.boolean "transfer", default: false
     t.integer "committee_id"
-    t.boolean "hidden", default: false
-    t.string "transferred_from"
     t.index ["committee_id"], name: "index_documents_on_committee_id"
     t.index ["custom_order"], name: "index_documents_on_custom_order"
   end
@@ -139,6 +138,8 @@ ActiveRecord::Schema.define(version: 20170804175435) do
   create_table "read_sessions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "document_id"
+    t.index ["document_id"], name: "index_read_sessions_on_document_id"
+    t.index ["user_id"], name: "index_read_sessions_on_user_id"
   end
 
   create_table "user_skills", force: :cascade do |t|
@@ -161,7 +162,7 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin"
-    t.datetime "last_sign_in_at", default: "2017-07-31 03:14:38", null: false
+    t.datetime "last_sign_in_at", default: "2017-08-04 16:17:15", null: false
     t.string "name"
     t.string "board_role"
     t.string "committee"
@@ -173,6 +174,7 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.text "current_company"
     t.text "current_position"
     t.boolean "tilted"
+    t.string "picture"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

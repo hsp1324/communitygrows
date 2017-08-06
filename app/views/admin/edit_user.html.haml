@@ -55,6 +55,7 @@
     .form-group
       = label :user, :why_join, "Why I Joined Community Grows: "
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
+
     %h3 Committees
     %div{:style => "height:200px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
       %ul{:style => "padding:0; margin-left:20px; list-style-type:none;"}
@@ -63,7 +64,7 @@
           .form_group{style: 'line-height:10px; margin-bottom:8px;'}
             = check_box_tag("check[#{committee.id}]", 1, (@user.committees.include? committee))
             = label :user, :committees, committee.name
-    
+            
     %h3 Areas of Expertise
     %div{:style => "height:400px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
       %ul{:style => "padding:0; margin-left:20px; list-style-type:none;"}

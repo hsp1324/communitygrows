@@ -49,11 +49,11 @@ class CommitteeController < ApplicationController
             
             if Rails.env.production?
                 if name_change and description_change
-                    EmailHelper.send_committee_update_email(old_committee, old_name, committee[:name], committee[:description])
+                    send_committee_update_email(old_committee, old_name, committee[:name], committee[:description])
                 elsif name_change
-                    EmailHelper.send_committee_name_update_email(old_committee, old_name, committee[:name])
+                    send_committee_name_update_email(old_committee, old_name, committee[:name])
                 elsif description_change
-                    EmailHelper.send_committee_description_update_email(old_commiteee, committee[:description])
+                    send_committee_description_update_email(old_commiteee, committee[:description])
                 end
             end
             
@@ -160,8 +160,10 @@ class CommitteeController < ApplicationController
         
         #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
         form_data = []
-        params[:check].each_pair do |user_id, checked|
-            form_data<<(user_id)
+        if !params[:check].nil?
+            params[:check].each_pair do |user_id, checked|
+                form_data<<(user_id)
+            end
         end
         
         
@@ -178,7 +180,7 @@ class CommitteeController < ApplicationController
         end
         
         if Rails.env.production?
-            EmailHelper.send_member_email(committee, form_data)
+            send_member_email(committee, form_data)
         end
         
         form_data.each do |id|

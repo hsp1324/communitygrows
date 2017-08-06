@@ -92,7 +92,7 @@ class NotificationMailer < ApplicationMailer
     @old_name = old_name
     @name = name
     @description = description
-    subject = old_name + "Committee Has Been Updated"
+    subject = old_name + " Committee Has Been Updated"
     mail(to: @user.email, subject: subject)
   end
   
@@ -100,15 +100,15 @@ class NotificationMailer < ApplicationMailer
     @user = user
     @old_name = old_name
     @name = name
-    subject = old_name + "Committee's Name Has Changed"
+    subject = old_name + " Committee's Name Has Changed"
     mail(to: @user.email, subject: subject)
   end
   
-  def committee_description_update_email(user, old_name, name, description)
+  def committee_description_update_email(user, name, description)
     @user = user
     @name = name
     @description = description
-    subject = name + "Committee's Description Has Changed"
+    subject = name + " Committee's Description Has Changed"
     mail(to: @user.email, subject: subject)
   end
   

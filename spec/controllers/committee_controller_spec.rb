@@ -5,6 +5,7 @@ describe CommitteeController do
 	fixtures :users
     before(:each) do
         sign_in users(:tester)
+        # Rails.env.stub(:development?, nil).and_return(true)
         @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
 		@test_admin = User.find_by(name: "Rspec_admin")
 		@test_committee = Committee.find_by(name: "Nice")

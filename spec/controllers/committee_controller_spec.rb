@@ -7,6 +7,7 @@ describe CommitteeController do
 	fixtures :meetings
 	fixtures :committees
 	fixtures :announcements
+	fixtures :participations
     before(:each) do
         sign_in users(:tester)
         # allow to do production mode

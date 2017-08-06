@@ -3,9 +3,17 @@ require "rails_helper"
 
 describe AdminController do
     fixtures :users
+    fixtures :committees
+    fixtures :participations
+    fixtures :meetings
     before(:each) do
-
-    end
+        sign_in users(:tester)
+        # allow to do production mode
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+		@test_admin = User.find_by(name: "Rspec_admin")
+		@test_committee = Committee.find_by(name: "sun")
+	end
+	
     describe 'new_user' do
         it 'renders new user page' do
             sign_in users(:tester)
@@ -15,7 +23,8 @@ describe AdminController do
         it 'redirects to index page on success' do
             sign_in users(:tester)
             user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
-            post :create_user, params: {user: user_params}
+            post :create_user, params: {user: user_params, :picture => fixture_file_upload('images/goku.jpg', 'image/jpg'), check: {"297062136": 1}}
+            expect(flash[:notice]).to eq("admin@rspec.com was successfully created.")
             expect(response).to redirect_to(:admin_index)
         end
         
@@ -56,7 +65,20 @@ describe AdminController do
         it 'redirects to index page on success' do
             sign_in users(:tester)
             user_params = {name: "rspec", email: "admin@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks", admin: true}
-            put :update_user, params: {id: users(:tester).id, user: user_params}
+            put :update_user, params: {id: users(:tester).id, user: user_params, check: {"297062136": 1}}
+            expect(response).to redirect_to(:admin_index)
+        end
+        
+        it 'should upload picture' do
+            sign_in users(:tester)
+			test_user = User.find_by(name: "Rspec_user")
+			test_admin = User.find_by(name: "Rspec_admin")
+			allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+# 			puts test_user.id #: 227792459
+# 			puts test_admin.id #: 1011897928
+# 			puts @test_committee.id # 297062136
+            user_params = {name: "sun", email: "tester@rspec.com", password: "communitygrowsrocks", password_confirmation: "communitygrowsrocks"}
+            put :update_user, params: {id: users(:tester).id, user: user_params, picture: fixture_file_upload('images/goku.jpg', 'image/jpg'), check: {"297062136": 1}}
             expect(response).to redirect_to(:admin_index)
         end
     end

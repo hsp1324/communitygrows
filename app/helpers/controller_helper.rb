@@ -54,14 +54,18 @@ module ControllerHelper
         else
             if type.has_name?(object[:name].to_s)
                 if type == Committee && @found_object.description != object[:description]
-                    @found_object.update_attributes!(:description => object[:description])
+                    @found_object.update_attributes!(:description => object[:description].to_s)
                     flash[:notice] = "#{type.string_title} with name [#{@found_object.name}] updated successfully and email was successfully sent."
                     redirect_to success_redirect_path and return
                 end
                 flash[:notice] = "#{type.string_title} name provided already exists. Please enter a different name."
                 redirect_to fail_redirect_path and return
             end
-            @found_object.update_attributes!(:name => object[:name].to_s)
+            if type == Committee
+                @found_object.update_attributes!(:name => object[:name].to_s, :description => object[:description].to_s)
+            else
+                @found_object.update_attributes!(:name => object[:name].to_s)
+            end
         end
         
         flash[:notice] = "#{type.string_title} with name [#{@found_object.name}] updated successfully and email was successfully sent."

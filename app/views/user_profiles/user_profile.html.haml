@@ -1,5 +1,6 @@
 .container.text-center
     %h1 #{@user.name}
+    %img{:src => @user.picture, :height => 232, :width => 217}
     %p 
         Email: 
         %b #{@user.email}

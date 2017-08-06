@@ -14,7 +14,12 @@
   %br
   %br
 
-  = form_tag update_user_credentials_path, method: :put do
+  = form_tag update_user_credentials_path, :multipart => true, method: :put do
+    .form-group
+      = label :user, :name, "Picture: "
+      %br
+      %img{:src => @user.picture, :height => 232, :width => 217}
+      = file_field_tag 'picture', placeholder: @user.picture
     .form-group
       = label :user, :name, "Name: "
       = text_field :user, 'name', placeholder: @user.name, class: 'form-control'
@@ -42,16 +47,18 @@
       = text_area :user, 'why_join', placeholder: @user.why_join, class: 'form-control', rows: 4
     .form-group
     %h3 Areas of Expertise
-    %div{:style => "height:400px;width:330px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
-      %ul{:style => "list-style-type:none;"}
+    %div{:style => "height:400px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "padding:0; margin-left:20px; list-style-type:none;"}
+        %p{style: 'line-height:10px;'}
         = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => false), :id, :name do |b|
           %li 
             = b.check_box
             = b.label
     .form-group
     %h3 Constituency
-    %div{:style => "height:300px;width:330px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
-      %ul{:style => "list-style-type:none;"}
+    %div{:style => "height:300px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "padding:0; margin-left:20px; list-style-type:none;"}
+        %p{style: 'line-height:10px;'}
         = collection_check_boxes :user, :expertise_ids, Expertise.where(:constituency => true), :id, :name do |b|
           %li 
             = b.check_box

@@ -7,7 +7,21 @@ describe CategoryController do
         sign_in users(:tester)
         @category = Category.create!({id: 25, name: "Crazy Category", hidden: false})
     end
+    
+    describe 'basic category' do
+		it 'renders the category :doc_order' do
+			get :index, params: {doc_order: {category: @category.id, order: 1}}
+			expect(response).to redirect_to category_index_path
+		end
+		
+		it 'invalid CRUD action' do
+			get :crud_category, params: {id: 25, do_action: 'invalid'}
+			expect(flash[:errors]).to eq("Invalid CRUD Action: invalid")
+		end
+	end
+		
 	describe 'new category' do
+		
 		it 'renders the new category template' do
 			get :new_category
 			expect(response).to render_template("new_category")

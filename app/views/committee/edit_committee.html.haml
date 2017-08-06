@@ -26,31 +26,20 @@
 
       = submit_tag 'Update Committee', class: 'btn btn-success'
 
-  .form-group
-    = label :user, :name, 'Add/Remove Users'
-    %table.table.table-bordered.table-striped
-      #announcement_content
-        %thead
-          %tr
-            %th User
-            %th Member
-        %tbody
-          - User.all.each do |user|
-            - if @committee.users.include?(user)
+    = form_tag update_committee_members_path, :method => :put do
+      .form-group
+        %br
+        = label :user, :name, 'Add/Remove Users'
+        %table.table.table-bordered.table-striped
+          #announcement_content
+            %thead
               %tr
-                %td= user.name
-                %td
-                  = button_to remove_committee_member_path(:user_id => user.id, :id => @committee.id), :method => :delete, class: 'btn btn-warning btn-xs hidden-xs' do
-                    %span.glyphicon.glyphicon-minus-sign
-                    Remove #{user.name} from #{@committee.name}
-                  = button_to remove_committee_member_path(:user_id => user.id, :id => @committee.id), :method => :delete, class: 'btn btn-warning visible-xs' do
-                    %span.glyphicon.glyphicon-minus-sign
-            - else
-              %tr
-                %td= user.name
-                %td
-                  = button_to add_committee_member_path(:user_id => user.id, :id => @committee.id), :method => :put, class: 'btn btn-info btn-xs hidden-xs' do
-                    %span.glyphicon.glyphicon-plus-sign
-                    Add #{user.name} to #{@committee.name}
-                  = button_to add_committee_member_path(:user_id => user.id, :id => @committee.id), :method => :put, class: 'btn btn-info visible-xs' do
-                    %span.glyphicon.glyphicon-plus-sign
+                %th User
+                %th Member
+            %tbody
+              - User.all.each do |user|
+                %tr
+                  %td= user.name
+                  %td
+                    = check_box_tag "check[#{user.id}]", 1, @committee.users.include?(user)
+      = submit_tag 'Submit', class: 'btn btn-success'

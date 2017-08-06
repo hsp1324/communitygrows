@@ -22,6 +22,7 @@ class DocumentsController < ActionController::Base
         @categories = Category.all
         @users = User.all.order(:email)
         @who_has_read = @file.users
+        @from = params[:from]
     end
     
     def create_file

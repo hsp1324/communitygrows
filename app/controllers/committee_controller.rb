@@ -19,8 +19,51 @@ class CommitteeController < ApplicationController
         if crud_action == 'create'
             create_object(Committee, committee, new_committee_path, committee_index_path)
         elsif crud_action == 'update'
+            old_committee = Committee.find(params[:id])
+            
+            name_change = false
+            description_change = false
+            
+            if old_committee.name != committee[:name]
+                name_change = true
+                old_name = old_committee.name
+                old_record = MailRecord.find_by("description LIKE ?", 'name%')
+                description = "name " + old_committee.name
+                if old_record == nil
+                    old_committee.mail_records<<(MailRecord.create(:description => description))
+                else
+                    old_record.update_attribute(:description, description)
+                end
+                
+            end
+            
+            if old_committee.description != committee[:description]
+                description_change = true
+                old_record = MailRecord.find_by(description: "description")
+                if old_record == nil
+                    old_committee.mail_records<<(MailRecord.create(:description => "description"))
+                else
+                    old_record.touch
+                end
+            end
+            
+            if Rails.env.production?
+                if name_change and description_change
+                    send_committee_update_email(old_committee, old_name, committee[:name], committee[:description])
+                elsif name_change
+                    send_committee_name_update_email(old_committee, old_name, committee[:name])
+                elsif description_change
+                    send_committee_description_update_email(old_committee, committee[:description])
+                end
+            end
+            
             update_object(Committee, committee, edit_committee_path, committee_index_path)
         elsif crud_action == 'delete'
+            committee = Committee.find(params[:id])
+            committee.announcements.destroy_all
+            committee.documents.where(category_id: nil).destroy_all
+            committee.mail_records.where(category_id: nil).destroy_all
+
             delete_object(Committee)
             redirect_to committee_index_path
         else
@@ -109,38 +152,70 @@ class CommitteeController < ApplicationController
     end
     
     #added the two methods below for adding and removing committee members
-    def remove_member
+    def update_members
         is_admin = admin_only('remove committee members.')
         return if !is_admin
         committee = Committee.find(params[:id])
-        user = User.find(params[:user_id])
+        
+        
+        #As a result of the below line, params[:members] should be passed in as an array of numbers (member ids) from edit_committee.html.haml
+        form_data = []
+        if !params[:check].nil?
+            params[:check].each_pair do |user_id, checked|
+                form_data<<(user_id)
+            end
+        end
+        
+        
+        committee.users.each do |user|
+            if form_data.include? user.id
+                form_data.delete(user.id)
+            else
+                old_record = user.mail_records.find_by(committee_id: committee.id)
+                if old_record
+                    user.mail_records.delete(old_record)
+                    old_record.destroy
+                end
+                user.committees.delete(committee)
+            end
+        end
+        
+        if Rails.env.production?
+            send_member_email(committee, form_data)
+        end
+        
+        form_data.each do |id|
+            member = User.find(id) 
+            committee.users<<(member)
+            member.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+            committee.users<<(member)
+        end
+        
         # remove user from committee with activerecord model query
         # Participation.where(user_id: user.id).where(committee_id: committee.id).destroy!
         
-        #Participation.find_by(committee_id: committee.id, user_id: user.id).destroy
-        committee.users.delete(user.id)
-        
-        flash[:notice] = "#{user.name} successfully removed from #{committee.name}."
+        #Participation.find_by(committee_id: committee.id, user_id: user.id).destroy        
+        flash[:notice] = "Successfully updated members in #{committee.name}."
         redirect_to edit_committee_path and return
     end
 
-    def add_member
-        is_admin = admin_only('add committee members.')
-        return if !is_admin
-        committee = Committee.find(params[:id])
-        user = User.find(params[:user_id])
-        #add user to committee with activerecord model query
-        #Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
-        committee.users<<(user)
+    # def add_member
+    #     is_admin = admin_only('add committee members.')
+    #     return if !is_admin
+    #     committee = Committee.find(params[:id])
+    #     user = User.find(params[:user_id])
+    #     #add user to committee with activerecord model query
+    #     #Participation.create!(:user_id => user.id, :committee_id => committee.id, :joined_at => DateTime.now, :created_at => DateTime.now, :updated_at => DateTime.now)
+    #     committee.users<<(user)
         
-        user.mail_records<<(MailRecord.create(:description => "added", :committee => committee))
+    #     user.mail_records<<(MailRecord.create(:description => "added", :committee => committee))
         
-        if Rails.env.production?
-            send_member_email(committee, user)
-        end
+    #     if Rails.env.production?
+    #         send_member_email(committee, user)
+    #     end
             
-        flash[:notice] = "#{user.name} successfully added to #{committee.name}."
-        redirect_to edit_committee_path and return
-    end
+    #     flash[:notice] = "#{user.name} successfully added to #{committee.name}."
+    #     redirect_to edit_committee_path and return
+    # end
     
 end

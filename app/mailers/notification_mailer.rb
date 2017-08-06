@@ -8,11 +8,11 @@ class NotificationMailer < ApplicationMailer
     return false
   end
   
-  def member_email(committee, user, new_user)
+  def member_email(committee, user, new_users)
     @user = user
-    @new_user = new_user
+    @new_users = new_users
     @committee = committee
-    mail(to: @user.email, subject: @new_user.name + " has joined your committee")
+    mail(to: @user.email, subject: "New members have been added to your committee")
   end
   
   def announcement_email(user, announcement)
@@ -87,7 +87,32 @@ class NotificationMailer < ApplicationMailer
     mail(to: @user.email, subject: 'A meeting has been updated!')
   end
   
-  def daily_digest_email(user, subject, content)
+  def committee_update_email(user, old_name, name, description)
+    @user = user
+    @old_name = old_name
+    @name = name
+    @description = description
+    subject = old_name + " Committee Has Been Updated"
+    mail(to: @user.email, subject: subject)
+  end
+  
+  def committee_name_update_email(user, old_name, name)
+    @user = user
+    @old_name = old_name
+    @name = name
+    subject = old_name + " Committee's Name Has Changed"
+    mail(to: @user.email, subject: subject)
+  end
+  
+  def committee_description_update_email(user, name, description)
+    @user = user
+    @name = name
+    @description = description
+    subject = name + " Committee's Description Has Changed"
+    mail(to: @user.email, subject: subject)
+  end
+  
+  def digest_email(user, subject, content)
     @user = user
     @subject = subject
     @content = content

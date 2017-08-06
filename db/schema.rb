@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804175435) do
+ActiveRecord::Schema.define(version: 20170805142414) do
 
   create_table "announcements", force: :cascade do |t|
     t.string "title"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 20170804175435) do
     t.text "current_company"
     t.text "current_position"
     t.boolean "tilted"
+    t.string "picture"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

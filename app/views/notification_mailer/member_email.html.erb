@@ -7,7 +7,9 @@
     <p> Dear Board Members, </p>
     <p>
       
-      <%= @new_user.name %> has joined the <%= @committee.name %> committee.
+      <%= @new_users.html_safe %> 
+      <br>
+      joined the <%= @committee.name %> committee.
       <br>
       <br>
       In community,

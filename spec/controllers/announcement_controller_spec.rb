@@ -1,7 +1,10 @@
+require 'spec_helper'
 require 'rails_helper'
+require 'email_helper'
 
 describe AnnouncementController do 
     fixtures :users
+    fixtures :meetings
     fixtures :announcements
     fixtures :committees
     before(:each) do
@@ -10,6 +13,7 @@ describe AnnouncementController do
         # puts "*"*100
         # puts @sun_committee.id
         # puts "*"*100
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
         post :create_announcement, params: {committee_id: @sun_committee.id, title: "Rspec", content: "Is for testing"}
         @a = Announcement.where(title: "Rspec").first
         
@@ -35,31 +39,34 @@ describe AnnouncementController do
     end
     describe 'create announcement' do
         it 'doesn\'t accept an empty title' do
+            allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+            # Rails.env.stub(:production? => true
+            # ENV["RAILS_ENV"]  = production
             post :create_announcement, params: {committee_id: @a.committee_id, title: ''}
             expect(flash[:notice]).to eq("Title field cannot be left blank.")
             expect(response).to redirect_to(new_committee_announcement_path)
         end
 
-        describe 'emails' do
-            # before(:each) do
-            #     Rails.env.stub(:production? => true)
-            # end
-            it 'internal' do
-                expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
-                post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
-            end
-            it 'external' do
-                expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
-                post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
-            end
-            it 'executive' do
-                expect(Rails.env).to receive(:production?).and_return(true)
-                allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
-                post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
-            end
-        end
+        # describe 'emails' do
+        #     # before(:each) do
+        #     #     Rails.env.stub(:production? => true)
+        #     # end
+        #     it 'internal' do
+        #         expect(Rails.env).to receive(:production?).and_return(true)
+        #         allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
+        #         post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
+        #     end
+        #     it 'external' do
+        #         expect(Rails.env).to receive(:production?).and_return(true)
+        #         allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
+        #         post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
+        #     end
+        #     it 'executive' do
+        #         expect(Rails.env).to receive(:production?).and_return(true)
+        #         allow(NotificationMailer).to receive_message_chain(:announcement_email, :deliver).and_return(true)
+        #         post :create_announcement, params: {committee_id: @a.committee_id, title: "a"}
+        #     end
+        # end
     end
     describe 'edit announcement' do
         it 'renders edit announcment page' do

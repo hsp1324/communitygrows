@@ -105,9 +105,8 @@ Rails.application.routes.draw do
   get 'committee/:id/inactivate_committee' => 'committee#inactivate_committee', as: :inactivate_committee
   get 'committee/:id/activate_committee' => 'committee#activate_committee', as: :activate_committee
   get 'committee/:id/action_committee' => 'committee#action_committee', as: :action_committee
-  # added these for adding/removing users from committees
-  delete 'committee/:id/modify_committee_members/:user_id' => 'committee#remove_member', as: :remove_committee_member
-  put 'committee/:id/modify_committee_members/:user_id' => 'committee#add_member', as: :add_committee_member
+  # added below route for adding/removing users from committees
+  put 'committee/:id/update_committee_members' => 'committee#update_members', as: :update_committee_members
   
   # Calendar Management
   get 'calendar' => 'calendar#index', as: :calendar_index

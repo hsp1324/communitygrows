@@ -1,3 +1,6 @@
 dashboard:
     title: test
     content: rspec test
+    created_at: 08/06/2017 12:08 AM
+    updated_at: 08/06/2017 12:08 AM
+    emergency: 1

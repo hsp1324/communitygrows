@@ -7,8 +7,11 @@ describe CommitteeController do
 	fixtures :meetings
 	fixtures :committees
 	fixtures :announcements
+	fixtures :participations
     before(:each) do
         sign_in users(:tester)
+        # allow to do production mode
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
         @committee = Committee.create!({name: "Nice", hidden: true, inactive: true})
 		@test_admin = User.find_by(name: "Rspec_admin")
 		@test_committee = Committee.find_by(name: "Nice")
@@ -153,13 +156,18 @@ describe CommitteeController do
 		end
 
 		it 'updates the committee' do
-            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}}
+            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}, do_action: "update"}
+            expect(response).to redirect_to(committee_index_path)
+        end
+        
+		it 'updates the committee description' do
+            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Nice", description: "I am making new description"}, do_action: "update"}
             expect(response).to redirect_to(committee_index_path)
         end
 
         it 'redirects non-admin users' do
             sign_in users(:user)
-            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}}
+            put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}, do_action: "update"}
             expect(response).to redirect_to root_path
             sign_out users(:user)
         end

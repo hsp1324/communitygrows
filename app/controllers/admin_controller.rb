@@ -13,8 +13,8 @@ class AdminController < ActionController::Base
     end
     
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :committee, :board_role, :current_company,
-        :current_position, :about_me, :why_join, :interests_skills, :internal, :external, :executive, :admin, expertise_ids:[])
+      params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :board_role, :current_company,
+        :current_position, :about_me, :why_join, :interests_skills, :admin, expertise_ids:[])
     end
     
     def announcement_params
@@ -50,6 +50,32 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to edit_user_path(@user.id)
         else
+            form_data = []
+            params[:check].each_pair do |committee_id, checked|
+                form_data<<(committee_id)
+            end
+            
+            @user.committees.each do |committee|
+                if form_data.include? committee.id
+                    form_data.delete(committee.id)
+                else
+                    old_record = @user.mail_records.find_by(committee_id: committee.id)
+                    if old_record
+                        @user.mail_records.delete(old_record)
+                    end
+                    @user.committees.delete(committee)
+                end
+            end
+            
+            form_data.each do |id|
+                committee = Committee.find(id)
+                @user.committees<<(committee)
+                @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+                if Rails.env.production?
+                    send_member_email(committee, [@user.id])
+                end
+            end
+            
             if params[:picture]
                 uploader = PictureUploader.new
                 uploader.store!(params[:picture])
@@ -78,6 +104,12 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to new_user_path
         else
+            params[:check].each_pair do |committee_id, checked|
+                committee = Committee.find(committee_id)
+                @user.committees<<(committee)
+                @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+            end
+            
             if params[:picture]
                 uploader = PictureUploader.new
                 uploader.store!(params[:picture])

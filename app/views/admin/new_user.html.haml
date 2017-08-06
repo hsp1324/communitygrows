@@ -17,9 +17,9 @@
     .form-group
       = label :user, :board_role, "Board Role: "
       = text_field :user, 'board_role', class: 'form-control'
-    .form-group
-      = label :user, :committee, 'Committee: '
-      = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
+    //.form-group
+    //  = label :user, :committee, 'Committee: '
+    //  = select :user, :committee, [['External', "External"], ['Internal', "Internal"], ["Executive", "Executive"]], {}, :class => 'form-control'
     .form-group
       = label :user, :email, 'Email'
       = text_field :user, 'email', class: 'form-control'
@@ -32,4 +32,12 @@
     .form-group
       = label :user, :admin, 'Admin'
       = select :user, :admin, [['True', true], ['False', false]], {}, class: 'form-control'
+    %h3 Committees
+    %div{:style => "height:200px;width:500px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;"}
+      %ul{:style => "padding:0; margin-left:20px; list-style-type:none;"}
+        %p{style: 'line-height:10px;'}
+        -Committee.all.each do |committee|
+          .form_group{style: 'line-height:10px; margin-bottom:8px;'}
+            = check_box_tag("check[#{committee.id}]", 1)
+            = label :user, :committees, committee.name
     = submit_tag 'Submit', class: 'btn btn-success'

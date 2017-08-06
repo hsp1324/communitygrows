@@ -119,7 +119,6 @@ class CommitteeController < ApplicationController
             params[:check].each_pair do |user_id, checked|
                 member = User.find(user_id)
                 committee.users<<(member)
-                #member.committees<<(committee)
             end
         end
         # remove user from committee with activerecord model query

@@ -1,11 +1,30 @@
 class NotificationMailer < ApplicationMailer
   default from: "mail.community.grows@gmail.com"
   
-  def hasNoTitle(object)
-    if object.title.nil?
-      return true
+  def helper(user, type, update)
+    @user = user
+    if update
+      text = 'has been updated'
+    else
+      text = 'has been created'
     end
-    return false
+    if type == "announcement"
+      text = "An Announcement " + text + " at CG"
+    elsif type == "document"
+      text = "A Document " + text + " at CG"
+    elsif type == "emergency"
+      text = "An Emergency Announcement " + text + " at CG"
+    elsif type == "meeting"
+      text = "A Meeting " + text + " at CG"
+    end
+    return text
+  end
+  
+  def committee_helper(user, name, old_name, description)
+    @user = user
+    @name = name
+    @old_name = old_name
+    @description = description
   end
   
   def member_email(committee, user, new_users)
@@ -16,98 +35,67 @@ class NotificationMailer < ApplicationMailer
   end
   
   def announcement_email(user, announcement)
-  	@user = user
   	@announcement = announcement
-  	if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'A New announcment from CG')
-  	else
-  	  mail(to: @user.email, subject: 'A New announcment from CG: ' + @announcement.title)
-  	end
+  	subject = helper(user, "announcement", false)
+    mail(to: @user.email, subject: subject)
   end
   
   def emergency_email(user, announcement)
-    @user = user
     @announcement = announcement
-    if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'An Emergency announcment from CG')
-  	else
-  	  mail(to: @user.email, subject: 'An Emergency announcment from CG: ' + @announcement.title)
-    end
+    subject = helper(user, "emergency", false)
+  	mail(to: @user.email, subject: subject)
   end
   
   def announcement_update_email(user, announcement)
-  	@user = user
   	@announcement = announcement
-  	if hasNoTitle(@announcement)
-  	  mail(to: @user.email, subject: 'A CG announcement has been updated')
-  	else
-  	  mail(to: @user.email, subject: 'A CG announcement has been updated: ' + @announcement.title)
-  	end
+    subject = helper(user, "announcement", true)
+  	mail(to: @user.email, subject: subject)
   end
 
   def document_email(user,document)
-  	@user = user
   	@document = document
-  	if hasNoTitle(@document)
-      mail(to: @user.email, subject: 'A new CG document has been added')
-  	else
-      mail(to: @user.email, subject: 'A new CG document has been added: ' + @document.title)
-  	end
+    subject = helper(user, "document", false)
+  	mail(to: @user.email, subject: subject)
   end
 
   def document_update_email(user,document)
-  	@user = user
   	@document = document
-  	if hasNoTitle(@document)
-  	  mail(to: @user.email, subject: 'A CG document has been updated')
-  	else
-  	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
-  	end
+    subject = helper(user, "document", true)
+  	mail(to: @user.email, subject: subject)
   end
   
   def document_transfer_email(user, document)
     @user = user
   	@document = document
-  	if hasNoTitle(@document)
-  	  mail(to: @user.email, subject: 'A CG document has been updated')
-  	else
-  	  mail(to: @user.email, subject: 'A CG document has been updated: ' + @document.title)
-  	end
+  	mail(to: @user.email, subject: 'A CG document has been transferred')
   end
   
   def meeting_email(user, meeting)
-    @user = user
-    @meeting = meeting
-    mail(to: @user.email, subject: 'A new meeting has been planned!')
+    @meetingt = meeting
+    subject = helper(user, "meeting", false)
+  	mail(to: @user.email, subject: subject)
   end
   
   def meeting_update_email(user, meeting)
-    @user = user
-    @meeting = meeting
-    mail(to: @user.email, subject: 'A meeting has been updated!')
+    @meetingt = meeting
+    subject = helper(user, "meeting", true)
+  	mail(to: @user.email, subject: subject)
   end
   
   def committee_update_email(user, old_name, name, description)
-    @user = user
-    @old_name = old_name
-    @name = name
-    @description = description
+    committee_helper(user, old_name, name, description)
     subject = old_name + " Committee Has Been Updated"
     mail(to: @user.email, subject: subject)
   end
   
   def committee_name_update_email(user, old_name, name)
-    @user = user
-    @old_name = old_name
-    @name = name
+    committee_helper(user, old_name, name, "")
     subject = old_name + " Committee's Name Has Changed"
     mail(to: @user.email, subject: subject)
   end
   
   def committee_description_update_email(user, name, description)
-    @user = user
-    @name = name
-    @description = description
+    committee_helper(user, "", name, description)
     subject = name + " Committee's Description Has Changed"
     mail(to: @user.email, subject: subject)
   end

@@ -1,4 +1,5 @@
 class AdminController < ActionController::Base
+    protect_from_forgery with: :exception
     layout "base"
     before_action :authenticate_user!, :authorize_user
     include EmailHelper
@@ -80,12 +81,9 @@ class AdminController < ActionController::Base
             end
             
             if params[:picture]
+                path_name = "/uploads/" + params[:picture].original_filename
                 uploader = PictureUploader.new
                 uploader.store!(params[:picture])
-                path_name = "/uploads/" + params[:picture].original_filename
-                new_path_name = "/uploads/" + Random.new_seed.to_s + params[:picture].original_filename
-                File.rename("public" + path_name, "public"+ new_path_name)
-                path_name =  new_path_name
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end
@@ -119,12 +117,9 @@ class AdminController < ActionController::Base
             end
             
             if params[:picture]
+                path_name = "/uploads/" + params[:picture].original_filename
                 uploader = PictureUploader.new
                 uploader.store!(params[:picture])
-                path_name = "/uploads/" + params[:picture].original_filename
-                new_path_name = "/uploads/" + Random.new_seed.to_s + params[:picture].original_filename
-                File.rename("public" + path_name, "public"+ new_path_name)
-                path_name =  new_path_name
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end

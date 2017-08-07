@@ -48,6 +48,5 @@ Scenario: should be able to delete a created announcement
   When I follow first "Delete Announcement"
   And I confirm popup
   Then I should see "Announcement with title [newnew title] deleted successfully"
-  Then I should not see "Delete Announcement"
 
 # no sad path because the design of CRUD is specifically open to the admin's discretion

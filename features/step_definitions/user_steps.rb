@@ -49,7 +49,7 @@ end
 
 Given /^"([^\"]*)" logs in with password "([^\"]*)"$/ do |user_email, user_password|
   visit "/users/sign_in"
-  visit "/users/sign_in"
+  #visit "/users/sign_in"
   fill_in "user_email", :with => user_email
   fill_in "password", :with => user_password
   click_button "Log in"

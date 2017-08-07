@@ -3,7 +3,7 @@ module EmailHelper
         User.all.each do |user|
             if user.digest_pref == "real_time"
                 if content.committee.nil? or user.committees.include? content.committee
-                    if type == "announcment"
+                    if type == "announcement"
                         NotificationMailer.announcement_email(user, content).deliver
                     elsif type == "Aupdate"
                         NotificationMailer.announcement_update_email(user, content).deliver
@@ -39,7 +39,7 @@ module EmailHelper
     end
     
     def send_announcement_email(announcement)
-        send_simple_mail(announcement)
+        send_simple_mail(announcement, "announcement")
     end
     
     def send_emergency_announcement_email (announcement)

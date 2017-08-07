@@ -51,10 +51,12 @@ class AdminController < ActionController::Base
             redirect_to edit_user_path(@user.id)
         else
             form_data = []
-            params[:check].each_pair do |committee_id, checked|
-                form_data<<(committee_id)
+            if !params[:check].nil?
+                params[:check].each_pair do |committee_id, checked|
+                    form_data<<(committee_id)
+                end
             end
-            
+
             @user.committees.each do |committee|
                 if form_data.include? committee.id
                     form_data.delete(committee.id)
@@ -64,10 +66,10 @@ class AdminController < ActionController::Base
                         @user.mail_records.delete(old_record)
                         old_record.destroy
                     end
-                    @user.committees.delete(committee)
+                    committee.users.delete(@user)
                 end
             end
-            
+        
             form_data.each do |id|
                 committee = Committee.find(id)
                 @user.committees<<(committee)
@@ -87,7 +89,7 @@ class AdminController < ActionController::Base
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end
-            flash[:notice] = "#{@user.email} was successfully updated."
+            flash[:notice] = "#{@user.name} was successfully updated."
             redirect_to admin_index_path
         end
         #check params for null password fields
@@ -124,7 +126,7 @@ class AdminController < ActionController::Base
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end
-            flash[:notice] = "#{@user.email} was successfully created."
+            flash[:notice] = "#{@user.name} was successfully created."
             redirect_to admin_index_path 
         end
     end

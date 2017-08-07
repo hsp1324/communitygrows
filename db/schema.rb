@@ -99,7 +99,6 @@ ActiveRecord::Schema.define(version: 20170805142414) do
   end
 
   create_table "mail_records", force: :cascade do |t|
-    t.string "committee", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "committee_id"
@@ -162,7 +161,7 @@ ActiveRecord::Schema.define(version: 20170805142414) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin"
-    t.datetime "last_sign_in_at", default: "2017-08-04 16:17:15", null: false
+    t.datetime "last_sign_in_at", default: "2017-08-06 17:34:56", null: false
     t.string "name"
     t.string "board_role"
     t.string "committee"

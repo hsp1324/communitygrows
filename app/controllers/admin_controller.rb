@@ -50,42 +50,32 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to edit_user_path(@user.id)
         else
-            if params[:check].nil?
-                @user.committees.each do |committee|
+            form_data = []
+            if !params[:check].nil?
+                params[:check].each_pair do |committee_id, checked|
+                    form_data<<(committee_id)
+                end
+            end
+
+            @user.committees.each do |committee|
+                if form_data.include? committee.id
+                    form_data.delete(committee.id)
+                else
                     old_record = @user.mail_records.find_by(committee_id: committee.id)
                     if old_record
                         @user.mail_records.delete(old_record)
                         old_record.destroy
                     end
-                    @user.committees.delete(committee)
+                    committee.users.delete(@user)
                 end
-            else
-                form_data = []
-                params[:check].each_pair do |committee_id, checked|
-                    form_data<<(committee_id)
-                end
-
-            
-                @user.committees.each do |committee|
-                    if form_data.include? committee.id
-                        form_data.delete(committee.id)
-                    else
-                        old_record = @user.mail_records.find_by(committee_id: committee.id)
-                        if old_record
-                            @user.mail_records.delete(old_record)
-                            old_record.destroy
-                        end
-                        @user.committees.delete(committee)
-                    end
-                end
-            
-                form_data.each do |id|
-                    committee = Committee.find(id)
-                    @user.committees<<(committee)
-                    @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
-                    if Rails.env.production?
-                        send_member_email(committee, [@user.id])
-                    end
+            end
+        
+            form_data.each do |id|
+                committee = Committee.find(id)
+                @user.committees<<(committee)
+                @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+                if Rails.env.production?
+                    send_member_email(committee, [@user.id])
                 end
             end
             
@@ -99,7 +89,7 @@ class AdminController < ActionController::Base
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end
-            flash[:notice] = "#{@user.email} was successfully updated."
+            flash[:notice] = "#{@user.name} was successfully updated."
             redirect_to admin_index_path
         end
         #check params for null password fields
@@ -136,7 +126,7 @@ class AdminController < ActionController::Base
                 params[:picture] = path_name
                 @user.update_attributes(:picture => path_name)
             end
-            flash[:notice] = "#{@user.email} was successfully created."
+            flash[:notice] = "#{@user.name} was successfully created."
             redirect_to admin_index_path 
         end
     end

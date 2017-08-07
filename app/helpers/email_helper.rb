@@ -1,4 +1,28 @@
 module EmailHelper
+    def send_simple_mail(content, type)
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if content.committee.nil? or user.committees.include? content.committee
+                    if type == "announcment"
+                        NotificationMailer.announcement_email(user, content).deliver
+                    elsif type == "Aupdate"
+                        NotificationMailer.announcement_update_email(user, content).deliver
+                    elsif type == "document"
+                        NotificationMailer.document_email(user, content).deliver
+                    elsif type == "Dupdate"
+                        NotificationMailer.document_update_email(user, content).deliver
+                    elsif type == "meeting"
+                        NotificationMailer.meeting_email(user, content).deliver
+                    elsif type == "Mupdate"
+                        NotificationMailer.meeting_update_email(user, content).deliver
+                    elsif type == "emergency"
+                        NotificationMailer.emergency_email(user, content).deliver
+                    end
+                end
+            end
+        end
+    end
+    
     def send_member_email(committee, user_list)
         new_users = ""
         user_list.each do |id|
@@ -15,49 +39,23 @@ module EmailHelper
     end
     
     def send_announcement_email(announcement)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                if announcement.committee.nil? or user.committees.include? announcement.committee
-                    NotificationMailer.announcement_email(user, announcement).deliver
-                end
-            end
-        end
+        send_simple_mail(announcement)
     end
     
     def send_emergency_announcement_email (announcement)
-        User.all.each do |user|
-            NotificationMailer.emergency_email(user, announcement).deliver
-        end
+        send_simple_mail(announcement, "emergency")
     end
     
     def send_announcement_update_email(announcement)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                if announcement.committee.nil? or user.committees.include? announcement.committee
-                    NotificationMailer.announcement_update_email(user, announcement).deliver
-                end
-            end
-        end
+        send_simple_mail(announcement, "Aupdate")
     end
 
     def send_document_email(document)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                if document.committee.nil? or user.committees.include? document.committee
-                    NotificationMailer.document_email(user, document).deliver
-                end
-            end
-        end
+        send_simple_mail(document, "document")
     end
 
     def send_document_update_email(document)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                if document.committee.nil? or user.committees.include? document.committee
-                    NotificationMailer.document_update_email(user, document).deliver
-                end
-            end
-        end
+        send_simple_mail(document, "Dupdate")
     end
     
     def send_document_transfer_email(document)
@@ -69,19 +67,11 @@ module EmailHelper
     end
     
     def send_meeting_email(meeting)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                NotificationMailer.meeting_email(user, meeting).deliver
-            end
-        end
+        send_simple_mail(meeting, "meeting")
     end
     
     def send_meeting_update_email(meeting)
-        User.all.each do |user|
-            if user.digest_pref == "real_time"
-                NotificationMailer.meeting_update_email(user, meeting).deliver
-            end
-        end
+        send_simple_mail(meeting, "Mupdate")
     end
     
     def send_committee_update_email(committee, old_name, name, description)

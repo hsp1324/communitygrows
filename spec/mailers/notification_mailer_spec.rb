@@ -13,61 +13,41 @@ RSpec.describe NotificationMailer, type: :mailer do
     @test_user = User.find_by(name: "Rspec_user")
     @test_committee = Committee.find_by(name: "sun")
     @test_meeting = Meeting.find_by(name: "Big Boy Meeting")
-    @test_announcement = Announcement.find_by(title: "test")
+    @test_announcement_title = Announcement.find_by(title: "test")
+    @test_announcement_notitle = Announcement.find_by(content: "no_title announcement")
   end
   
-  describe 'new event' do
+  describe 'send email' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
-    # let(:event) { mock_model Event, title: 'Boxing', location: 'Berkeley', date: Time.now, description: 'Fun event' }
     let(:mail) { NotificationMailer.member_email(@test_committee, @test_admin, @test_user)}
-    let(:mail) { NotificationMailer.announcement_email(@test_admin, @test_announcement)}
 
-    # it 'renders the subject' do
-    #   expect(mail.subject).to eql('A new CG event has been created')
-    # end
-
-    # it 'renders the receiver email' do
-    #   expect(mail.to).to eql([user.email])
-    # end
-
-    # it 'renders the sender email' do
-    #   expect(mail.from).to eql(['communitygrows2@gmail.com'])
-    # end
-
-    # it 'contains title' do
-    #   expect(mail.body.encoded).to include(event.title)
-    # end
-
-    # it 'contains location' do
-    #   expect(mail.body.encoded).to include(event.location)
-    # end
+    it 'when new member added' do
+      #   undefined method `html_safe' for #<User:0x00000006f47af8>
+      #   Did you mean?  html_safe?
+      #   ./app/views/notification_mailer/member_email.html.erb:10:in `_app_views_notification_mailer_member_email_html_erb___827385023122036191_42845320'
+      expect(mail.subject).to eql('New members have been added to your committee')
+    end
   end
-  describe 'update event' do
+  
+  describe 'new announcement with title' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
-    # let(:event) { mock_model Event, title: 'Boxing', location: 'Berkeley', date: Time.now, description: 'Fun event' }
+    let(:mail) { NotificationMailer.announcement_email(@test_admin, @test_announcement_title)}
 
-    # let(:mail) { NotificationMailer.event_update_email(user,event)}
-
-    # it 'renders the subject' do
-    #   expect(mail.subject).to eql('A CG event has been updated')
-    # end
-
-    # it 'renders the receiver email' do
-    #   expect(mail.to).to eql([user.email])
-    # end
-
-    # it 'renders the sender email' do
-    #   expect(mail.from).to eql(['communitygrows2@gmail.com'])
-    # end
-
-    # it 'contains title' do
-    #   expect(mail.body.encoded).to include(event.title)
-    # end
-
-    # it 'contains location' do
-    #   expect(mail.body.encoded).to include(event.location)
-    # end
+    it 'send email' do
+      expect(mail.subject).to eql('A New announcment from CG: test')
+    end
   end
+  
+  
+  describe 'new announcement without title' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.announcement_email(@test_admin, @test_announcement_notitle)}
+
+    it 'when new announcement without title added' do
+      expect(mail.subject).to eql('A New announcment from CG')
+    end
+  end  
+  
   
   describe 'new announcement' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }

@@ -11,7 +11,12 @@ Background: user is on the board member dashboard page
         | hoopla          | false     | false     |
         | crystal gems    | true     | false     |
         | backstreet boys | true     | false     |
-    Given a logged in admin
+    Given the following users exist:
+        | name   | email             | admin      | created_at           | password     | password_confirmation     |
+        | Zach   | zach@gmail.com    | true       | 2016-03-17 17:44:13  | 12341234     | 12341234                  |
+        | Tony   | tonylee@gmail.com | false      | 2016-03-14 15:32:00  | 43124312     | 43124312                  |
+        | Jae    | jae@berkeley.edu  | false      | 2016-03-18 22:12:11  | 54175417     | 54175417                  |          
+    Given "zach@gmail.com" logs in with password "12341234"
     And I am on the CommunityGrows home page
 
 Scenario: Most Recent Main Announcements / Show All
@@ -48,9 +53,8 @@ Scenario: Most Recent Subcommittee Announcements / Show All
 
 	Given I am on the committee management page
     And I follow second "hoopla"
-    And I should see "Add Admin to hoopla"
-    And I press "Add Admin to hoopla"
-    And I should see "Admin successfully added to hoopla."
+    When I choose all of the damn checkboxes
+    And I press "Submit"
 	# Given the "sample_user" user in "hoopla" committee
 	
 	Given I follow "hoopla"

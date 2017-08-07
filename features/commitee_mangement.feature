@@ -12,7 +12,13 @@ Background:
         | hoopla          | true     | false     |
         | crystal gems    | true     | false     |
         | backstreet boys | true     | false     |
-    Given a logged in admin
+        
+    Given the following users exist:
+        | name   | email             | admin      | created_at           | password     | password_confirmation     |
+        | Zach   | zach@gmail.com    | true       | 2016-03-17 17:44:13  | 12341234     | 12341234                  |
+        | Tony   | tonylee@gmail.com | false      | 2016-03-14 15:32:00  | 43124312     | 43124312                  |
+        | Jae    | jae@berkeley.edu  | false      | 2016-03-18 22:12:11  | 54175417     | 54175417                  |          
+    Given "zach@gmail.com" logs in with password "12341234"
     And I am on the CommunityGrows home page
 
 
@@ -54,7 +60,7 @@ Scenario: Edit committee
     When I follow second "hoopla"
     And I should see "Edit"
     And I fill in "Committee Name" with "Great hoopla"
-    And I press "Update Name"
+    And I press "Update Committee"
     Then I am on the committee management page
     And I should see "Great hoopla"
     And I should see "Delete Great hoopla"
@@ -120,9 +126,9 @@ Scenario: Activate and Inactivate committee
     Then I should see "You do not have access to this committee. Please contact Kelly for access."
     Given I am on the committee management page
     And I follow second "hoopla"
-    And I should see "Add Admin to hoopla"
-    And I press "Add Admin to hoopla"
-    And I should see "Admin successfully added to hoopla."
+    And I should see "Zach"
+    When I choose all of the damn checkboxes
+    And I press "Submit"
     When I follow first "hoopla"
     And I should see "Add new announcement"
     And I should see "Add new document"
@@ -140,17 +146,15 @@ Scenario: Activate and Inactivate committee
     
     
 # sad path
-Scenario: should not be able to edit committee name to be blank or already existed name
+Scenario: should not be able to edit committee name to be blank 
     Given I am on the committee management page
-    Then I should see "hoopla"
-    And I should see "Hide hoopla"
-    When I follow second "hoopla"
+    Then I should see "backstreet boys"
+    And I should see "backstreet boys"
+    When I follow second "backstreet boys"
     And I fill in "Committee Name" with ""
-    And I press "Update Name"
+    And I press "Update Committee"
     Then I should see "Please fill in the committee name field."
-    When I fill in "Committee Name" with "hoopla"
-    And I press "Update Name"
-    Then I should see "Committee name provided already exists. Please enter a different name."
+
     
 Scenario: should not be able to create committee name to be blank or already existed name
     Given I am on the committee management page
@@ -164,14 +168,19 @@ Scenario: should not be able to create committee name to be blank or already exi
     Then I should see "Committee name provided already exists. Please enter a different name."
 
 Scenario: Users should be able to add a committee description, and the description should be reflected on the committees page
+
     Given I am on the committee management page
     When I follow second "hoopla"
     And I should see "Edit"
+    And I fill in "Committee Name" with "Great hoopla"
     And I fill in "Committee Description" with "Great dinos"
-    And I press "Update Name"
+    When I choose all of the damn checkboxes
+    And I press "Update Committee"
 
-    Given I am on the subcommittee "hoopla" page
-    Then I should see "Description"
+    Given I am on the CommunityGrows home page
+    Then I should see "Great hoopla"
+    When I follow "Great hoopla"
+    And I should see "Committee Description"
     And I should see "Great dinos"
 
     

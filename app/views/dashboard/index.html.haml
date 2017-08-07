@@ -1,5 +1,8 @@
 %h1 Board Member Dashboard
 
+- if flash[:notice]
+  #flashNotice
+    = flash[:notice]
 - if flash[:alert] == "You do not have access to this committee. Please contact Kelly for access."
   #flashNotice
     = flash[:alert]

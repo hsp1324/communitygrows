@@ -26,6 +26,11 @@ curr7 = User.create!(:name => "Jay", :email => "sdjinn111@berkeley.edu", :passwo
 
 Committee.delete_all
 committee1 = Committee.create!(:name => "Sun committee", :inactive => true, :hidden => false)
+committee2 = Committee.create!(:name => "Moon committee", :inactive => true, :hidden => false)
+committee3 = Committee.create!(:name => "Seedmaster Shawn committee", :inactive => true, :hidden => false)
+committee4 = Committee.create!(:name => "Seedmaster Shawn 2.0 committee", :inactive => true, :hidden => false)
+committee5 = Committee.create!(:name => "Fire Nation b/c Shawn Likes Avatar", :inactive => true, :hidden => false)
+
 
 Document.delete_all
 Category.delete_all

@@ -24,7 +24,7 @@ describe AdminController do
             sign_in users(:tester)
             user_params = {:name => "rspec", :email => "admin@rspec.com", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", :admin => true}
             post :create_user, params: {user: user_params, :picture => fixture_file_upload('images/goku.jpg', 'image/jpg'), check: {"297062136": 1}}
-            expect(flash[:notice]).to eq("admin@rspec.com was successfully created.")
+            expect(flash[:notice]).to eq("rspec was successfully created.")
             expect(response).to redirect_to(:admin_index)
         end
         

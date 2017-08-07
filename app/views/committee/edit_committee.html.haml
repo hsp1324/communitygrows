@@ -42,4 +42,5 @@
                   %td= user.name
                   %td
                     = check_box_tag "check[#{user.id}]", 1, @committee.users.include?(user)
+                    
       = submit_tag 'Submit', class: 'btn btn-success'

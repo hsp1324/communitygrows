@@ -107,12 +107,14 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to new_user_path
         else
-            params[:check].each_pair do |committee_id, checked|
-                committee = Committee.find(committee_id)
-                @user.committees<<(committee)
-                @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
-                if Rails.env.production?
-                    send_member_email(committee, [@user.id])
+            if !params[:check].nil?
+                params[:check].each_pair do |committee_id, checked|
+                    committee = Committee.find(committee_id)
+                    @user.committees<<(committee)
+                    @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+                    if Rails.env.production?
+                        send_member_email(committee, [@user.id])
+                    end
                 end
             end
             

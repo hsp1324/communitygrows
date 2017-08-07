@@ -37,6 +37,7 @@ Scenario: Admin can edit an existing user's email
   Then I fill in "Email" with "zachary@gmail.com"
   And I press "Update User"
   Then I should be on the admin_dashboard page
+  Given I am on the user_profiles page
   And I should see "zachary@gmail.com"
   And I should not see "zach@gmail.com"
 

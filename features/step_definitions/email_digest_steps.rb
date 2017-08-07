@@ -31,6 +31,6 @@ Then /the database should( not)? have email with title "([^"]*)" and content "([
 end
 
 #New Tests for iter 2-2
-Then /I should see a MailRecord object with type "([^"]*)" committee "([^"]*)"$/ do |type, com|
-	MailRecord.find_by(record_type: type, committee: com)
+Then /I should see a MailRecord object with attribute "([^"]*)" and description "([^"]*)"$/ do |attr, desc|
+	MailRecord.where.not(attr, nil).find_by(description: desc)
 end

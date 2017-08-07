@@ -15,18 +15,10 @@ module EmailHelper
     end
     
     def send_announcement_email(announcement)
-        if announcement.committee == nil
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if announcement.committee.nil? or user.committees.include? announcement.committee
                     NotificationMailer.announcement_email(user, announcement).deliver
-                end
-            end
-        else
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    if user.committees.include? announcement.committee
-                        NotificationMailer.announcement_email(user, announcement).deliver
-                    end
                 end
             end
         end
@@ -39,54 +31,30 @@ module EmailHelper
     end
     
     def send_announcement_update_email(announcement)
-        if announcement.committee == nil?
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if announcement.committee.nil? or user.committees.include? announcement.committee
                     NotificationMailer.announcement_update_email(user, announcement).deliver
-                end
-            end
-        else
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    if user.committees.include? announcement.committee
-                        NotificationMailer.announcement_update_email(user, announcement).deliver
-                    end
                 end
             end
         end
     end
 
     def send_document_email(document)
-        if document.committee == nil
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if document.committee.nil? or user.committees.include? document.committee
                     NotificationMailer.document_email(user, document).deliver
-                end
-            end
-        else
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    if user.committees.include? document.committee
-                        NotificationMailer.document_email(user, document).deliver
-                    end
                 end
             end
         end
     end
 
     def send_document_update_email(document)
-        if document.committee == nil
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
+        User.all.each do |user|
+            if user.digest_pref == "real_time"
+                if document.committee.nil? or user.committees.include? document.committee
                     NotificationMailer.document_update_email(user, document).deliver
-                end
-            end
-        else
-            User.all.each do |user|
-                if user.digest_pref == "real_time"
-                    if user.committees.include? document.committee
-                        NotificationMailer.document_update_email(user, document).deliver
-                    end
                 end
             end
         end
@@ -147,9 +115,10 @@ module EmailHelper
     end
     
     def compile_meetings(records)
+        @records = records
         @text = "<p><strong><style='font-size:14px'>Meetings:</strong><style='font-size:12px'><br>"
         @stuff = false
-        @records.where.not(meeting_id: nil).each do |record|
+        @records.each do |record|
             @stuff = true
             @text += "<strong>&emsp; "
             @text = @tmp_text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end

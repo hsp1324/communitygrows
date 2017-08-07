@@ -25,7 +25,7 @@ Background: user is on the main dashboard page and announcement is made
     | Zach   | zach@gmail.com    | true       | 2016-03-17 17:44:13  | 12341234     | 12341234                  |
     | Tony   | tonylee@gmail.com | false      | 2016-03-14 15:32:00  | 43124312     | 43124312                  |
     | Jae    | jae@berkeley.edu  | false      | 2016-03-18 22:12:11  | 54175417     | 54175417                  |
-  Given pending
+  Given a logged in admin
   And I am on the CommunityGrows dashboard page
   
 # happy path

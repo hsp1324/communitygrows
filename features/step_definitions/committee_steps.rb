@@ -5,6 +5,13 @@ Given /the following committees exist/ do |committees_table|
         Committee.create!(committee)
     end
 end
+# by Jay. Check checkbox
+When /^I choose all of the damn checkboxes$/i do
+  
+    all('input[type=checkbox]').each do |checkbox|
+        checkbox.click
+    end
+end
 
 # By Wen. Assign users to given committee
 # sets up a member inside of a committee

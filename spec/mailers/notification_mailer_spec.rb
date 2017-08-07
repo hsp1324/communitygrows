@@ -7,6 +7,7 @@ RSpec.describe NotificationMailer, type: :mailer do
   fixtures :meetings
   fixtures :committees
   fixtures :announcements
+  fixtures :documents
   before(:each) do
     # sign_in users(:tester)
     @test_admin = User.find_by(name: "Rspec_admin")
@@ -15,6 +16,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     @test_meeting = Meeting.find_by(name: "Big Boy Meeting")
     @test_announcement_title = Announcement.find_by(title: "test")
     @test_announcement_notitle = Announcement.find_by(content: "no_title announcement")
+    @test_document = Document.find_by(title: "doc_goku")
   end
   
   describe 'send email' do
@@ -86,11 +88,11 @@ RSpec.describe NotificationMailer, type: :mailer do
       expect(mail.from).to eql(['mail.community.grows@gmail.com'])
     end
 
-
     it 'contains content' do
       expect(mail.body.encoded).to include(announcement.content)
     end
   end
+
 
   describe 'update announcement' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
@@ -127,7 +129,6 @@ RSpec.describe NotificationMailer, type: :mailer do
 
 
 
-
   describe 'new document with title' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:document) { mock_model Document, url: 'community.com', title: ""}
@@ -138,7 +139,6 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
   
-  
   describe 'new document without title' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:document) { mock_model Document, url: 'community.com', title: "Nice"}
@@ -148,33 +148,8 @@ RSpec.describe NotificationMailer, type: :mailer do
       expect(mail.subject).to eql('A new CG document has been added: Nice')
     end
   end 
-  
-  
-  
-
-  describe 'create document' do
-    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
-    let(:document) { mock_model Document, document: 'Important Read', title: 'Cool', content: 'www.communitygrows.com/document/example.pdf' }
-
-    # let(:mail) { NotificationMailer.new_document_email(user,document)}
-
-    # it 'renders the subject' do
-    #   expect(mail.subject).to eql('A new CG document has been added: Cool')
-    # end
-
-    # it 'renders the receiver email' do
-    #   expect(mail.to).to eql([user.email])
-    # end
-
-    # it 'renders the sender email' do
-    #   expect(mail.from).to eql(['communitygrows2@gmail.com'])
-    # end
 
 
-    # it 'contains content' do
-    #   expect(mail.body.encoded).to include("document")
-    # end
-  end
 
   describe 'update document' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
@@ -199,16 +174,96 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
 
+
   describe 'update document without title' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:document) { mock_model Document, document: 'Important Read', title: '', content: 'www.communitygrows.com/document/example.pdf' }
-
     let(:mail) { NotificationMailer.document_update_email(user,document)}
-
     it 'send email' do
       expect(mail.subject).to eql('A CG document has been updated: ')
     end
   end
 
 
+  # describe 'document_transfer_email with title' do
+  #   let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+  #   let(:document) { mock_model Document, document: 'Important Read', title: 'test', content: 'www.communitygrows.com/document/example.pdf' , committee_id: @test_committee.id}
+  #   let(:mail) { NotificationMailer.document_transfer_email(@test_admin, @test_document)}
+  #   it 'send email' do
+  #     expect(mail.subject).to eql('A CG document has been updated: test')
+  #   end
+  # end
+
+  # describe 'document_transfer_email without title' do
+  #   let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+  #   let(:document) { mock_model Document, document: 'Important Read', title: '', content: 'www.communitygrows.com/document/example.pdf', committee_id: @test_committee.id}
+  #   let(:mail) { NotificationMailer.document_transfer_email(@test_admin, @test_document)}
+  #   it 'when new announcement without title added' do
+  #     puts "#"*100
+  #     puts "@document.committee.name: #{@test_committee.id}"
+  #     puts "#"*100
+  #     expect(mail.subject).to eql('A CG document has been updated')
+  #   end
+  # end 
+
+
+  describe 'meeting_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.meeting_email(@test_admin, @test_meeting)}
+
+    it 'send email' do
+      expect(mail.subject).to eql('A new meeting has been planned!')
+    end
+  end
+
+  
+  describe 'meeting_update_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.meeting_update_email(@test_admin, @test_meeting)}
+
+    it 'send email' do
+      expect(mail.subject).to eql('A meeting has been updated!')
+    end
+  end
+  
+  
+  describe 'committee_update_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.committee_update_email(@test_admin, "old_goku", "new_goku", "new_goku is god")}
+
+    it 'send email' do
+      expect(mail.subject).to eql("old_goku Committee Has Been Updated")
+    end
+  end
+
+
+  describe 'committee_name_update_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.committee_name_update_email(@test_admin, "old_goku", "new_goku")}
+
+    it 'send email' do
+      expect(mail.subject).to eql("old_goku Committee's Name Has Changed")
+    end
+  end
+  
+  
+  describe 'committee_description_update_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.committee_description_update_email(@test_admin, "new_goku", "new_goku is god")}
+
+    it 'send email' do
+      expect(mail.subject).to eql("new_goku Committee's Description Has Changed")
+    end
+  end
+
+
+
+  describe 'digest_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.digest_email(@test_admin, "subject_goku", "new_goku is god")}
+
+    it 'send email' do
+      expect(mail.subject).to eql("subject_goku")
+    end
+  end
 end

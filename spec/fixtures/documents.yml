@@ -1,0 +1,15 @@
+fix_document:
+    url: goku.com
+    title: doc_goku
+    committee_id: 297062136
+    
+    # t.string "url"
+    # t.string "title"
+    # t.datetime "created_at", null: false
+    # t.datetime "updated_at", null: false
+    # t.integer "category_id"
+    # t.integer "custom_order"
+    # t.boolean "transfer", default: false
+    # t.integer "committee_id"
+    # t.index ["committee_id"], name: "index_documents_on_committee_id"
+    # t.index ["custom_order"], name: "index_documents_on_custom_order"

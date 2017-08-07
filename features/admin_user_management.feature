@@ -29,6 +29,7 @@ Scenario: Admin can add new user to the database
   And I fill in "Password Confirmation" with "12345678"
   And I press "Submit"
   Then I should be on the admin_dashboard page
+  Given I am on the User Profiles page
   And I should see "mg@mgmt.com"
 
 # happy path  
@@ -37,7 +38,7 @@ Scenario: Admin can edit an existing user's email
   Then I fill in "Email" with "zachary@gmail.com"
   And I press "Update User"
   Then I should be on the admin_dashboard page
-  Given I am on the user_profiles page
+  Given I am on the User Profiles page
   And I should see "zachary@gmail.com"
   And I should not see "zach@gmail.com"
 

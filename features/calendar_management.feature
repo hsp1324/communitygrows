@@ -24,19 +24,6 @@ Scenario: Visiting calendar management page
     Then I should see "Committee Management"
     And I should see "Public Events"
     
-#Happy Path
-Scenario: Create new calendar
-    Given I am on the calendar management page
-    When I follow "New Calendar"
-    And I fill in "Calendar Name" with "Fundraiser"
-    And I fill in "Link" with "www.google.com"
-    Then "red" should be selected for "Color"
-    And I press "Submit"
-    Then I am on the calendar management page
-    And I should see "Fundraiser"
-    And I should see "Delete Fundraiser"
-    And I should see "Show Fundraiser"
-
 #Sad Path
 Scenario: Create new calendar with a blank name
     Given I am on the calendar management page

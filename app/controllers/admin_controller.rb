@@ -50,15 +50,8 @@ class AdminController < ActionController::Base
             flash[:notice] = flash[:notice].to_a.concat @user.errors.full_messages
             redirect_to edit_user_path(@user.id)
         else
-            form_data = []
-            params[:check].each_pair do |committee_id, checked|
-                form_data<<(committee_id)
-            end
-            
-            @user.committees.each do |committee|
-                if form_data.include? committee.id
-                    form_data.delete(committee.id)
-                else
+            if params[:check].nil?
+                @user.committees.each do |committee|
                     old_record = @user.mail_records.find_by(committee_id: committee.id)
                     if old_record
                         @user.mail_records.delete(old_record)
@@ -66,14 +59,33 @@ class AdminController < ActionController::Base
                     end
                     @user.committees.delete(committee)
                 end
-            end
+            else
+                form_data = []
+                params[:check].each_pair do |committee_id, checked|
+                    form_data<<(committee_id)
+                end
+
             
-            form_data.each do |id|
-                committee = Committee.find(id)
-                @user.committees<<(committee)
-                @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
-                if Rails.env.production?
-                    send_member_email(committee, [@user.id])
+                @user.committees.each do |committee|
+                    if form_data.include? committee.id
+                        form_data.delete(committee.id)
+                    else
+                        old_record = @user.mail_records.find_by(committee_id: committee.id)
+                        if old_record
+                            @user.mail_records.delete(old_record)
+                            old_record.destroy
+                        end
+                        @user.committees.delete(committee)
+                    end
+                end
+            
+                form_data.each do |id|
+                    committee = Committee.find(id)
+                    @user.committees<<(committee)
+                    @user.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
+                    if Rails.env.production?
+                        send_member_email(committee, [@user.id])
+                    end
                 end
             end
             

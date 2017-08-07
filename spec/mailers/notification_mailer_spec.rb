@@ -49,6 +49,25 @@ RSpec.describe NotificationMailer, type: :mailer do
   end  
   
   
+  describe 'new announcement with title and emergency_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.emergency_email(@test_admin, @test_announcement_title)}
+
+    it 'send email' do
+      expect(mail.subject).to eql('An Emergency announcment from CG: test')
+    end
+  end
+  
+  describe 'new announcement with notitle and emergency_email' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.emergency_email(@test_admin, @test_announcement_notitle)}
+
+    it 'when new announcement without title added' do
+      expect(mail.subject).to eql('An Emergency announcment from CG')
+    end
+  end 
+  
+  
   describe 'new announcement' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:announcement) { mock_model Announcement, title: 'Raining', content: 'It is raining' }
@@ -97,6 +116,42 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
 
+  describe 'update announcement without title' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:mail) { NotificationMailer.announcement_update_email(@test_admin, @test_announcement_notitle)}
+
+    it 'send email without title' do
+      expect(mail.subject).to include('A CG announcement has been updated')
+    end
+  end
+
+
+
+
+  describe 'new document with title' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:document) { mock_model Document, url: 'community.com', title: ""}
+    let(:mail) { NotificationMailer.document_email(@test_admin, document)}
+
+    it 'send email' do
+      expect(mail.subject).to eql('A new CG document has been added: ')
+    end
+  end
+  
+  
+  describe 'new document without title' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:document) { mock_model Document, url: 'community.com', title: "Nice"}
+    let(:mail) { NotificationMailer.document_email(@test_admin, document)}
+
+    it 'when new announcement without title added' do
+      expect(mail.subject).to eql('A new CG document has been added: Nice')
+    end
+  end 
+  
+  
+  
+
   describe 'create document' do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:document) { mock_model Document, document: 'Important Read', title: 'Cool', content: 'www.communitygrows.com/document/example.pdf' }
@@ -141,6 +196,17 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     it 'contains content' do
       expect(mail.body.encoded).to include("A change has been made to Cool.")
+    end
+  end
+
+  describe 'update document without title' do
+    let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
+    let(:document) { mock_model Document, document: 'Important Read', title: '', content: 'www.communitygrows.com/document/example.pdf' }
+
+    let(:mail) { NotificationMailer.document_update_email(user,document)}
+
+    it 'send email' do
+      expect(mail.subject).to eql('A CG document has been updated: ')
     end
   end
 

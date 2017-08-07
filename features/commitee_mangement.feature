@@ -146,17 +146,15 @@ Scenario: Activate and Inactivate committee
     
     
 # sad path
-Scenario: should not be able to edit committee name to be blank or already existed name
+Scenario: should not be able to edit committee name to be blank 
     Given I am on the committee management page
-    Then I should see "hoopla"
-    And I should see "Hide hoopla"
-    When I follow second "hoopla"
+    Then I should see "backstreet boys"
+    And I should see "backstreet boys"
+    When I follow second "backstreet boys"
     And I fill in "Committee Name" with ""
     And I press "Update Committee"
     Then I should see "Please fill in the committee name field."
-    When I fill in "Committee Name" with "hoopla"
-    And I press "Update Committee"
-    Then I should see "Committee name provided already exists. Please enter a different name."
+
     
 Scenario: should not be able to create committee name to be blank or already existed name
     Given I am on the committee management page
@@ -170,14 +168,19 @@ Scenario: should not be able to create committee name to be blank or already exi
     Then I should see "Committee name provided already exists. Please enter a different name."
 
 Scenario: Users should be able to add a committee description, and the description should be reflected on the committees page
+
     Given I am on the committee management page
     When I follow second "hoopla"
     And I should see "Edit"
+    And I fill in "Committee Name" with "Great hoopla"
     And I fill in "Committee Description" with "Great dinos"
+    When I choose all of the damn checkboxes
     And I press "Update Committee"
 
-    Given I am on the subcommittee "hoopla" page
-    Then I should see "Description"
+    Given I am on the CommunityGrows home page
+    Then I should see "Great hoopla"
+    When I follow "Great hoopla"
+    And I should see "Committee Description"
     And I should see "Great dinos"
 
     

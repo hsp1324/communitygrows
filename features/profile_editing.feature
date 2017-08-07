@@ -43,11 +43,10 @@ Scenario: Edit job description and successfully save
   Scenario: Check for existance of profile photo
     Given I follow "Account Details"
     Then I should see "Edit Account Info"
-    When I load "Picture" with "sun.jpg"
+    When I load "picture" with "public/uploads/sun.jpg"
     And I press "Update Info"
 
     Then I should see "info was successfully updated"
     Given I am on the User Profiles page
-    Then I follow "Test Test"
-    Then I should see "Picture"
-    And I should see "sun.jpg"
+    When I follow "Test Test"
+    Then I should see a picture "sun.jpg"

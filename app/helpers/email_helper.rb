@@ -146,46 +146,36 @@ module EmailHelper
         end
     end
     
-    def compile_announcements_and_documents(title, records)
-        @records = records
-        @title = title
-        @text = '<p>'
-        
-        name_change = @records.find_by("description LIKE ?", 'name%')
-        if name_change
-            old_name = name_change.description.split(" ")[1]
-            @text += "<strong><style='font-size:14px'>The "
-            @text += old_name
-            @text += " Committee had its name changed to "
-            @text += name_change.committee.name
-            @text += ".<style='font-size:12px'></strong><br>"
-        end
-        
-        description_change = @records.find_by(description: "description")
-        if description_change
-            @text += "<strong><style='font-size:14px'>The "
-            @text += description_change.committee.name
-            @text += " Committee had its description changed to:<style='font-size:12px'></strong><br>&emsp; "
-            @text += name_change.committee.description
-            @text += ".<br>"
-        end
-        
+    def compile_meetings(records)
+        @text = "<p><strong><style='font-size:14px'>Meetings:</strong><style='font-size:12px'><br>"
         @stuff = false
-        @tmptext = "<strong><style='font-size:14px'> The following members have joined " + title + " Committee:<style='font-size:12px'></strong><br>"
-        @records.where.not(user_id: nil).each do |record|
+        @records.where.not(meeting_id: nil).each do |record|
             @stuff = true
-            @tmptext += "&emsp; "
-            @tmptext += record.user.name
-            @tmptext += "<br>"
+            @text += "<strong>&emsp; "
+            @text = @tmp_text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end
+            @text += "</strong><br>"
+            
+            @text += "&emsp;&emsp; "
+            @text = @tmp_text + record.meeting.time + record.meeting.date + " at " + record.meeting.location
+            @text += "<br>"
+            
+            @text += "&emsp;&emsp; "
+            @text += record.meeting.description
+            @text += "<br>"
         end
         if @stuff
-            @text += @tmptext
+            return @text
         end
-        
+        return ""
+    end
+    
+    def compile_announcements(title, records)
+        @title = title
+        @records = records
         @stuff = false
         @tmptext = "<strong><style='font-size:14px'>" + @title + " Announcements:<style='font-size:12px'></strong><br>"
 
-        @records.where.not(announcement_id: nil).each do |record|
+        @records.each do |record|
             @stuff = true
             @tmptext += "<strong>&emsp; "
             @tmptext += record.announcement.title
@@ -197,21 +187,28 @@ module EmailHelper
         end
         
         if @stuff
-            @text += @tmptext
+            return @tmptext
         end
+        return ""
+    end
     
+    def compile_documents(title, records)
+        @title = title
+        @records = records
         @stuff = false
-    
-        #Document
-        @tmptext = "<strong><style='font-size:14px'>" + @title + " Documents:<style='font-size:12px'></strong><br>"
         
-        @records.where.not(document_id: nil).each do |record|
+        @text = "<strong><style='font-size:14px'>" + @title + " Documents:<style='font-size:12px'></strong><br>"
+        
+        @records.each do |record|
             @stuff = true
-            @tmptext += '&emsp;&emsp; <a href = "'
-            @tmptext += record.document.url
-            @tmptext += '">'
-            @tmptext += record.document.title
-            @tmptext += '</a>'
+            @text += '&emsp;&emsp; <a href = "'
+            @text += record.document.url
+            @text += '">'
+            @text += record.document.title
+            @text += '</a>'
+            if title == "Category"
+                @text = @text + " in the " + record.category.name + " Category"
+            end
             if record.description != 'transfer'
                 @tmptext = @tmptext + ' was ' + record.description + 'd.'
             else
@@ -221,85 +218,55 @@ module EmailHelper
         end
         
         if @stuff
+            return @text
+        end
+        return ""
+    end
+    
+    def compile_committee_records(title, records)
+        @records = records
+        @title = title
+        @text = '<p>'
+        header = "<strong><style='font-size:14px'>"
+        footer = ".<style='font-size:12px'></strong><br>"
+        
+        name_change = @records.find_by("description LIKE ?", 'name%')
+        if name_change
+            old_name = name_change.description.split(" ")[1]
+            @text = @text + header + "The " + old_name + " Committee had its name changed to " + name_change.committee.name + "." + footer
+        end
+        
+        description_change = @records.find_by(description: "description")
+        if description_change
+            @text += @text + header + "The " + description_change.committee.name + " Committee had its description changed to:" + footer + name_change.committee.description + ".<br>"
+        end
+        
+        @stuff = false
+        @tmptext = "<strong><style='font-size:14px'> The following members have joined " + title + " Committee:<style='font-size:12px'></strong><br>"
+        @records.where.not(user_id: nil).each do |record|
+            @stuff = true
+            @tmptext = @tmptext + "&emsp; " + record.user.name + "<br>"
+        end
+        if @stuff
             @text += @tmptext
         end
         
+        @text += self.compile_announcements(@title, records.where.not(announcement_id: nil))
+        @text += self.compile_documents(@title, records.where.not(document_id: nil))
+        
         if @text == "<p>"
             return ""
-        else
-            return @text + "</p>"
         end
+        return @text + "</p>"
     end
     
     def generate(records, time_period)
         @records = records
         @subject = time_period + " Digest for " + Time.now.strftime("%m/%d")
         
-        @main_text = ""
-        
-        #compile meetings section of digest
-        @tmp_text = "<p><strong><style='font-size:14px'>Meetings:</strong><style='font-size:12px'><br>"
-        @stuff = false
-        @records.where.not(meeting_id: nil).each do |record|
-            @stuff = true
-            @tmp_text += "<strong>&emsp; "
-            @tmp_text = @tmp_text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end
-            @tmp_text += "</strong><br>"
-            
-            @tmp_text += "&emsp;&emsp; "
-            @tmp_text = @tmp_text + record.meeting.time + record.meeting.date + " at " + record.meeting.location
-            @tmp_text += "<br>"
-            
-            @tmp_text += "&emsp;&emsp; "
-            @tmp_text += record.meeting.description
-            @tmp_text += "<br>"
-        end
-        
-        if @stuff
-            @main_text += @tmp_text + "</p>"
-        end
-        
-        #compile main announcements
-        @stuff = false
-        @tmptext = "<p><strong><style='font-size:14px'>Main Announcements:<style='font-size:12px'></strong><br>"
-
-        @records.where(committee_id: nil).where.not(announcement_id: nil).each do |record|
-            @stuff = true
-            @tmptext += "<strong>&emsp; "
-            @tmptext += record.announcement.title
-            @tmptext += "</strong><br>"
-            
-            @tmptext += "&emsp;&emsp; "
-            @tmptext += record.announcement.content
-            @tmptext += "<br>"
-        end
-        
-        if @stuff
-            @main_text = @main_text + @tmptext + "</p>"
-        end
-    
-        #compile category documents
-        @stuff = false
-        @tmptext = "<strong><style='font-size:14px'>Category Documents:<style='font-size:12px'></strong><br>"
-        
-        @records.where.not(category_id: nil).each do |record|
-            @stuff = true
-            @tmptext += '&emsp;&emsp; <a href = "'
-            @tmptext += record.document.url
-            @tmptext += '">'
-            @tmptext += record.document.title
-            @tmptext += '</a>'
-            if record.description != 'transfer'
-                @tmptext = @tmptext + ' was ' + record.description + 'd in ' + record.category.name + "." 
-            else
-                @tmptext = @tmptext + ' was transferred from ' + record.committee.name + ' to ' + record.category.name + "."
-            end
-            @tmptext += '<br>'
-        end
-        
-        if @stuff
-            @main_text = @main_text + @tmptext + "</p>"
-        end
+        @main_text = self.compile_meetings(@records.where.not(meeting_id: nil))
+        @main_text += self.compile_announcements("Main", @records.where(committee_id: nil).where.not(announcement_id: nil))
+        @main_text += self.compile_documents("Category", @records.where.not(category_id: nil))
 
         #compile committee related announcements, documents and member details
         User.all.each do |user|
@@ -310,18 +277,15 @@ module EmailHelper
                     @records = records
                     #if Participation.find_by(user_id: user.id, committee_id: committee.id)
                     if user.committees.include? committee
-                        @committee_text = self.compile_announcements_and_documents(committee.name, @records.where(committee_id: committee.id))
+                        @committee_text = self.compile_committee_records(committee.name, @records.where(committee_id: committee.id))
                         @content += @committee_text
                     end
                 end
                 
                 puts(@content)
-                puts user.name
-                puts user.email
                 
                 NotificationMailer.digest_email(user, @subject, @content).deliver
             end
         end
     end
-        
 end

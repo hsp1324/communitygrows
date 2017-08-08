@@ -76,9 +76,9 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     let(:mail) { NotificationMailer.announcement_email(user,announcement)}
 
-    # it 'renders the subject' do
-    #   expect(mail.subject).to include('A New announcment from CG:')
-    # end
+    it 'renders the subject' do
+      expect(mail.subject).to include('An Announcement has been created at CG')
+    end
 
     it 'renders the receiver email' do
       expect(mail.to).to eql([user.email])
@@ -100,9 +100,9 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     let(:mail) { NotificationMailer.announcement_update_email(user,announcement)}
 
-    # it 'renders the subject' do
-    #   expect(mail.subject).to include('A CG announcement has been updated:')
-    # end
+    it 'renders the subject' do
+      expect(mail.subject).to include('An Announcement has been updated at CG')
+    end
 
     it 'renders the receiver email' do
       expect(mail.to).to eql([user.email])
@@ -122,9 +122,9 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:user) { mock_model User, name: 'James', email: 'james@email.com' }
     let(:mail) { NotificationMailer.announcement_update_email(@test_admin, @test_announcement_notitle)}
 
-    # it 'send email without title' do
-    #   expect(mail.subject).to include('A CG announcement has been updated')
-    # end
+    it 'send email without title' do
+      expect(mail.subject).to include('An Announcement has been updated at CG')
+    end
   end
 
 

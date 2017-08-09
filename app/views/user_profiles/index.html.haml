@@ -16,12 +16,11 @@
               %b #{users[0].email}
             %p 
               Committees:
-              - of_committees = [] 
-              - users[0].committees.each {|committee| of_committees<<committee.name}
-              - of_committees = of_committees.each_slice(2).map(&:first)
-              - of_committees = of_committees.map(&:inspect).join(', ')
-              - of_committees.gsub!(/"/, '')
-              %b #{of_committees}
+              - committees = [] 
+              - users[0].committees.each {|committee| committees<<committee.name}              
+              - committees = committees.map(&:inspect).join(', ')
+              - committees.gsub!(/"/, '')
+              %b #{committees}
             %p 
               Board Role: 
               %b #{users[0].board_role}
@@ -33,12 +32,11 @@
                 %b #{users[1].email}
               %p 
                 Committees:
-                - of_committees_ = [] 
-                - users[1].committees.each {|committee| of_committees_<<committee.name}
-                - of_committees_ = of_committees_.each_slice(2).map(&:first)
-                - of_committees_ = of_committees_.map(&:inspect).join(', ')
-                - of_committees_.gsub!(/"/, '')
-                %b #{of_committees_}
+                - committees = [] 
+                - users[1].committees.each {|committee| committees<<committee.name}
+                - committees = committees.map(&:inspect).join(', ')
+                - committees.gsub!(/"/, '')
+                %b #{committees}
               %p 
                 Board Role: 
                 %b #{users[1].board_role}

@@ -2,7 +2,11 @@ module EmailHelper
     def send_simple_mail(content, type)
         User.all.each do |user|
             if user.digest_pref == "real_time"
-                if content.committee.nil? or user.committees.include? content.committee
+                if type == "meeting"
+                    NotificationMailer.meeting_email(user, content).deliver
+                elsif type == "Mupdate"
+                    NotificationMailer.meeting_update_email(user, content).deliver
+                elsif content.committee.nil? or user.committees.include? content.committee
                     if type == "announcement"
                         NotificationMailer.announcement_email(user, content).deliver
                     elsif type == "Aupdate"
@@ -11,10 +15,6 @@ module EmailHelper
                         NotificationMailer.document_email(user, content).deliver
                     elsif type == "Dupdate"
                         NotificationMailer.document_update_email(user, content).deliver
-                    elsif type == "meeting"
-                        NotificationMailer.meeting_email(user, content).deliver
-                    elsif type == "Mupdate"
-                        NotificationMailer.meeting_update_email(user, content).deliver
                     elsif type == "emergency"
                         NotificationMailer.emergency_email(user, content).deliver
                     end

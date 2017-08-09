@@ -5,8 +5,12 @@
         Email: 
         %b #{@user.email}
     %p 
-        Committee: 
-        %b #{@user.committee}
+        Committees:
+        - committees = []
+        - @user.committees.each {|committee| committees<<committee.name}              
+        - committees = committees.map(&:inspect).join(', ')
+        - committees.gsub!(/"/, '') 
+        %b #{committees}
     %p 
         Board Role: 
         %b #{@user.board_role}

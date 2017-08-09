@@ -7,7 +7,7 @@ class CategoryController < ActionController::Base
 
     def index
         authenticate_user!
-        authorize_user(current_user)
+        authorize_user
         if params[:doc_order]
             category = Category.find(params[:doc_order][:category])
             Category.sort_docs(category, params[:doc_order][:order])

@@ -62,10 +62,7 @@
             </ul>
           </li>
         <% end %>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li role="separator" class="divider"></li>
-        <li><%= link_to "Sign out", destroy_user_session_path, :method => 'delete'%></li>
+        <li class="pull-right"><%= link_to "Sign out", destroy_user_session_path, :method => 'delete'%></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

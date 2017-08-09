@@ -111,11 +111,11 @@ module EmailHelper
         @records.each do |record|
             @stuff = true
             @text += "<strong>&emsp; "
-            @text = @tmp_text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end
+            @text = @text + record.meeting.name + " " + record.description + "d" #created, updated, need the d at the end
             @text += "</strong><br>"
             
             @text += "&emsp;&emsp; "
-            @text = @tmp_text + record.meeting.time + record.meeting.date + " at " + record.meeting.location
+            @text = @text + record.meeting.time + record.meeting.date + " at " + record.meeting.location
             @text += "<br>"
             
             @text += "&emsp;&emsp; "
@@ -166,7 +166,7 @@ module EmailHelper
             @text += record.document.title
             @text += '</a>'
             if title == "Category"
-                @text = @text + " in the " + record.category.name + " Category"
+                @text = @text + " in the " + record.category.name + " Category<br>"
             end
             if record.description != 'transfer'
                 @tmptext = @tmptext + ' was ' + record.description + 'd.'
@@ -187,17 +187,17 @@ module EmailHelper
         @title = title
         @text = '<p>'
         header = "<strong><style='font-size:14px'>"
-        footer = ".<style='font-size:12px'></strong><br>"
+        footer = "<style='font-size:12px'></strong><br>"
         
         name_change = @records.find_by("description LIKE ?", 'name%')
         if name_change
             old_name = name_change.description.split(" ")[1]
-            @text = @text + header + "The " + old_name + " Committee had its name changed to " + name_change.committee.name + "." + footer
+            @text += header + "The " + old_name + " Committee had its name changed to " + name_change.committee.name + "." + footer
         end
         
         description_change = @records.find_by(description: "description")
         if description_change
-            @text += @text + header + "The " + description_change.committee.name + " Committee had its description changed to:" + footer + name_change.committee.description + ".<br>"
+            @text += header + "The " + description_change.committee.name + " Committee had its description changed to:" + footer + name_change.committee.description + ".<br>"
         end
         
         @stuff = false
@@ -224,7 +224,9 @@ module EmailHelper
         @subject = time_period + " Digest for " + Time.now.strftime("%m/%d")
         
         @main_text = self.compile_meetings(@records.where.not(meeting_id: nil))
+        @records = records
         @main_text += self.compile_announcements("Main", @records.where(committee_id: nil).where.not(announcement_id: nil))
+        @records = records
         @main_text += self.compile_documents("Category", @records.where.not(category_id: nil))
 
         #compile committee related announcements, documents and member details
@@ -242,8 +244,7 @@ module EmailHelper
                 end
                 
                 puts(@content)
-                
-                NotificationMailer.digest_email(user, @subject, @content).deliver
+                #NotificationMailer.digest_email(user, @subject, @content).deliver
             end
         end
     end

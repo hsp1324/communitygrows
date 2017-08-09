@@ -4,14 +4,7 @@ class AdminController < ActionController::Base
     before_action :authenticate_user!, :authorize_user
     include EmailHelper
     include AnnouncementHelper
-    
-    def authorize_user
-        if not User.find(current_user.id).admin
-            flash[:message] = "Access not granted. Please sign in again."
-            redirect_to "/dashboard" and return
-        end
-        return true
-    end
+    include AdminHelper
     
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :board_role, :current_company,
@@ -145,11 +138,13 @@ class AdminController < ActionController::Base
     
     #show new_announcement page for admin before creating
     def new_announcement
+        authenticate_user!
         @from = params[:from]
     end
     
     #creating main announcement as admin
     def create_announcement
+        authenticate_user!
         @from = params[:from]
         create_announcement_helper
         return
@@ -157,7 +152,7 @@ class AdminController < ActionController::Base
     
     def edit_announcement
         authenticate_user!
-        authorize_user
+        authorize_user(current_user)
         @id = params[:id]
         @target_announcement = Announcement.find @id
     end

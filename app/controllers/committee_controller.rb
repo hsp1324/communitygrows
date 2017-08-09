@@ -1,5 +1,6 @@
 class CommitteeController < ApplicationController
     layout "base"
+    before_action :authenticate_user!, :authorize_user
     include AdminHelper
     include ControllerHelper
     include EmailHelper
@@ -32,7 +33,7 @@ class CommitteeController < ApplicationController
                 if old_record == nil
                     old_committee.mail_records<<(MailRecord.create(:description => description))
                 else
-                    old_record.update_attribute(:description, description)
+                    old_record.touch
                 end
                 
             end

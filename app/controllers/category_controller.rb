@@ -1,11 +1,13 @@
 class CategoryController < ActionController::Base
     protect_from_forgery#, :with => :exception
     layout "base"
-    before_action :authenticate_user!
+    before_action :authenticate_user!, :authorize_user
     include AdminHelper
     include ControllerHelper
 
     def index
+        authenticate_user!
+        authorize_user(current_user)
         if params[:doc_order]
             category = Category.find(params[:doc_order][:category])
             Category.sort_docs(category, params[:doc_order][:order])
@@ -20,11 +22,13 @@ class CategoryController < ActionController::Base
     end
 
     def new_category
+        authenticate_user!
         is_admin = admin_only('create categories.')
         return if !is_admin
     end
     
     def crud_category
+        authenticate_user!
         crud_action = params[:do_action]
         is_admin = admin_only('#{crud_action} categories.')
         return if !is_admin
@@ -43,6 +47,7 @@ class CategoryController < ActionController::Base
     end
     
     def create_category
+        authenticate_user!
         is_admin = admin_only('create categories.')
         return if !is_admin
         category = params[:category]
@@ -63,6 +68,7 @@ class CategoryController < ActionController::Base
     end
 
     def update_category
+        authenticate_user!
         is_admin = admin_only('update categories.')
         return if !is_admin
         category = params[:category]
@@ -70,6 +76,7 @@ class CategoryController < ActionController::Base
     end
     
     def edit_category
+        authenticate_user!
         is_admin = admin_only('edit categories.')
         return if !is_admin
         edit_object(Category)
@@ -77,12 +84,14 @@ class CategoryController < ActionController::Base
     
     
     def update_category_order
+        authenticate_user!
         if request.xhr?
             Category.update_category_order(params[:table])
         end
     end
 
     def delete_category
+        authenticate_user!
         is_admin = admin_only('delete categories.')
         return if !is_admin
         delete_object(Category)
@@ -105,6 +114,7 @@ class CategoryController < ActionController::Base
     
     
     def action_category
+        authenticate_user!
         my_action = params[:do_action]
         is_admin = admin_only('#{my_action} categories.')
         return if !is_admin
@@ -113,6 +123,7 @@ class CategoryController < ActionController::Base
     end
     
     def update_category_order
+        authenticate_user!
         if request.xhr?
             Category.update_category_order(params[:category])
         end

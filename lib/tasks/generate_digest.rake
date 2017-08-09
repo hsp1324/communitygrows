@@ -30,4 +30,29 @@ namespace :generate_digest do
         MailRecord.delete_all
     end
     
+    task :list => :environment do
+        MailRecord.all.each do |record|
+            line = "Record #" + record.id.to_s + ": " + record.description + " || "
+            if !record.committee.nil?
+                line = line + "Committee " + record.committee.name + " || "
+            end
+            if !record.user.nil?
+                line = line + "User " + record.user.name + " || "
+            end
+            if !record.category.nil?
+                line = line + "Category " + record.category.name + " || "
+            end
+            if !record.announcement.nil?
+                line = line + "Announcement " + record.announcement.title + " || "
+            end
+            if !record.document.nil?
+                line = line + "Document " + record.document.title + " || "
+            end
+            if !record.meeting.nil?
+                line = line + "Meeting " + record.meeting.name + " || "
+            end
+            puts line
+        end
+    end
+    
 end

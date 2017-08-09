@@ -5,14 +5,17 @@ class AnnouncementController < ActionController::Base
     include EmailHelper
 
     def show_announcements
-       @announcements = Announcement.all
+        authenticate_user!
+        @announcements = Announcement.all
     end
 
     def new_announcement
+        authenticate_user!
         @committee_name = Committee.find(params[:committee_id]).name
     end
         
     def create_announcement
+        authenticate_user!
         @title = params[:title]
         @committee_id = params[:committee_id]
         @committee = Committee.find(@committee_id)
@@ -33,11 +36,13 @@ class AnnouncementController < ActionController::Base
     end
         
     def edit_announcement
+        authenticate_user!
         @announcement_id = params[:announcement_id]
         @announcement = Announcement.find @announcement_id
     end
     
     def update_announcement
+        authenticate_user!
         @target_announcement = Announcement.find params[:announcement][:id]
         @title = params[:title]
         @content = params[:content]
@@ -66,6 +71,7 @@ class AnnouncementController < ActionController::Base
     end
     
     def delete_announcement
+        authenticate_user!
         @target_announcement = Announcement.find params[:announcement_id]
         @committee_id = params[:committee_id]
         @committee = Committee.find(@committee_id)
@@ -78,6 +84,7 @@ class AnnouncementController < ActionController::Base
     end
     
     def search_announcements
+        authenticate_user!
         @search = params[:search]
         @announcements = Announcement.where("title LIKE ?", "%#{@search}%")
         render :show_announcements

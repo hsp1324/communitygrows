@@ -2,6 +2,7 @@ class MeetingController < ApplicationController
     layout "base"
     require 'time'
     require 'date'
+    before_action :authenticate_user!
     include AdminHelper
     include ControllerHelper
     include EmailHelper

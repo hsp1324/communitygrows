@@ -1,13 +1,18 @@
 class CalendarController < ApplicationController
     layout "base"
+    before_action :authenticate_user!, :authorize_user
     include AdminHelper
     include ControllerHelper
     
     def index
+        authenticate_user!
+        authorize_user
         @calendars = Calendar.all
     end
     
     def create_calendar
+        authenticate_user!
+        authorize_user
         is_admin = admin_only('create calendar')
         return if !is_admin
         calendar = params[:calendar]
@@ -15,6 +20,8 @@ class CalendarController < ApplicationController
     end
     
     def delete_calendar
+        authenticate_user!
+        authorize_user
         is_admin = admin_only('delete calendar')
         return if !is_admin
         delete_object(Calendar)
@@ -22,12 +29,16 @@ class CalendarController < ApplicationController
     end       
 
     def edit_calendar
+        authenticate_user!
+        authorize_user
         is_admin = admin_only('edit calendar')
         return if !is_admin
         edit_object(Calendar)
     end
 
     def update_calendar
+        authenticate_user!
+        authorize_user
         is_admin = admin_only('update calendar')
         return if !is_admin
         calendar = params[:calendar]
@@ -35,6 +46,8 @@ class CalendarController < ApplicationController
     end
     
     def action_calendar
+        authenticate_user!
+        authorize_user
         my_action = params[:do_action]
         is_admin = admin_only('#{my_action} calendar')
         return if !is_admin

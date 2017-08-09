@@ -244,7 +244,7 @@ module EmailHelper
                 end
                 
                 puts(@content)
-                #NotificationMailer.digest_email(user, @subject, @content).deliver
+                NotificationMailer.digest_email(user, @subject, @content).deliver
             end
         end
     end

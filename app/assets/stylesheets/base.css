@@ -12,10 +12,6 @@ html, body {}
     color: red;
 }
 
-/*.content {*/
- /* margin-top: -15px;*/ /*Originally needed to buffer body so that it isn't hidden under nav-bar, but now navbar is static and negative padding is needed to counter the default padding added by bootstrap*/
-/*}*/
-
 body {
   padding-top: 50px;
 }

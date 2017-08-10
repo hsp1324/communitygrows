@@ -189,7 +189,6 @@ class CommitteeController < ApplicationController
             member = User.find(id) 
             committee.users<<(member)
             member.mail_records<<(MailRecord.create(:description => "add", :committee => committee))
-            committee.users<<(member)
         end
         
         # remove user from committee with activerecord model query

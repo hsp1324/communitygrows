@@ -127,7 +127,7 @@ module EmailHelper
         if @stuff
             return "<br><br><hr>" + @text + "<br><br><hr>"
         end
-        return ""
+        return "<br><br><hr>"
     end
     
     def compile_announcements(title, records)

@@ -2,12 +2,27 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body {
+          background-color: #d6dbe0;
+      }
+      hr.style2 {
+      	border-top: 3px double #8c8b8b;
+      }
+      hr.style10 {
+      	border-top: 1px dotted #8c8b8b;
+      	border-bottom: 1px dotted #fff;
+      }
+
+
+    </style>
   </head>
   <body>
     <p> Dear Board Members, </p>
     <p>
       
       <%= @content.html_safe %> 
+
       <br>
       <br>
       In community,

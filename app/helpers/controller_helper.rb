@@ -25,7 +25,7 @@ module ControllerHelper
                     flash[:notice] = "#{type.string_title} link field cannot be blank."
                     redirect_to fail_redirect_path and return
                 end
-                Calendar.create!(:name => object[:name], :link => object[:link], :hidden => true)
+                Calendar.create!(:name => object[:name], :link => object[:link], :color => object[:color], :hidden => true)
             end
             flash[:notice] = "#{type.string_title} #{object[:name]} was successfully created!"
             redirect_to success_redirect_path
@@ -50,6 +50,9 @@ module ControllerHelper
             end
             if @found_object.name != object[:name].to_s
                 @found_object.update_attributes!(:name => object[:name].to_s)
+            end
+            if @found_object.color != object[:color].to_s
+                @found_object.update_attributes!(:color => object[:color].to_s)
             end
         else
             if type.has_name?(object[:name].to_s)

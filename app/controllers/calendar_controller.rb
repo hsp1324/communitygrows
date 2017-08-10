@@ -10,6 +10,11 @@ class CalendarController < ApplicationController
         @calendars = Calendar.all
     end
     
+    def color_id(color)
+        colors = ["#D3D3D3", "#7FFFD4", "#0000FF", "#000080", "#800080", "#FF1493", "#EE82EE", "#006400", "#008000", "#9ACD32", "#FFA500", "#FF0000", "#A52A2A", "#DEB887", "#F5F5DC"]
+        return colors.index(color)
+    end
+    
     def create_calendar
         authenticate_user!
         authorize_user
@@ -32,6 +37,9 @@ class CalendarController < ApplicationController
         authenticate_user!
         authorize_user
         is_admin = admin_only('edit calendar')
+        @previous = color_id(Calendar.find(params[:id]).color)
+        puts @previous
+        puts "TESTING TESTING HEY HEY HEY TESTING \n\n\n\n\n  TELKSJFLAJPIEWJFPIEWAHJKAHKDSGH:KAWHEFPIA"
         return if !is_admin
         edit_object(Calendar)
     end
@@ -41,6 +49,8 @@ class CalendarController < ApplicationController
         authorize_user
         is_admin = admin_only('update calendar')
         return if !is_admin
+        @previous = color_id(Calendar.find(params[:id]).color)
+        @calendar = Calendar.find(params[:id])
         calendar = params[:calendar]
         update_object(Calendar, calendar, edit_calendar_path, calendar_index_path)
     end

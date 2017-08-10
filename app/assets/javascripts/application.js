@@ -53,19 +53,13 @@ $(document).on('ready', function() {
       },
       success: function(data){
         var calendars = [];
-        
         for (var i=0; i < data.length; i++){
             console.log(data[i].googleCalendarID);
-            calendars.push({googleCalendarId: data[i].googleCalendarID})
-
+            calendars.push({googleCalendarId: data[i].googleCalendarID, color: data[i].color})
         }
         console.log(calendars);
         $('#calendar').fullCalendar({ 
             googleCalendarApiKey: 'AIzaSyAUNtsyZY_gIV4R8z9O4sX4jivvAi_uZ60',
-            events: [{
-                title: 'Event1',
-                start: '2017-08-08'
-            }],
             eventSources: calendars
         });
         console.log ("GET IN THERE");
@@ -73,3 +67,8 @@ $(document).on('ready', function() {
       error: function(xhr, status, response) {console.log("Ya dun goofed")}
     });
 });
+
+// events: [{
+//     title: 'Event1',
+//     start: '2017-08-08'
+// }],

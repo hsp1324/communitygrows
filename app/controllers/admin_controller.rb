@@ -152,7 +152,7 @@ class AdminController < ActionController::Base
     
     def edit_announcement
         authenticate_user!
-        authorize_user(current_user)
+        authorize_user
         @id = params[:id]
         @target_announcement = Announcement.find @id
     end

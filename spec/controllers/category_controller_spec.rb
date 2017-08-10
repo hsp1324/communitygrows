@@ -29,7 +29,7 @@ describe CategoryController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :new_category
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -60,7 +60,7 @@ describe CategoryController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             post :create_category, params: {category: {name: "Good Category"}}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -73,7 +73,7 @@ describe CategoryController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :edit_category, params: {id: 25}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -104,7 +104,7 @@ describe CategoryController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             put :update_category, params: {id: 25, category: {name: "Good Category"}}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -123,7 +123,7 @@ describe CategoryController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             delete :delete_category, params: {id: 25}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -147,7 +147,7 @@ describe CategoryController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_category, params: {id: 25, do_action: 'hide'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -171,7 +171,7 @@ describe CategoryController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_category, params: {id: 25, do_action: 'show'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end

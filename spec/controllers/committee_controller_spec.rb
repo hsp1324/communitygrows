@@ -55,7 +55,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             post :create_committee, params: {committee: {name: "Good Committee"}}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -87,7 +87,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             post :crud_committee, params: {committee: {name: "Good Committee"}, do_action: "create"}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -100,7 +100,7 @@ describe CommitteeController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :edit_committee, params: {id: @test_committee.id}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -131,7 +131,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             put :update_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -168,7 +168,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             put :crud_committee, params: {id: @test_committee.id, committee: {name: "Good Committee"}, do_action: "update"}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -187,7 +187,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             delete :delete_committee, params: {id: @test_committee.id}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -206,7 +206,7 @@ describe CommitteeController do
         it 'redirects non-admin users' do
             sign_in users(:user)
             delete :crud_committee, params: {id: @test_committee.id, do_action: "delete"}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -230,7 +230,7 @@ describe CommitteeController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_committee, params: {id: @test_committee.id, do_action: 'hide'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -254,7 +254,7 @@ describe CommitteeController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_committee, params: {id: @test_committee.id, do_action: 'show'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -279,7 +279,7 @@ describe CommitteeController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_committee, params: {id: @test_committee.id, do_action: 'active'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end
@@ -305,7 +305,7 @@ describe CommitteeController do
 		it 'redirects non-admin users' do
             sign_in users(:user)
             get :action_committee, params: {id: @test_committee.id, do_action: 'inactive'}
-            expect(response).to redirect_to root_path
+            expect(response).to redirect_to dashboard_index_path
             sign_out users(:user)
         end
 	end

@@ -28,3 +28,11 @@ Note: all feature files and step defintions written for iter1-1 by the summer 17
 [![Code Climate](https://codeclimate.com/github/hsp1324/communitygrows/badges/gpa.svg)](https://codeclimate.com/github/hsp1324/communitygrows)
 [![Build Status](https://travis-ci.org/hsp1324/communitygrows.svg?branch=master)](https://travis-ci.org/hsp1324/communitygrows)
 [![Test Coverage](https://codeclimate.com/github/hsp1324/communitygrows/badges/coverage.svg)](https://codeclimate.com/github/hsp1324/communitygrows)
+
+####### ITER DEPLOY SUMMER 2017 INFO FOR READERS ##############
+1. Clone the Repository
+2. heroku create
+3. git push heroku master
+4. heroku run rake db:migrate
+5. heroku run rake db:seed
+6. figaro heroku:set -e production

@@ -12,7 +12,7 @@ http://www.communitygrows.org/
 https://www.pivotaltracker.com/n/projects/2070613
 
 ###Heroku Deployment Link
-mysterious-ridge-80338.herokuapp.com
+https://mysterious-ridge-80338.herokuapp.com
 
 
 

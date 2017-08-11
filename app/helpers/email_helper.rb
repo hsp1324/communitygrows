@@ -240,7 +240,7 @@ module EmailHelper
     def generate(records, time_period)
         @records = records
         if time_period == "daily"
-            @subject = "Daily Digest for " + Time.now.strftime("%m/%d")
+            @subject = "Daily Digest for " + (Time.now - 24.hours).strftime("%m/%d")
             @main_text = "Here is what has happened on Community Grows in the past 24 hours:"
         else
             @subject = "Weekly Digest for " + Time.now.strftime("%m/%d")

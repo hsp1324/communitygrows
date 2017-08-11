@@ -36,3 +36,6 @@ Note: all feature files and step defintions written for iter1-1 by the summer 17
 4. heroku run rake db:migrate
 5. heroku run rake db:seed
 6. figaro heroku:set -e production
+
+Username: admin@communitygrows.org
+Password: communitygrowsrocks

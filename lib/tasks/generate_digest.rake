@@ -1,4 +1,5 @@
 require "#{Rails.root}/app/helpers/email_helper"
+require 'date'
 include EmailHelper
 
 namespace :generate_digest do
@@ -21,15 +22,23 @@ namespace :generate_digest do
     
     task :scheduled_digest => :environment do
         @time = Time.now
-        @weekly_records = MailRecord.where("created_at >= ? or updated_at >= ?", (@time - 7.days), (@time - 7.days))
         @daily_records = MailRecord.where("created_at >= ? or updated_at >= ?", (@time - 24.hours), (@time - 24.hours))
         
         EmailHelper.generate(@daily_records, "Daily")
-        EmailHelper.generate(@weekly_records, "Weekly")
         
-        MailRecord.delete_all
+        date = Date.new(@time.year, @time.month, @time.day)
+        
+        if date.monday?
+            @weekly_records = MailRecord.where("created_at >= ? or updated_at >= ?", (@time - 7.days), (@time - 7.days))
+            EmailHelper.generate(@weekly_records, "Weekly")
+            
+            MailRecord.delete_all
+        end
     end
     
+    #below is code for testing/debugging
+    
+    #This task is used to check the mail_record list and make sure that they are updated and deleted accordingly
     task :list => :environment do
         MailRecord.all.each do |record|
             line = "Record #" + record.id.to_s + ": " + record.description + " || "
@@ -55,4 +64,16 @@ namespace :generate_digest do
         end
     end
     
+    #this task is to test the date/time functions of rails
+    task :check_date => :environment do
+        @time = Time.now
+        date = Date.new(@time.year, @time.month, @time.day)
+        puts date.monday?
+        puts date.tuesday?
+        puts date.wednesday?
+        puts date.thursday?
+        puts date.friday?
+        puts date.saturday?
+        puts date.sunday?
+    end
 end

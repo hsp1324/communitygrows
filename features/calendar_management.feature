@@ -29,7 +29,7 @@ Scenario: Create new calendar with a blank name
     Given I am on the calendar management page
     When I follow "New Calendar"
     And I fill in "Calendar Name" with ""
-    And I fill in "Link" with "www.google.com"
+    And I fill in "Public Calendar Address" with "www.google.com"
     And I press "Submit"
     And I should see "Calendar name field cannot be blank."
 
@@ -38,7 +38,7 @@ Scenario: Create new calendar with a blank link
     Given I am on the calendar management page
     When I follow "New Calendar"
     And I fill in "Calendar Name" with "Fundraiser"
-    And I fill in "Link" with ""
+    And I fill in "Public Calendar Address" with ""
     And I press "Submit"
     And I should see "Calendar link field cannot be blank."
 

@@ -24,7 +24,7 @@ Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery
   * Noah Ryan Lopez
   * Sunpyo Hong
   * Doongjo Shin
-  * Wen Chien Yen [Wen's GitHub](https://github.com/forrestDinos2RGB)
+  * [Wen Chien Yen](https://github.com/forrestDinos2RGB)
 
 ## Pivotal Tracker
 

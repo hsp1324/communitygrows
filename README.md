@@ -19,10 +19,10 @@ Our client, the deputy director of Community Grows, needed us to help improve 3 
 Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar 
 
 ## Authors
-  * Will Park
+  * [Will Park](https://github.com/wjpark1)
   * Shawn Liu
   * Noah Ryan Lopez
-  * Sunpyo Hong
+  * [Sunpyo Hong](https://github.com/hsp1324)
   * Doongjo Shin
   * [Wen Chien Yen](https://github.com/forrestDinos2RGB)
 

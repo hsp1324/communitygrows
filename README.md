@@ -1,6 +1,6 @@
 # CommunityGrows Board Portal
 
-[Imgur](http://i.imgur.com/KCYGEka.png)
+![Imgur](http://i.imgur.com/KCYGEka.png)
 ## Client
 Our client, the deputy director of Community Grows, needed us to help improve 3 main areas of previous legacy code base
 Extensibility of the Board Portal: 
@@ -9,29 +9,29 @@ Extensibility of the Board Portal:
     Technology
   * Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar. 
 
-## New Features: 
+## New Features 
   * Committee Management Feature | allows admins of CGs to easily create, delete, update, modify, hide, restrict member access to each committee
   * Calendar Management Feature: Allow members/admins to create and manage multiple calendars that automatically updates and synchronizes in multiple locations
   * Meeting Management Feature: Allows admins to easily create a centralized location for meeting agenda/info, and google hangout access
   * Email Digest Feature: Sends digest Emails triggered on certain events within CGs
   * Document Archive/Transfer Feature: Allow admins to easily transfer, archive important documents to repository
 
-##Technology
-Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar. 
+## Technology
+Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar 
 
-##Authors
-Will Park
-Shawn Liu
-Noah Ryan Lopez
-Sunpyo Hong
-Doongjo Shin
-Wen Chien Yen [Wen's GitHub](https://github.com/forrestDinos2RGB)
+## Authors
+  * Will Park
+  * Shawn Liu
+  * Noah Ryan Lopez
+  * Sunpyo Hong
+  * Doongjo Shin
+  * Wen Chien Yen [Wen's GitHub](https://github.com/forrestDinos2RGB)
 
-##Pivotal Tracker
+## Pivotal Tracker
 
 https://www.pivotaltracker.com/n/projects/2070613
 
-##Heroku Deployment Link
+## Heroku Deployment Link
 https://mysterious-ridge-80338.herokuapp.com
 
 

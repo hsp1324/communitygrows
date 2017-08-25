@@ -3,11 +3,10 @@
 ![Imgur](http://i.imgur.com/KCYGEka.png)
 ## Client
 Our client, the deputy director of Community Grows, needed us to help improve 3 main areas of previous legacy code base
-Extensibility of the Board Portal: 
+
+  * Extensibility of the Board Portal 
   * Centralization of work related technologies
   * Help members stay informed and up to date on the latest happenings within the organization and allow members to easily communicate to the larger community via announcement functions
-    Technology
-  * Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar. 
 
 ## New Features 
   * Committee Management Feature | allows admins of CGs to easily create, delete, update, modify, hide, restrict member access to each committee

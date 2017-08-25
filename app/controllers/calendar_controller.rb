@@ -38,8 +38,6 @@ class CalendarController < ApplicationController
         authorize_user
         is_admin = admin_only('edit calendar')
         @previous = color_id(Calendar.find(params[:id]).color)
-        puts @previous
-        puts "TESTING TESTING HEY HEY HEY TESTING \n\n\n\n\n  TELKSJFLAJPIEWJFPIEWAHJKAHKDSGH:KAWHEFPIA"
         return if !is_admin
         edit_object(Calendar)
     end

@@ -1,35 +1,45 @@
+# CommunityGrows Board Portal
 
+[Imgur](http://i.imgur.com/KCYGEka.png)
+## Client
+Our client, the deputy director of Community Grows, needed us to help improve 3 main areas of previous legacy code base
+Extensibility of the Board Portal: 
+  * Centralization of work related technologies
+  * Help members stay informed and up to date on the latest happenings within the organization and allow members to easily communicate to the larger community via announcement functions
+    Technology
+  * Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar. 
 
-# CommunityGrows App
+## New Features: 
+  * Committee Management Feature | allows admins of CGs to easily create, delete, update, modify, hide, restrict member access to each committee
+  * Calendar Management Feature: Allow members/admins to create and manage multiple calendars that automatically updates and synchronizes in multiple locations
+  * Meeting Management Feature: Allows admins to easily create a centralized location for meeting agenda/info, and google hangout access
+  * Email Digest Feature: Sends digest Emails triggered on certain events within CGs
+  * Document Archive/Transfer Feature: Allow admins to easily transfer, archive important documents to repository
 
-###Business
-Our customer needs a singular location that boardmembers can go to view updates and notifications made by sub-committees and/or boardmembers. We are improving upon a portal that encapsulates all notification threads and information into one central location. 
+##Technology
+Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery. API employed: Google Calendar. 
 
-http://www.communitygrows.org/
+##Authors
+Will Park
+Shawn Liu
+Noah Ryan Lopez
+Sunpyo Hong
+Doongjo Shin
+Wen Chien Yen [Wen's GitHub](https://github.com/forrestDinos2RGB)
 
-###Pivotal Tracker Project
+##Pivotal Tracker
 
 https://www.pivotaltracker.com/n/projects/2070613
 
-###Heroku Deployment Link
+##Heroku Deployment Link
 https://mysterious-ridge-80338.herokuapp.com
-
-
-
-######## ITER 1-1 SUMMER 2017 INFO FOR READERS ############
-
-Mocks: https://drive.google.com/drive/folders/0B_hIfVG6z2pZZXBrUVB5OFloc0U?usp=sharing
-
-Pivotal Tracker: https://www.pivotaltracker.com/n/projects/2070613
-
-Note: all feature files and step defintions written for iter1-1 by the summer 17 community grows team can be found in the "features (summer2017)" folder
 
 
 [![Code Climate](https://codeclimate.com/github/hsp1324/communitygrows/badges/gpa.svg)](https://codeclimate.com/github/hsp1324/communitygrows)
 [![Build Status](https://travis-ci.org/hsp1324/communitygrows.svg?branch=master)](https://travis-ci.org/hsp1324/communitygrows)
 [![Test Coverage](https://codeclimate.com/github/hsp1324/communitygrows/badges/coverage.svg)](https://codeclimate.com/github/hsp1324/communitygrows)
 
-####### ITER DEPLOY SUMMER 2017 INFO FOR READERS ##############
+## Heroku Deployment Procedure
 1. Clone the Repository
 2. heroku create
 3. git push heroku master
@@ -37,5 +47,8 @@ Note: all feature files and step defintions written for iter1-1 by the summer 17
 5. heroku run rake db:seed
 6. figaro heroku:set -e production
 
-Username: admin@communitygrows.org
-Password: communitygrowsrocks
+## Account Information
+To log onto the heroku site, contact cyen7115@berkeley.edu for account info
+
+
+

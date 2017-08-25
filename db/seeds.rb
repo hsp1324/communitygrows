@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.delete_all
-curr = User.create!(:name => "Admin John", :email => "kelly@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
+curr = User.create!(:name => "Admin John", :email => "admin@communitygrows.org", :password => "communitygrowsrocks", :password_confirmation => "communitygrowsrocks", 
 :admin => true, :digest_pref => "daily")
 
 Committee.delete_all

@@ -28,10 +28,10 @@ Our Board Portal was built on a Ruby backend, with CSS, HTML, JavaScript, JQuery
 
 ## Pivotal Tracker
 
-https://www.pivotaltracker.com/n/projects/2070613
+[pivotal tracker](https://www.pivotaltracker.com/n/projects/2070613)
 
 ## Heroku Deployment Link
-https://mysterious-ridge-80338.herokuapp.com
+[heroku link](https://mysterious-ridge-80338.herokuapp.com)
 
 
 [![Code Climate](https://codeclimate.com/github/hsp1324/communitygrows/badges/gpa.svg)](https://codeclimate.com/github/hsp1324/communitygrows)

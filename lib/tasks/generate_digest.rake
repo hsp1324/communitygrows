@@ -60,6 +60,7 @@ namespace :generate_digest do
             if !record.meeting.nil?
                 line = line + "Meeting " + record.meeting.name + " || "
             end
+            line = line + "Created at: " + "#{record.created_at}"
             puts line
         end
     end

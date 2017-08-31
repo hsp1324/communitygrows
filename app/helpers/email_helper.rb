@@ -227,26 +227,10 @@ module EmailHelper
         if @stuff
             @text += @tmptext
         end
-        
-        @records = records
-        @announcement = self.compile_announcements(@title, @records.where.not(announcement_id: nil))
-        @records = records
-        @document = self.compile_documents(@title, @records.where.not(document_id: nil))
-        
-        if @text != ""
-            @text += "<br><br><hr class='style10'>"
-        end
-        
-        if @announcement != ""
-            @text += @announcement
-            if @document != ""
-                @text += "<br><br><hr class='style10'>" + @document
-            end
-        else
-            if @document != ""
-                @text += @document
-            end
-        end
+    
+        @text += self.compile_announcements(@title, records.where.not(announcement_id: nil))
+
+        @text += self.compile_documents(@title, records.where.not(document_id: nil))
         
         
         

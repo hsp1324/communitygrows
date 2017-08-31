@@ -40,6 +40,7 @@ namespace :generate_digest do
     
     #This task is used to check the mail_record list and make sure that they are updated and deleted accordingly
     task :list => :environment do
+        record_count = 0
         MailRecord.all.each do |record|
             line = "Record #" + record.id.to_s + ": " + record.description + " || "
             if !record.committee.nil?
@@ -62,7 +63,9 @@ namespace :generate_digest do
             end
             line = line + "Created at: " + "#{record.created_at}"
             puts line
+            record_count += 1
         end
+        puts "Number of records: #{record_count}"
     end
     
     #this task is to test the date/time functions of rails

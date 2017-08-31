@@ -24,13 +24,13 @@ namespace :generate_digest do
         @time = Time.now
         @daily_records = MailRecord.where("created_at >= ? or updated_at >= ?", (@time - 24.hours), (@time - 24.hours))
         
-        EmailHelper.generate(@daily_records, "Daily")
+        EmailHelper.generate(@daily_records, "daily")
         
         date = Date.new(@time.year, @time.month, @time.day)
         
         if date.monday?
             @weekly_records = MailRecord.where("created_at >= ? or updated_at >= ?", (@time - 7.days), (@time - 7.days))
-            EmailHelper.generate(@weekly_records, "Weekly")
+            EmailHelper.generate(@weekly_records, "weekly")
             
             MailRecord.delete_all
         end

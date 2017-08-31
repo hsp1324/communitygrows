@@ -253,11 +253,6 @@ module EmailHelper
         @records = records
         @main_text += self.compile_meetings(@records.where.not(meeting_id: nil))
         
-        # new code
-        puts("******************************************************************")
-        puts("#{@main_text}")
-        puts("******************************************************************")
-        # new code
         #compile committee related announcements, documents and member details
         User.all.each do |user|
             if user.digest_pref == time_period
@@ -283,7 +278,9 @@ module EmailHelper
                     #if Participation.find_by(user_id: user.id, committee_id: committee.id)
                     if user.committees.include? committee
                         @committee_text = self.compile_committee_records(committee.name, @records.where(committee_id: committee.id))
-                        @content += @committee_text + "<br><br><hr>"
+                        if @committee_text != ""
+                            @content += @committee_text + "<br><br><hr>"
+                        end
                     end
                 end
                 

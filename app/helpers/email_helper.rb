@@ -154,7 +154,7 @@ module EmailHelper
             if @committee.nil?
                 return "<br><br><hr>" + @text
             end
-            return "<br><br><hr class='style10'>" + @text
+            return @text
         end
         return ""
     end
@@ -192,7 +192,7 @@ module EmailHelper
             if @category
                 return "<br><br><hr>" + @text
             end
-            return "<br><br><hr class='style10'>" + @text
+            return @text
         end
         return ""
     end
@@ -228,8 +228,25 @@ module EmailHelper
             @text += @tmptext
         end
         
-        @text += self.compile_announcements(@title, records.where.not(announcement_id: nil))
-        @text += self.compile_documents(@title, records.where.not(document_id: nil))
+        @announcement = self.compile_announcements(@title, records.where.not(announcement_id: nil))
+        @document = self.compile_documents(@title, records.where.not(document_id: nil))
+        
+        if @text != ""
+            @text += "<br><br><hr class='style10'>"
+        end
+        
+        if @announcement != ""
+            @text += @announcement
+            if @document != ""
+                @text += "<br><br><hr class='style10'>" + @document
+            end
+        else
+            if @document != ""
+                @text += @document
+            end
+        end
+        
+        
         
         if @text == ""
             return ""
